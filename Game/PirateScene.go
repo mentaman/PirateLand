@@ -2,6 +2,9 @@ package Game
 
 import (
 	"github.com/vova616/GarageEngine/Engine"
+	"github.com/vova616/GarageEngine/Engine/Components"
+	"github.com/vova616/chipmunk"
+	"github.com/vova616/chipmunk/vect"
 )
 
 var (
