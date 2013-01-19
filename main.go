@@ -3,8 +3,8 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/mentaman/PirateLand/Game"
 	"github.com/vova616/GarageEngine/Engine"
-	"github.com/vova616/PirateLand/Game"
 	//"math"
 	//"github.com/go-gl/gl"
 	"os"
@@ -30,11 +30,11 @@ func main() {
 	}
 
 	file, _ := os.Create("./log.txt")
+
 	os.Stdout = file
 	os.Stderr = file
 	os.Stdin = file
 	defer file.Close()
-
 	go Start()
 	Engine.Terminated()
 
