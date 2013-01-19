@@ -2,26 +2,24 @@ package Game
 
 import (
 	"github.com/vova616/GarageEngine/Engine"
-	"github.com/vova616/GarageEngine/Engine/Components"
-	"github.com/vova616/chipmunk"
-	"github.com/vova616/chipmunk/vect"
 )
 
 var (
-	atlas *Engine.ManagedAtlas
+	atlas            *Engine.ManagedAtlas
+	GameSceneGeneral *PirateScene
 )
 
 type PirateScene struct {
-	*Engine.Scenedata
+	*Engine.SceneData
 }
 
 func (s *PirateScene) SceneBase() *Engine.SceneData {
 	return s.SceneData
 }
 func (s *PirateScene) Load() {
-	LoadTexture()
+	s.LoadTextures()
 }
-func LoadTextures() {
+func (s *PirateScene) LoadTextures() {
 
 }
 func (s *PirateScene) New() Engine.Scene {

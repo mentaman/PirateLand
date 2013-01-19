@@ -58,15 +58,13 @@ func Start() {
 	}()
 	Engine.StartEngine()
 	_ = Game.GameSceneGeneral
-	_ = NetworkOnline.GameSceneGeneral
-	_ = Login.LoginSceneGeneral
 
 	/*
 		Running local server.
 	*/
-	go Server.StartServer()
+	//go Server.StartServer()
 
-	Engine.LoadScene(Login.LoginSceneGeneral)
+	Engine.LoadScene(Game.GameSceneGeneral)
 	for Engine.MainLoop() {
 
 	}
