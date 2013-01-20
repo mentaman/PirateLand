@@ -4,7 +4,7 @@ import (
 	"github.com/vova616/GarageEngine/Engine"
 	"github.com/vova616/GarageEngine/Engine/Input"
 
-//  "github.com/vova616/chipmunk/vect"
+//	"github.com/vova616/chipmunk/vect"
 
 //	"github.com/vova616/chipmunk"
 )
@@ -36,6 +36,7 @@ func (pl *Player) Update() {
 
 	pl.GameObject().Physics.Body.AddForce(0, -100)
 	ph := pl.GameObject().Physics.Body
+	ph.SetAngularVelocity(0)
 	if Input.KeyDown(Input.Key_Right) {
 		ph.AddForce(pl.speed, 0)
 		pl.GameObject().Transform().SetScalef(pl.width, pl.height)
