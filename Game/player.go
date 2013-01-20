@@ -15,7 +15,7 @@ type Player struct {
 }
 
 func NewPlayer() *Player {
-	return &Player{Engine.NewComponent(), 50, 100, 60, false}
+	return &Player{Engine.NewComponent(), 50, 100, 60, false, false}
 }
 func (pl *Player) Start() {
 }
