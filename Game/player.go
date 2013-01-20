@@ -14,13 +14,13 @@ type Player struct {
 }
 
 func NewPlayer() *Player {
-	return &Player{Engine.NewComponent(), 50, 100, 60}
+	return &Player{Engine.NewComponent(), 50, 100, 60, false}
 }
 func (pl *Player) Start() {
 }
 func (pl *Player) Update() {
 
-	pl.GameObject().Physics.Body.AddForce(0, -20)
+	pl.GameObject().Physics.Body.AddForce(0, -100)
 	ph := pl.GameObject().Physics.Body
 	if Input.KeyDown(Input.Key_Right) {
 		ph.AddForce(pl.speed, 0)
@@ -33,7 +33,7 @@ func (pl *Player) Update() {
 	} else {
 		//pl.GameObject().Sprite.BindAnimations(player_stand)
 	}
-	if Input.KeyPress {
+	if Input.KeyPress(Input.KeyLctrl) {
 		pl.Atack = true
 		/*
 			pl.GameObject().Sprite.BindAnimations(player_atack)
@@ -42,6 +42,9 @@ func (pl *Player) Update() {
 				pl.GameObject().Sprite.BindAnimations(player_stand)
 			}
 		*/
+	}
+	if Input.KeyPress(Input.Key_Up) {
+		pl.GameObject().Physics.Body.AddForce(0, 5000)
 	}
 
 }
