@@ -14,7 +14,7 @@ type Player struct {
 	width    float32
 	height   float32
 	speed    float32
-	Atack    bool
+	Attack    bool
 	OnGround bool
 }
 
@@ -33,37 +33,37 @@ func (pl *Player) OnCollisionEnter(arbiter *Engine.Arbiter) bool {
 }
 
 func (pl *Player) Update() {
-
+	if Input.KeyPress(Input.Key_Right) || Input.KeyPress(Input.Key_Right) {
+		pl.GameObject().Sprite.SetAnimation("player_walk")
+	} 
 	pl.GameObject().Physics.Body.AddForce(0, -100)
 	ph := pl.GameObject().Physics.Body
 	ph.SetAngularVelocity(0)
 	if Input.KeyDown(Input.Key_Right) {
 		ph.AddForce(pl.speed, 0)
 		pl.GameObject().Transform().SetScalef(pl.width, pl.height)
-		//pl.GameObject().Sprite.BindAnimations(player_walk)
 	} else if Input.KeyDown(Input.Key_Left) {
 		ph.AddForce(-pl.speed, 0)
 		pl.GameObject().Transform().SetScalef(-pl.width, pl.height)
-		//pl.GameObject().Sprite.BindAnimations(player_walk)
-	} else {
-		//pl.GameObject().Sprite.BindAnimations(player_stand)
+	} else if !pl.Attack{
+		pl.GameObject().Sprite.SetAnimation("player_stand")
 	}
 	if Input.KeyPress(Input.KeyLctrl) {
 		pl.Atack = true
-		/*
-			pl.GameObject().Sprite.BindAnimations(player_atack)
-			pl.GameObject().Sprite.AnimationEndCallback = func(sprite *Engine.Sprite) {
-				pl.Atack = false
-				pl.GameObject().Sprite.BindAnimations(player_stand)
-			}
-		*/
+	
+		pl.GameObject().Sprite.SetAnimation("player_atack")
+		pl.GameObject().Sprite.AnimationEndCallback = func(sprite *Engine.Sprite) {
+			pl.Atack = false
+			pl.GameObject().Sprite.SetAnimation("player_stand")
+		}
+		
 	}
 	if Input.KeyPress(Input.Key_Up) && pl.OnGround {
 		pl.GameObject().Physics.Body.AddForce(0, 5000)
 		pl.OnGround = false
 	}
-	/*if(!OnGround) {
-		pl.GameObject().Sprite.BindAnimations(player_jump)
-	}*/
+	if(!pl.OnGround) {
+		pl.GameObject().Sprite.SetAnimation("player_jump")
+	}
 
 }
