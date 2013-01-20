@@ -3,6 +3,10 @@ package Game
 import (
 	"github.com/vova616/GarageEngine/Engine"
 	"github.com/vova616/GarageEngine/Engine/Input"
+
+//  "github.com/vova616/chipmunk/vect"
+
+//	"github.com/vova616/chipmunk"
 )
 
 type Player struct {
@@ -19,6 +23,15 @@ func NewPlayer() *Player {
 }
 func (pl *Player) Start() {
 }
+func (pl *Player) OnCollisionEnter(arbiter *Engine.Arbiter) bool {
+	for _, con := range arbiter.Contacts {
+		if con.Normal().Y == 1 {
+			pl.OnGround = true
+		}
+	}
+	return true
+}
+
 func (pl *Player) Update() {
 
 	pl.GameObject().Physics.Body.AddForce(0, -100)
@@ -44,8 +57,9 @@ func (pl *Player) Update() {
 			}
 		*/
 	}
-	if Input.KeyPress(Input.Key_Up) /*&& OnGround*/ {
+	if Input.KeyPress(Input.Key_Up) && pl.OnGround {
 		pl.GameObject().Physics.Body.AddForce(0, 5000)
+		pl.OnGround = false
 	}
 	/*if(!OnGround) {
 		pl.GameObject().Sprite.BindAnimations(player_jump)
