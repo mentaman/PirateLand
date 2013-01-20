@@ -7,10 +7,11 @@ import (
 
 type Player struct {
 	Engine.BaseComponent
-	width  float32
-	height float32
-	speed  float32
-	Atack  bool
+	width    float32
+	height   float32
+	speed    float32
+	Atack    bool
+	OnGround bool
 }
 
 func NewPlayer() *Player {
@@ -37,14 +38,17 @@ func (pl *Player) Update() {
 		pl.Atack = true
 		/*
 			pl.GameObject().Sprite.BindAnimations(player_atack)
-			pl.Sprite.AnimationEndCallback = func(sprite *Engine.Sprite) {
+			pl.GameObject().Sprite.AnimationEndCallback = func(sprite *Engine.Sprite) {
 				pl.Atack = false
 				pl.GameObject().Sprite.BindAnimations(player_stand)
 			}
 		*/
 	}
-	if Input.KeyPress(Input.Key_Up) {
+	if Input.KeyPress(Input.Key_Up) /*&& OnGround*/ {
 		pl.GameObject().Physics.Body.AddForce(0, 5000)
 	}
+	/*if(!OnGround) {
+		pl.GameObject().Sprite.BindAnimations(player_jump)
+	}*/
 
 }
