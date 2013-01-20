@@ -30,7 +30,6 @@ func main() {
 	}
 
 	file, _ := os.Create("./log.txt")
-
 	os.Stdout = file
 	os.Stderr = file
 	os.Stdin = file
