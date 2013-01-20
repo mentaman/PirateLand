@@ -72,7 +72,7 @@ func (s *PirateScene) Load() {
 	pl.AddComponent(Engine.NewSprite3(plAtlas.Texture, uvs))
 	pl.Sprite.BindAnimations(ind)
 	pl.Sprite.AnimationSpeed = 10
-	pl.Transform().SetPositionf(100, 100)
+	pl.Transform().SetPositionf(100, 180)
 	pl.Transform().SetScalef(50, 100)
 	pl.Transform().SetParent2(cam)
 	pl.AddComponent(NewPlayer())
@@ -80,10 +80,11 @@ func (s *PirateScene) Load() {
 	floor = Engine.NewGameObject("floor")
 	floor.AddComponent(Engine.NewSprite2(atlas.Texture, Engine.IndexUV(atlas, spr_floor)))
 	floor.Transform().SetScalef(100, 100)
+	floor.AddComponent(Engine.NewPhysics(true, 1, 1))
 
 	for i := 0; i < 5; i++ {
 		f := floor.Clone()
-		f.Transform().SetPositionf(float32(i)*100, 50)
+		f.Transform().SetPositionf(float32(i)*350, 50)
 		f.Transform().SetParent2(s.Layer1)
 	}
 	s.AddGameObject(cam)

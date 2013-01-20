@@ -13,24 +13,24 @@ type Player struct {
 }
 
 func NewPlayer() *Player {
-	return &Player{Engine.NewComponent(), 50, 100, 30}
+	return &Player{Engine.NewComponent(), 50, 100, 60}
 }
 func (pl *Player) Start() {
 }
 func (pl *Player) Update() {
 
-	ph := pl.GameObject().Physics
+	pl.GameObject().Physics.Body.AddForce(0, -20)
+	ph := pl.GameObject().Physics.Body
 	if Input.KeyDown(Input.Key_Right) {
-		ph.Body.SetVelocity(pl.speed, float32(ph.Body.Velocity().Y))
+		ph.AddForce(pl.speed, 0)
 		pl.GameObject().Transform().SetScalef(pl.width, pl.height)
-		//pl.GameObject().Sprite.Bind(player_walk)
+		//pl.GameObject().Sprite.BindAnimations(player_walk)
 	} else if Input.KeyDown(Input.Key_Left) {
-		ph.Body.SetVelocity(-pl.speed, float32(ph.Body.Velocity().Y))
+		ph.AddForce(-pl.speed, 0)
 		pl.GameObject().Transform().SetScalef(-pl.width, pl.height)
-		//pl.GameObject().Sprite.Bind(player_walk)
+		//pl.GameObject().Sprite.BindAnimations(player_walk)
 	} else {
-		ph.Body.SetVelocity(0, 0)
-		//pl.GameObject().Sprite.Bind(player_stand)
+		//pl.GameObject().Sprite.BindAnimations(player_stand)
 	}
 
 }
