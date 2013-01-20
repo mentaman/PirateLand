@@ -10,6 +10,7 @@ type Player struct {
 	width  float32
 	height float32
 	speed  float32
+	Atack  bool
 }
 
 func NewPlayer() *Player {
@@ -31,6 +32,16 @@ func (pl *Player) Update() {
 		//pl.GameObject().Sprite.BindAnimations(player_walk)
 	} else {
 		//pl.GameObject().Sprite.BindAnimations(player_stand)
+	}
+	if Input.KeyPress {
+		pl.Atack = true
+		/*
+			pl.GameObject().Sprite.BindAnimations(player_atack)
+			pl.Sprite.AnimationEndCallback = func(sprite *Engine.Sprite) {
+				pl.Atack = false
+				pl.GameObject().Sprite.BindAnimations(player_stand)
+			}
+		*/
 	}
 
 }

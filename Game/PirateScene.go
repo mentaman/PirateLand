@@ -98,6 +98,7 @@ func (s *PirateScene) LoadTextures() {
 	CheckError(atlas.LoadImage("./data/backgame.png", spr_bg))
 	CheckError(plAtlas.LoadGroupSheet("./data/player_walk.png", 187, 338, 4))
 	CheckError(plAtlas.LoadGroupSheet("./data/player_stand.png", 187, 338, 1))
+	CheckError(plAtlas.LoadGroupSheet("./data/player_stand.png", 187, 338, 9))
 	CheckError(atlas.LoadImage("./data/wall1.png", spr_floor))
 	atlas.BuildAtlas()
 	atlas.BuildMipmaps()
