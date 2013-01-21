@@ -18,11 +18,15 @@ type Player struct {
 	jumpPower float32
 	Attack    bool
 	OnGround  bool
+	bend      bool
 	LastFloor *Engine.GameObject
 }
 
+const stand_height = 100
+const bend_height = 70
+
 func NewPlayer() *Player {
-	return &Player{Engine.NewComponent(), 50, 100, 60, 5000, false, false, nil}
+	return &Player{Engine.NewComponent(), 50, stand_height, 60, 5000, false, false, false, nil}
 }
 func (pl *Player) Start() {
 }
@@ -92,6 +96,16 @@ func (pl *Player) Update() {
 	}
 	if !pl.OnGround {
 		pl.GameObject().Sprite.SetAnimation("player_jump")
+	}
+	if Input.KeyDown(Input.Key_Down) {
+		pl.GameObject().Sprite.SetAnimation("player_bend")
+		pl.height = bend_height
+		pl.GameObject().Transform().SetScalef(50, bend_height)
+	}
+	if Input.KeyUp(Input.Key_Down) && pl.GameObject().Sprite.CurrentAnimation() == "player_bend" {
+		pl.GameObject().Sprite.SetAnimation("player_stand")
+		pl.height = stand_height
+		pl.GameObject().Transform().SetScalef(50, stand_height)
 	}
 
 }

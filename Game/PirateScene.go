@@ -69,7 +69,7 @@ func (s *PirateScene) Load() {
 	bg.Transform().SetPositionf(0, 0)
 	bg.Transform().SetParent2(s.Background)
 
-	uvs, ind := Engine.AnimatedGroupUVs(plAtlas, "player_walk", "player_stand", "player_attack", "player_jump")
+	uvs, ind := Engine.AnimatedGroupUVs(plAtlas, "player_walk", "player_stand", "player_attack", "player_jump", "player_bend")
 
 	pl = Engine.NewGameObject("Player")
 	pl.AddComponent(Engine.NewSprite3(plAtlas.Texture, uvs))
@@ -104,6 +104,7 @@ func (s *PirateScene) LoadTextures() {
 	CheckError(plAtlas.LoadGroupSheet("./data/player_stand.png", 187, 338, 1))
 	CheckError(plAtlas.LoadGroupSheet("./data/player_attack.png", 249, 340, 9))
 	CheckError(plAtlas.LoadGroupSheet("./data/player_jump.png", 236, 338, 1))
+	CheckError(plAtlas.LoadGroupSheet("./data/player_bend.png", 188, 259, 1))
 	CheckError(atlas.LoadImage("./data/wall1.png", spr_floor))
 	atlas.BuildAtlas()
 	atlas.BuildMipmaps()
