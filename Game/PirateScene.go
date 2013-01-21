@@ -42,6 +42,8 @@ func (s *PirateScene) SceneBase() *Engine.SceneData {
 	return s.SceneData
 }
 func (s *PirateScene) Load() {
+	Engine.Space.Gravity.Y = -100
+	Engine.Space.Iterations = 10
 	s.LoadTextures()
 
 	Layer1 := Engine.NewGameObject("Layer1")
@@ -68,6 +70,7 @@ func (s *PirateScene) Load() {
 	bg.Transform().SetParent2(s.Background)
 
 	uvs, ind := Engine.AnimatedGroupUVs(plAtlas, "player_walk", "player_stand", "player_attack", "player_jump")
+
 	pl = Engine.NewGameObject("Player")
 	pl.AddComponent(Engine.NewSprite3(plAtlas.Texture, uvs))
 	pl.Sprite.BindAnimations(ind)
@@ -77,6 +80,7 @@ func (s *PirateScene) Load() {
 	pl.Transform().SetParent2(cam)
 	pl.AddComponent(NewPlayer())
 	pl.AddComponent(Engine.NewPhysics(false, 1, 1))
+
 	floor = Engine.NewGameObject("floor")
 	floor.AddComponent(Engine.NewSprite2(atlas.Texture, Engine.IndexUV(atlas, spr_floor)))
 	floor.Transform().SetScalef(100, 100)
@@ -99,7 +103,7 @@ func (s *PirateScene) LoadTextures() {
 	CheckError(plAtlas.LoadGroupSheet("./data/player_walk.png", 187, 338, 4))
 	CheckError(plAtlas.LoadGroupSheet("./data/player_stand.png", 187, 338, 1))
 	CheckError(plAtlas.LoadGroupSheet("./data/player_attack.png", 249, 340, 9))
-	CheckError(plAtlas.LoadGroupSheet("./data/player_jump.png", 187, 338, 1))
+	CheckError(plAtlas.LoadGroupSheet("./data/player_jump.png", 236, 338, 1))
 	CheckError(atlas.LoadImage("./data/wall1.png", spr_floor))
 	atlas.BuildAtlas()
 	atlas.BuildMipmaps()
