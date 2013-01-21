@@ -49,7 +49,7 @@ func (pl *Player) Update() {
 		pl.GameObject().Sprite.SetAnimation("player_stand")
 	}
 	if Input.KeyPress(Input.KeyLctrl) {
-		pl.Atatck = true
+		pl.Attack = true
 
 		pl.GameObject().Sprite.SetAnimation("player_attack")
 		pl.GameObject().Sprite.AnimationEndCallback = func(sprite *Engine.Sprite) {
