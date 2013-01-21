@@ -95,7 +95,7 @@ func (s *PirateScene) Load() {
 func (s *PirateScene) LoadTextures() {
 	atlas = Engine.NewManagedAtlas(2048, 1024)
 	plAtlas = Engine.NewManagedAtlas(2048, 1024)
-	CheckError(atlas.LoadImage("./data/backgame.png", spr_bg))
+	CheckError(atlas.LoadImage("./data/backGame.png", spr_bg))
 	CheckError(plAtlas.LoadGroupSheet("./data/player_walk.png", 187, 338, 4))
 	CheckError(plAtlas.LoadGroupSheet("./data/player_stand.png", 187, 338, 1))
 	CheckError(plAtlas.LoadGroupSheet("./data/player_attack.png", 249, 340, 9))

@@ -14,11 +14,7 @@ type Player struct {
 	width    float32
 	height   float32
 	speed    float32
-<<<<<<< HEAD
 	Attack   bool
-=======
-	Attack    bool
->>>>>>> ab1c590a098d2c66cc195ddccd0c7e91fa476e44
 	OnGround bool
 }
 
@@ -39,25 +35,21 @@ func (pl *Player) OnCollisionEnter(arbiter *Engine.Arbiter) bool {
 func (pl *Player) Update() {
 	if Input.KeyPress(Input.Key_Right) || Input.KeyPress(Input.Key_Right) {
 		pl.GameObject().Sprite.SetAnimation("player_walk")
-	} 
+	}
 	pl.GameObject().Physics.Body.AddForce(0, -100)
 	ph := pl.GameObject().Physics.Body
 	ph.SetAngularVelocity(0)
-	if Input.KeyPress(Input.Key_Right) || Input.KeyPress(Input.Key_Left) {
-		pl.GameObject().Sprite.SetAnimation("player_walk")
-	}
 	if Input.KeyDown(Input.Key_Right) {
 		ph.AddForce(pl.speed, 0)
 		pl.GameObject().Transform().SetScalef(pl.width, pl.height)
 	} else if Input.KeyDown(Input.Key_Left) {
 		ph.AddForce(-pl.speed, 0)
 		pl.GameObject().Transform().SetScalef(-pl.width, pl.height)
-<<<<<<< HEAD
 	} else if !pl.Attack {
 		pl.GameObject().Sprite.SetAnimation("player_stand")
 	}
 	if Input.KeyPress(Input.KeyLctrl) {
-		pl.Attack = true
+		pl.Atatck = true
 
 		pl.GameObject().Sprite.SetAnimation("player_attack")
 		pl.GameObject().Sprite.AnimationEndCallback = func(sprite *Engine.Sprite) {
@@ -65,30 +57,12 @@ func (pl *Player) Update() {
 			pl.GameObject().Sprite.SetAnimation("player_stand")
 		}
 
-=======
-	} else if !pl.Attack{
-		pl.GameObject().Sprite.SetAnimation("player_stand")
-	}
-	if Input.KeyPress(Input.KeyLctrl) {
-		pl.Atack = true
-	
-		pl.GameObject().Sprite.SetAnimation("player_atack")
-		pl.GameObject().Sprite.AnimationEndCallback = func(sprite *Engine.Sprite) {
-			pl.Atack = false
-			pl.GameObject().Sprite.SetAnimation("player_stand")
-		}
-		
->>>>>>> ab1c590a098d2c66cc195ddccd0c7e91fa476e44
 	}
 	if Input.KeyPress(Input.Key_Up) && pl.OnGround {
 		pl.GameObject().Physics.Body.AddForce(0, 5000)
 		pl.OnGround = false
 	}
-<<<<<<< HEAD
 	if !pl.OnGround {
-=======
-	if(!pl.OnGround) {
->>>>>>> ab1c590a098d2c66cc195ddccd0c7e91fa476e44
 		pl.GameObject().Sprite.SetAnimation("player_jump")
 	}
 
