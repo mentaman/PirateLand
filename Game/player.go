@@ -33,6 +33,7 @@ func (pl *Player) OnCollisionEnter(arbiter *Engine.Arbiter) bool {
 }
 
 func (pl *Player) Update() {
+	//Test
 	if Input.KeyPress(Input.Key_Right) || Input.KeyPress(Input.Key_Right) {
 		pl.GameObject().Sprite.SetAnimation("player_walk")
 	}
