@@ -30,6 +30,7 @@ func NewPlayer() *Player {
 	return &Player{Engine.NewComponent(), 50, stand_height, 60, 5000, false, false, false, 1, nil}
 }
 func (pl *Player) Start() {
+
 }
 func (pl *Player) OnCollisionEnter(arbiter *Engine.Arbiter) bool {
 	count := 0
@@ -48,23 +49,15 @@ func (pl *Player) OnCollisionEnter(arbiter *Engine.Arbiter) bool {
 }
 func (pl *Player) OnCollisionExit(arbiter *Engine.Arbiter) {
 	if arbiter.GameObjectB() == pl.LastFloor {
-
-		count := 0
-		for _, con := range arbiter.Contacts {
-			if con.Normal().Y > 0.9 {
-				count++
-			}
-		}
-		if count < 2 {
-			pl.OnGround = false
-			pl.GameObject().Sprite.SetAnimation("player_stand")
-		}
+		pl.OnGround = false
+		pl.GameObject().Sprite.SetAnimation("player_jump")
 	}
 }
 func (pl *Player) Update() {
 	//Test
 
 	ph := pl.GameObject().Physics.Body
+	pl.GameObject().Sprite.SetAlign(Engine.AlignTopCenter)
 	if float32(math.Abs(float64(ph.Velocity().X))) > 3 {
 		if pl.GameObject().Sprite.CurrentAnimation() == "player_stand" {
 			pl.GameObject().Sprite.SetAnimation("player_walk")

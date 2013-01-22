@@ -95,7 +95,7 @@ func (s *PirateScene) Load() {
 	for i := 0; i < 10; i++ {
 		f := floor.Clone()
 		var h float32 = 50.0
-		var x float32 = float32(i) * 100
+
 		f.Transform().SetParent2(s.Layer1)
 		d := 4
 		m := i % 5
@@ -107,9 +107,8 @@ func (s *PirateScene) Load() {
 		if i >= 5 {
 			d += 10
 			h -= 100
-			x -= 500
 		}
-		f.Transform().SetPositionf(x, h)
+		f.Transform().SetPositionf(float32(i%5)*100, h)
 		f.Sprite.SetAnimationIndex(d)
 	}
 	s.AddGameObject(cam)
