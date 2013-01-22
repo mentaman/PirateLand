@@ -3,6 +3,7 @@ package Game
 import (
 	"fmt"
 	"github.com/vova616/GarageEngine/Engine"
+	"github.com/vova616/GarageEngine/Engine/Components"
 	"math/rand"
 	"time"
 )
@@ -10,6 +11,7 @@ import (
 var (
 	atlas            *Engine.ManagedAtlas
 	plAtlas          *Engine.ManagedAtlas
+	tileset          *Engine.ManagedAtlas
 	GameSceneGeneral *PirateScene
 	bg               *Engine.GameObject
 	floor            *Engine.GameObject
@@ -42,6 +44,7 @@ func (s *PirateScene) SceneBase() *Engine.SceneData {
 	return s.SceneData
 }
 func (s *PirateScene) Load() {
+
 	Engine.Space.Gravity.Y = -100
 	Engine.Space.Iterations = 10
 	s.LoadTextures()
@@ -57,7 +60,6 @@ func (s *PirateScene) Load() {
 	GameSceneGeneral = s
 
 	s.Camera = Engine.NewCamera()
-
 	cam := Engine.NewGameObject("Camera")
 	cam.AddComponent(s.Camera)
 
@@ -77,19 +79,38 @@ func (s *PirateScene) Load() {
 	pl.Sprite.AnimationSpeed = 10
 	pl.Transform().SetPositionf(100, 180)
 	pl.Transform().SetScalef(50, 100)
-	pl.Transform().SetParent2(cam)
+	pl.Transform().SetParent2(Layer1)
 	pl.AddComponent(NewPlayer())
+	pl.AddComponent(Components.NewSmoothFollow(nil, 1, 30))
 	pl.AddComponent(Engine.NewPhysics(false, 1, 1))
 
+	uvs, ind = Engine.AnimatedGroupUVs(tileset, "ground")
 	floor = Engine.NewGameObject("floor")
-	floor.AddComponent(Engine.NewSprite2(atlas.Texture, Engine.IndexUV(atlas, spr_floor)))
-	floor.Transform().SetScalef(100, 100)
+	floor.AddComponent(Engine.NewSprite3(tileset.Texture, uvs))
+	floor.Sprite.BindAnimations(ind)
+	floor.Sprite.AnimationSpeed = 0
+	floor.Transform().SetWorldScalef(100, 100)
 	floor.AddComponent(Engine.NewPhysics(true, 1, 1))
 
-	for i := 0; i < 5; i++ {
+	for i := 0; i < 10; i++ {
 		f := floor.Clone()
-		f.Transform().SetPositionf(float32(i)*350, 50)
+		var h float32 = 50.0
+		var x float32 = float32(i) * 100
 		f.Transform().SetParent2(s.Layer1)
+		d := 4
+		m := i % 5
+		if m == 0 {
+			d = 3
+		} else if m == 4 {
+			d = 5
+		}
+		if i >= 5 {
+			d += 10
+			h -= 100
+			x -= 500
+		}
+		f.Transform().SetPositionf(x, h)
+		f.Sprite.SetAnimationIndex(d)
 	}
 	s.AddGameObject(cam)
 	s.AddGameObject(s.Layer1)
@@ -99,13 +120,14 @@ func (s *PirateScene) Load() {
 func (s *PirateScene) LoadTextures() {
 	atlas = Engine.NewManagedAtlas(2048, 1024)
 	plAtlas = Engine.NewManagedAtlas(2048, 1024)
-	CheckError(atlas.LoadImage("./data/backGame.png", spr_bg))
-	CheckError(plAtlas.LoadGroupSheet("./data/player_walk.png", 187, 338, 4))
-	CheckError(plAtlas.LoadGroupSheet("./data/player_stand.png", 187, 338, 1))
-	CheckError(plAtlas.LoadGroupSheet("./data/player_attack.png", 249, 340, 9))
-	CheckError(plAtlas.LoadGroupSheet("./data/player_jump.png", 236, 338, 1))
-	CheckError(plAtlas.LoadGroupSheet("./data/player_bend.png", 188, 259, 1))
-	CheckError(atlas.LoadImage("./data/wall1.png", spr_floor))
+	tileset = Engine.NewManagedAtlas(2048, 1024)
+	CheckError(atlas.LoadImage("./data/background/backGame.png", spr_bg))
+	CheckError(plAtlas.LoadGroupSheet("./data/player/player_walk.png", 187, 338, 4))
+	CheckError(plAtlas.LoadGroupSheet("./data/player/player_stand.png", 187, 338, 1))
+	CheckError(plAtlas.LoadGroupSheet("./data/player/player_attack.png", 249, 340, 9))
+	CheckError(plAtlas.LoadGroupSheet("./data/player/player_jump.png", 236, 338, 1))
+	CheckError(plAtlas.LoadGroupSheet("./data/player/player_bend.png", 188, 259, 1))
+	CheckError(tileset.LoadGroupSheet("./data/tileset/ground.png", 32, 32, 110))
 	atlas.BuildAtlas()
 	atlas.BuildMipmaps()
 	atlas.SetFiltering(Engine.MipMapLinearNearest, Engine.Nearest)
@@ -115,6 +137,11 @@ func (s *PirateScene) LoadTextures() {
 	plAtlas.BuildMipmaps()
 	plAtlas.SetFiltering(Engine.MipMapLinearNearest, Engine.Nearest)
 	plAtlas.Texture.SetReadOnly()
+
+	tileset.BuildAtlas()
+	tileset.BuildMipmaps()
+	tileset.SetFiltering(Engine.MipMapLinearNearest, Engine.Nearest)
+	tileset.Texture.SetReadOnly()
 }
 func (s *PirateScene) New() Engine.Scene {
 	gs := new(PirateScene)

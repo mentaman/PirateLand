@@ -30,7 +30,6 @@ func NewPlayer() *Player {
 	return &Player{Engine.NewComponent(), 50, stand_height, 60, 5000, false, false, false, 1, nil}
 }
 func (pl *Player) Start() {
-
 }
 func (pl *Player) OnCollisionEnter(arbiter *Engine.Arbiter) bool {
 	count := 0

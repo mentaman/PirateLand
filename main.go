@@ -36,7 +36,6 @@ func main() {
 	defer file.Close()
 	go Start()
 	Engine.Terminated()
-
 	if *memprofile != "" {
 		f, err := os.Create(*memprofile)
 		if err != nil {
