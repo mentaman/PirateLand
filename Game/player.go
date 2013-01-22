@@ -19,6 +19,7 @@ type Player struct {
 	Attack    bool
 	OnGround  bool
 	bend      bool
+	right     float32
 	LastFloor *Engine.GameObject
 }
 
@@ -26,9 +27,10 @@ const stand_height = 100
 const bend_height = 70
 
 func NewPlayer() *Player {
-	return &Player{Engine.NewComponent(), 50, stand_height, 60, 5000, false, false, false, nil}
+	return &Player{Engine.NewComponent(), 50, stand_height, 60, 5000, false, false, false, 1, nil}
 }
 func (pl *Player) Start() {
+
 }
 func (pl *Player) OnCollisionEnter(arbiter *Engine.Arbiter) bool {
 	count := 0
@@ -74,10 +76,12 @@ func (pl *Player) Update() {
 	ph.SetAngularVelocity(0)
 	if Input.KeyDown(Input.Key_Right) {
 		ph.AddForce(pl.speed, 0)
+		pl.right = 1
 		pl.GameObject().Transform().SetScalef(pl.width, pl.height)
 
 	} else if Input.KeyDown(Input.Key_Left) {
 		ph.AddForce(-pl.speed, 0)
+		pl.right = -1
 		pl.GameObject().Transform().SetScalef(-pl.width, pl.height)
 	}
 	if Input.KeyPress(Input.KeyLctrl) {
@@ -97,15 +101,18 @@ func (pl *Player) Update() {
 	if !pl.OnGround {
 		pl.GameObject().Sprite.SetAnimation("player_jump")
 	}
-	if Input.KeyDown(Input.Key_Down) {
+
+	if Input.KeyUp(Input.Key_Down) {
+		if pl.GameObject().Sprite.CurrentAnimation() == "player_bend" {
+			pl.GameObject().Sprite.SetAnimation("player_stand")
+		}
+		pl.height = stand_height
+		pl.GameObject().Transform().SetScalef(pl.width*pl.right, stand_height)
+
+	} else if Input.KeyDown(Input.Key_Down) {
 		pl.GameObject().Sprite.SetAnimation("player_bend")
 		pl.height = bend_height
-		pl.GameObject().Transform().SetScalef(50, bend_height)
-	}
-	if Input.KeyUp(Input.Key_Down) && pl.GameObject().Sprite.CurrentAnimation() == "player_bend" {
-		pl.GameObject().Sprite.SetAnimation("player_stand")
-		pl.height = stand_height
-		pl.GameObject().Transform().SetScalef(50, stand_height)
+		pl.GameObject().Transform().SetScalef(pl.width*pl.right, bend_height)
 	}
 
 }
