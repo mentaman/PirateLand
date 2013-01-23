@@ -20,6 +20,9 @@ type Player struct {
 	OnGround  bool
 	bend      bool
 	right     float32
+	able      bool
+	hit       bool
+	hitable   bool
 	LastFloor *Engine.GameObject
 }
 
@@ -27,7 +30,7 @@ const stand_height = 100
 const bend_height = 70
 
 func NewPlayer() *Player {
-	return &Player{Engine.NewComponent(), 50, stand_height, 60, 5000, false, false, false, 1, nil}
+	return &Player{Engine.NewComponent(), 50, stand_height, 60, 5000, false, false, false, 1, true, false, true, nil}
 }
 func (pl *Player) Start() {
 
@@ -44,18 +47,32 @@ func (pl *Player) OnCollisionEnter(arbiter *Engine.Arbiter) bool {
 		pl.GameObject().Sprite.SetAnimation("player_stand")
 		pl.LastFloor = arbiter.GameObjectB()
 	}
-
+	if pl.hitable && arbiter.GameObjectB().Tag == "splinter" {
+		pl.hit = true
+		pl.hitable = false
+		Engine.StartCoroutine(func() {
+			Engine.CoSleep(3)
+			pl.hit = false
+			pl.GameObject().Sprite.SetAnimation("player_stand")
+			Engine.CoSleep(2)
+			pl.hitable = true
+		})
+	}
 	return true
-}
+} /*
 func (pl *Player) OnCollisionExit(arbiter *Engine.Arbiter) {
 	if arbiter.GameObjectB() == pl.LastFloor {
 		pl.OnGround = false
+		pl.LastFloor = nil
 		pl.GameObject().Sprite.SetAnimation("player_jump")
 	}
-}
+}*/
 func (pl *Player) Update() {
 	//Test
-
+	if pl.Transform().WorldPosition().Y < 98 || pl.Transform().WorldPosition().Y > 102 {
+		pl.OnGround = false
+		pl.GameObject().Sprite.SetAnimation("player_jump")
+	}
 	ph := pl.GameObject().Physics.Body
 	pl.GameObject().Sprite.SetAlign(Engine.AlignTopCenter)
 	if float32(math.Abs(float64(ph.Velocity().X))) > 3 {
@@ -66,45 +83,50 @@ func (pl *Player) Update() {
 		pl.GameObject().Sprite.SetAnimation("player_stand")
 	}
 	ph.SetAngularVelocity(0)
-	if Input.KeyDown(Input.Key_Right) {
-		ph.AddForce(pl.speed, 0)
-		pl.right = 1
-		pl.GameObject().Transform().SetScalef(pl.width, pl.height)
+	if pl.able {
+		if Input.KeyDown(Input.Key_Right) {
+			ph.AddForce(pl.speed, 0)
+			pl.right = 1
+			pl.GameObject().Transform().SetScalef(pl.width, pl.height)
 
-	} else if Input.KeyDown(Input.Key_Left) {
-		ph.AddForce(-pl.speed, 0)
-		pl.right = -1
-		pl.GameObject().Transform().SetScalef(-pl.width, pl.height)
-	}
-	if Input.KeyPress(Input.KeyLctrl) {
-		pl.Attack = true
+		} else if Input.KeyDown(Input.Key_Left) {
+			ph.AddForce(-pl.speed, 0)
+			pl.right = -1
+			pl.GameObject().Transform().SetScalef(-pl.width, pl.height)
+		}
+		if Input.KeyPress(Input.KeyLctrl) {
+			pl.Attack = true
 
-		pl.GameObject().Sprite.SetAnimation("player_attack")
-		pl.GameObject().Sprite.AnimationEndCallback = func(sprite *Engine.Sprite) {
-			pl.Attack = false
-			pl.GameObject().Sprite.SetAnimation("player_stand")
+			pl.GameObject().Sprite.SetAnimation("player_attack")
+			pl.GameObject().Sprite.AnimationEndCallback = func(sprite *Engine.Sprite) {
+				pl.Attack = false
+				pl.GameObject().Sprite.SetAnimation("player_stand")
+			}
+
+		}
+		if Input.KeyPress(Input.Key_Up) && pl.OnGround {
+			pl.GameObject().Physics.Body.AddForce(0, pl.jumpPower)
+			pl.OnGround = false
 		}
 
-	}
-	if Input.KeyPress(Input.Key_Up) && pl.OnGround {
-		pl.GameObject().Physics.Body.AddForce(0, pl.jumpPower)
-		pl.OnGround = false
+		if Input.KeyUp(Input.Key_Down) {
+			if pl.GameObject().Sprite.CurrentAnimation() == "player_bend" {
+				pl.GameObject().Sprite.SetAnimation("player_stand")
+			}
+			pl.height = stand_height
+			pl.GameObject().Transform().SetScalef(pl.width*pl.right, stand_height)
+
+		} else if Input.KeyDown(Input.Key_Down) {
+			pl.GameObject().Sprite.SetAnimation("player_bend")
+			pl.height = bend_height
+			pl.GameObject().Transform().SetScalef(pl.width*pl.right, bend_height)
+		}
 	}
 	if !pl.OnGround {
 		pl.GameObject().Sprite.SetAnimation("player_jump")
 	}
-
-	if Input.KeyUp(Input.Key_Down) {
-		if pl.GameObject().Sprite.CurrentAnimation() == "player_bend" {
-			pl.GameObject().Sprite.SetAnimation("player_stand")
-		}
-		pl.height = stand_height
-		pl.GameObject().Transform().SetScalef(pl.width*pl.right, stand_height)
-
-	} else if Input.KeyDown(Input.Key_Down) {
-		pl.GameObject().Sprite.SetAnimation("player_bend")
-		pl.height = bend_height
-		pl.GameObject().Transform().SetScalef(pl.width*pl.right, bend_height)
+	if pl.hit {
+		pl.GameObject().Sprite.SetAnimation("player_hit")
 	}
 
 }
