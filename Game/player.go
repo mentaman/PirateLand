@@ -50,9 +50,11 @@ func (pl *Player) OnCollisionEnter(arbiter *Engine.Arbiter) bool {
 	if pl.hitable && arbiter.GameObjectB().Tag == "splinter" {
 		pl.hit = true
 		pl.hitable = false
+		pl.able = false
 		Engine.StartCoroutine(func() {
 			Engine.CoSleep(3)
 			pl.hit = false
+			pl.able = true
 			pl.GameObject().Sprite.SetAnimation("player_stand")
 			Engine.CoSleep(2)
 			pl.hitable = true
