@@ -1,0 +1,1 @@
+open ./data/objects/lader.png: The system cannot find the file specified.
