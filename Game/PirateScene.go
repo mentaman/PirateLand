@@ -12,12 +12,13 @@ var (
 	atlas            *Engine.ManagedAtlas
 	plAtlas          *Engine.ManagedAtlas
 	tileset          *Engine.ManagedAtlas
-	GameSceneGeneral *PirateScene
+	GameSceneGeneral *MenuScene
 	bg               *Engine.GameObject
 	floor            *Engine.GameObject
 	pl               *Engine.GameObject
 	lader            *Engine.GameObject
 	splinter         *Engine.GameObject
+	Ps               *PirateScene
 )
 
 const (
@@ -51,10 +52,10 @@ func (s *PirateScene) SceneBase() *Engine.SceneData {
 	return s.SceneData
 }
 func (s *PirateScene) Load() {
-
+	Ps = s
+	LoadTextures()
 	Engine.Space.Gravity.Y = -100
 	Engine.Space.Iterations = 10
-	s.LoadTextures()
 
 	Layer1 := Engine.NewGameObject("Layer1")
 	Layer2 := Engine.NewGameObject("Layer2")
@@ -69,8 +70,6 @@ func (s *PirateScene) Load() {
 	s.Background = Background
 
 	rand.Seed(time.Now().UnixNano())
-
-	GameSceneGeneral = s
 
 	s.Camera = Engine.NewCamera()
 	cam := Engine.NewGameObject("Camera")
@@ -95,7 +94,7 @@ func (s *PirateScene) Load() {
 		slc.Transform().SetParent2(s.Layer3)
 		slc.Transform().SetWorldPositionf(230, 130)
 	}
-	uvs, ind := Engine.AnimatedGroupUVs(plAtlas, "player_walk", "player_stand", "player_attack", "player_jump", "player_bend", "player_hit")
+	uvs, ind := Engine.AnimatedGroupUVs(plAtlas, "player_walk", "player_stand", "player_attack", "player_jump", "player_bend", "player_hit", "player_climb")
 
 	pl = Engine.NewGameObject("Player")
 	pl.AddComponent(Engine.NewSprite3(plAtlas.Texture, uvs))
@@ -111,13 +110,15 @@ func (s *PirateScene) Load() {
 	lader = Engine.NewGameObject("lader")
 	lader.AddComponent(Engine.NewSprite2(atlas.Texture, Engine.IndexUV(atlas, spr_lader)))
 	lader.Transform().SetWorldScalef(60, 100)
-
+	lader.AddComponent(Engine.NewPhysics(true, 1, 1))
+	lader.Physics.Shape.IsSensor = true
+	lader.Physics.Shape.SetFriction(2)
 	lader.Tag = "lader"
 
 	for i := 0; i < 1; i++ {
 		lc := lader.Clone()
 		lc.Transform().SetParent2(s.Layer3)
-		lc.Transform().SetWorldPositionf(100, 100)
+		lc.Transform().SetWorldPositionf(150, 150)
 	}
 
 	uvs, ind = Engine.AnimatedGroupUVs(tileset, "ground")
@@ -155,10 +156,11 @@ func (s *PirateScene) Load() {
 	s.AddGameObject(s.Background)
 
 }
-func (s *PirateScene) LoadTextures() {
+func LoadTextures() {
 	atlas = Engine.NewManagedAtlas(2048, 1024)
 	plAtlas = Engine.NewManagedAtlas(2048, 1024)
 	tileset = Engine.NewManagedAtlas(2048, 1024)
+	menuAtlas = Engine.NewManagedAtlas(2048, 1024)
 	CheckError(atlas.LoadImage("./data/background/backGame.png", spr_bg))
 	CheckError(atlas.LoadImage("./data/objects/lader.png", spr_lader))
 	CheckError(atlas.LoadImage("./data/objects/splinter.png", spr_splinter))
@@ -167,8 +169,14 @@ func (s *PirateScene) LoadTextures() {
 	CheckError(plAtlas.LoadGroupSheet("./data/player/player_attack.png", 249, 340, 9))
 	CheckError(plAtlas.LoadGroupSheet("./data/player/player_jump.png", 236, 338, 1))
 	CheckError(plAtlas.LoadGroupSheet("./data/player/player_bend.png", 188, 259, 1))
+	CheckError(plAtlas.LoadGroupSheet("./data/player/player_climb.png", 236, 363, 2))
 	CheckError(plAtlas.LoadGroupSheet("./data/player/player_hit.png", 206, 334, 1))
 	CheckError(tileset.LoadGroupSheet("./data/tileset/ground.png", 32, 32, 110))
+	CheckError(menuAtlas.LoadImage("./data/menu/menuback.png", spr_menuback))
+	CheckError(menuAtlas.LoadImage("./data/menu/exit.png", spr_menuexit))
+	CheckError(menuAtlas.LoadImage("./data/menu/newgame.png", spr_menunew))
+	CheckError(menuAtlas.LoadImage("./data/menu/load.png", spr_menuload))
+	CheckError(menuAtlas.LoadImage("./data/menu/howTo.png", spr_menuhowTo))
 	atlas.BuildAtlas()
 	atlas.BuildMipmaps()
 	atlas.SetFiltering(Engine.MipMapLinearNearest, Engine.Nearest)
@@ -178,6 +186,11 @@ func (s *PirateScene) LoadTextures() {
 	plAtlas.BuildMipmaps()
 	plAtlas.SetFiltering(Engine.MipMapLinearNearest, Engine.Nearest)
 	plAtlas.Texture.SetReadOnly()
+
+	menuAtlas.BuildAtlas()
+	menuAtlas.BuildMipmaps()
+	menuAtlas.SetFiltering(Engine.MipMapLinearNearest, Engine.Nearest)
+	menuAtlas.Texture.SetReadOnly()
 
 	tileset.BuildAtlas()
 	tileset.BuildMipmaps()

@@ -23,6 +23,8 @@ type Player struct {
 	able      bool
 	hit       bool
 	hitable   bool
+	pLader    *Engine.GameObject
+	pSplint   *Engine.GameObject
 	LastFloor *Engine.GameObject
 }
 
@@ -30,51 +32,67 @@ const stand_height = 100
 const bend_height = 70
 
 func NewPlayer() *Player {
-	return &Player{Engine.NewComponent(), 50, stand_height, 60, 5000, false, false, false, 1, true, false, true, nil}
+	return &Player{Engine.NewComponent(), 50, stand_height, 60, 5000, false, false, false, 1, true, false, true, nil, nil, nil}
 }
 func (pl *Player) Start() {
 
 }
-func (pl *Player) OnCollisionEnter(arbiter *Engine.Arbiter) bool {
-	count := 0
-	for _, con := range arbiter.Contacts {
-		if con.Normal().Y > 0.9 {
-			count++
+func (pl *Player) OnCollisionEnter(arbiter Engine.Arbiter) bool {
+	if arbiter.GameObjectB().Tag == "lader" {
+		pl.pLader = arbiter.GameObjectB()
+		pl.GameObject().Sprite.SetAnimation("player_climb")
+		pl.GameObject().Physics.Body.IgnoreGravity = true
+		pl.OnGround = false
+	} else {
+		count := 0
+		for _, con := range arbiter.Contacts {
+			if arbiter.Normal(con).Y < -0.9 {
+				count++
+			}
+		}
+		if count >= 2 {
+			pl.OnGround = true
+			if pl.GameObject().Sprite.CurrentAnimation() == "player_jump" {
+				pl.GameObject().Sprite.SetAnimation("player_stand")
+			}
+			pl.LastFloor = arbiter.GameObjectB()
 		}
 	}
-	if count >= 2 {
-		pl.OnGround = true
-		pl.GameObject().Sprite.SetAnimation("player_stand")
-		pl.LastFloor = arbiter.GameObjectB()
-	}
 	if pl.hitable && arbiter.GameObjectB().Tag == "splinter" {
-		pl.hit = true
-		pl.hitable = false
-		pl.able = false
+		pl.pSplint = arbiter.GameObjectB()
 		Engine.StartCoroutine(func() {
-			Engine.CoSleep(3)
-			pl.hit = false
-			pl.able = true
-			pl.GameObject().Sprite.SetAnimation("player_stand")
-			Engine.CoSleep(2)
-			pl.hitable = true
+			for pl.pSplint != nil {
+				pl.hit = true
+				pl.hitable = false
+				pl.able = false
+				pl.GameObject().Physics.Body.AddForce(0, pl.jumpPower)
+
+				Engine.CoSleep(3)
+				pl.hit = false
+				pl.able = true
+				pl.GameObject().Sprite.SetAnimation("player_stand")
+				Engine.CoSleep(2)
+				pl.hitable = true
+			}
 		})
 	}
 	return true
-} /*
-func (pl *Player) OnCollisionExit(arbiter *Engine.Arbiter) {
+}
+func (pl *Player) OnCollisionExit(arbiter Engine.Arbiter) {
 	if arbiter.GameObjectB() == pl.LastFloor {
 		pl.OnGround = false
 		pl.LastFloor = nil
 		pl.GameObject().Sprite.SetAnimation("player_jump")
+	} else if arbiter.GameObjectB() == pl.pSplint {
+		pl.pSplint = nil
+	} else if arbiter.GameObjectB() == pl.pLader {
+		pl.pLader = nil
+		pl.GameObject().Physics.Body.IgnoreGravity = false
+		pl.GameObject().Sprite.SetAnimation("player_stand")
 	}
-}*/
+}
 func (pl *Player) Update() {
 	//Test
-	if pl.Transform().WorldPosition().Y < 98 || pl.Transform().WorldPosition().Y > 102 {
-		pl.OnGround = false
-		pl.GameObject().Sprite.SetAnimation("player_jump")
-	}
 	ph := pl.GameObject().Physics.Body
 	pl.GameObject().Sprite.SetAlign(Engine.AlignTopCenter)
 	if float32(math.Abs(float64(ph.Velocity().X))) > 3 {
@@ -110,7 +128,11 @@ func (pl *Player) Update() {
 			pl.GameObject().Physics.Body.AddForce(0, pl.jumpPower)
 			pl.OnGround = false
 		}
-
+		if Input.KeyDown(Input.Key_Up) {
+			if pl.pLader != nil {
+				ph.AddVelocity(0, 1)
+			}
+		}
 		if Input.KeyUp(Input.Key_Down) {
 			if pl.GameObject().Sprite.CurrentAnimation() == "player_bend" {
 				pl.GameObject().Sprite.SetAnimation("player_stand")
@@ -119,13 +141,19 @@ func (pl *Player) Update() {
 			pl.GameObject().Transform().SetScalef(pl.width*pl.right, stand_height)
 
 		} else if Input.KeyDown(Input.Key_Down) {
-			pl.GameObject().Sprite.SetAnimation("player_bend")
-			pl.height = bend_height
-			pl.GameObject().Transform().SetScalef(pl.width*pl.right, bend_height)
+			if pl.pLader != nil {
+				ph.AddVelocity(0, -1)
+			} else {
+				pl.GameObject().Sprite.SetAnimation("player_bend")
+				pl.height = bend_height
+				pl.GameObject().Transform().SetScalef(pl.width*pl.right, bend_height)
+			}
 		}
 	}
-	if !pl.OnGround {
-		pl.GameObject().Sprite.SetAnimation("player_jump")
+	if pl.GameObject().Sprite.CurrentAnimation() == "player_stand" {
+		if !pl.OnGround {
+			pl.GameObject().Sprite.SetAnimation("player_jump")
+		}
 	}
 	if pl.hit {
 		pl.GameObject().Sprite.SetAnimation("player_hit")
