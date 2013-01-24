@@ -12,8 +12,9 @@ type MenuScene struct {
 }
 
 var (
-	menuAtlas *Engine.ManagedAtlas
-	mbg       *Engine.GameObject
+	menuAtlas  *Engine.ManagedAtlas
+	mbg        *Engine.GameObject
+	MenuSceneG *MenuScene
 )
 
 const (
@@ -28,7 +29,7 @@ func (s *MenuScene) SceneBase() *Engine.SceneData {
 	return s.SceneData
 }
 func (s *MenuScene) Load() {
-	GameSceneGeneral = s
+	MenuSceneG = s
 	LoadTextures()
 	s.Camera = Engine.NewCamera()
 	cam := Engine.NewGameObject("Camera")

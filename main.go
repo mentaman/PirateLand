@@ -56,14 +56,14 @@ func Start() {
 		Engine.Terminate()
 	}()
 	Engine.StartEngine()
-	_ = Game.GameSceneGeneral
+	_ = Game.MenuSceneG
 
 	/*
 		Running local server.
 	*/
 	//go Server.StartServer()
 
-	Engine.LoadScene(Game.GameSceneGeneral)
+	Engine.LoadScene(Game.MenuSceneG)
 	for Engine.MainLoop() {
 
 	}

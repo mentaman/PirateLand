@@ -32,7 +32,7 @@ const stand_height = 100
 const bend_height = 70
 
 func NewPlayer() *Player {
-	return &Player{Engine.NewComponent(), 50, stand_height, 60, 5000, false, false, false, 1, true, false, true, nil, nil, nil}
+	return &Player{Engine.NewComponent(), 50, stand_height, 60, 7000, false, false, false, 1, true, false, true, nil, nil, nil}
 }
 func (pl *Player) Start() {
 
