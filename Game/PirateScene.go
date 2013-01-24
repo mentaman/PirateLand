@@ -9,16 +9,16 @@ import (
 )
 
 var (
-	atlas            *Engine.ManagedAtlas
-	plAtlas          *Engine.ManagedAtlas
-	tileset          *Engine.ManagedAtlas
-	GameSceneGeneral *MenuScene
-	bg               *Engine.GameObject
-	floor            *Engine.GameObject
-	pl               *Engine.GameObject
-	lader            *Engine.GameObject
-	splinter         *Engine.GameObject
-	Ps               *PirateScene
+	atlas    *Engine.ManagedAtlas
+	plAtlas  *Engine.ManagedAtlas
+	tileset  *Engine.ManagedAtlas
+	bg       *Engine.GameObject
+	floor    *Engine.GameObject
+	pl       *Engine.GameObject
+	lader    *Engine.GameObject
+	splinter *Engine.GameObject
+	Ps       *PirateScene
+	box      *Engine.GameObject
 )
 
 const (
@@ -26,6 +26,7 @@ const (
 	spr_floor    = 2
 	spr_lader    = 3
 	spr_splinter = 4
+	spr_box      = 5
 )
 
 func CheckError(err error) bool {
@@ -107,6 +108,17 @@ func (s *PirateScene) Load() {
 	pl.AddComponent(Components.NewSmoothFollow(nil, 1, 30))
 	pl.AddComponent(Engine.NewPhysics(false, 1, 1))
 
+	box = Engine.NewGameObject("box")
+	box.AddComponent(Engine.NewSprite2(atlas.Texture, Engine.IndexUV(atlas, spr_box)))
+	box.Transform().SetWorldScalef(40, 40)
+	box.AddComponent(Engine.NewPhysics(false, 1, 1))
+	box.Physics.Shape.SetFriction(1)
+	for i := 0; i < 1; i++ {
+		bc := box.Clone()
+		bc.Transform().SetParent2(s.Layer3)
+		bc.Transform().SetWorldPositionf(30, 150)
+	}
+
 	lader = Engine.NewGameObject("lader")
 	lader.AddComponent(Engine.NewSprite2(atlas.Texture, Engine.IndexUV(atlas, spr_lader)))
 	lader.Transform().SetWorldScalef(60, 100)
@@ -164,6 +176,7 @@ func LoadTextures() {
 	CheckError(atlas.LoadImage("./data/background/backGame.png", spr_bg))
 	CheckError(atlas.LoadImage("./data/objects/lader.png", spr_lader))
 	CheckError(atlas.LoadImage("./data/objects/splinter.png", spr_splinter))
+	CheckError(atlas.LoadImage("./data/objects/box.png", spr_box))
 	CheckError(plAtlas.LoadGroupSheet("./data/player/player_walk.png", 187, 338, 4))
 	CheckError(plAtlas.LoadGroupSheet("./data/player/player_stand.png", 187, 338, 1))
 	CheckError(plAtlas.LoadGroupSheet("./data/player/player_attack.png", 249, 340, 9))
