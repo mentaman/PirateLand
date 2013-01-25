@@ -20,6 +20,16 @@ var (
 	Ps       *PirateScene
 	box      *Engine.GameObject
 	chud     *Engine.GameObject
+
+	up         *Engine.GameObject
+	cam        *Engine.GameObject
+	Layer1     *Engine.GameObject
+	Layer2     *Engine.GameObject
+	Layer3     *Engine.GameObject
+	Layer4     *Engine.GameObject
+	Background *Engine.GameObject
+
+	ArialFont2 *Engine.Font
 )
 
 const (
@@ -29,6 +39,9 @@ const (
 	spr_splinter = 4
 	spr_box      = 5
 	spr_chud     = 6
+	spr_chudHp   = 7
+	spr_chudCp   = 8
+	spr_chudExp  = 9
 )
 
 func CheckError(err error) bool {
@@ -41,11 +54,6 @@ func CheckError(err error) bool {
 
 type PirateScene struct {
 	*Engine.SceneData
-	Layer1     *Engine.GameObject
-	Layer2     *Engine.GameObject
-	Layer3     *Engine.GameObject
-	Layer4     *Engine.GameObject
-	Background *Engine.GameObject
 }
 
 func init() {
@@ -57,25 +65,22 @@ func (s *PirateScene) SceneBase() *Engine.SceneData {
 func (s *PirateScene) Load() {
 	Ps = s
 	LoadTextures()
+	ArialFont2, _ = Engine.NewFont("./data/Fonts/arial.ttf", 24)
+	ArialFont2.Texture.SetReadOnly()
+
 	Engine.Space.Gravity.Y = -100
 	Engine.Space.Iterations = 10
 
-	Layer1 := Engine.NewGameObject("Layer1")
-	Layer2 := Engine.NewGameObject("Layer2")
-	Layer3 := Engine.NewGameObject("Layer3")
-	Layer4 := Engine.NewGameObject("Layer4")
-	Background := Engine.NewGameObject("Background")
-
-	s.Layer1 = Layer1
-	s.Layer2 = Layer2
-	s.Layer3 = Layer3
-	s.Layer4 = Layer4
-	s.Background = Background
+	Layer1 = Engine.NewGameObject("Layer1")
+	Layer2 = Engine.NewGameObject("Layer2")
+	Layer3 = Engine.NewGameObject("Layer3")
+	Layer4 = Engine.NewGameObject("Layer4")
+	Background = Engine.NewGameObject("Background")
 
 	rand.Seed(time.Now().UnixNano())
 
 	s.Camera = Engine.NewCamera()
-	cam := Engine.NewGameObject("Camera")
+	cam = Engine.NewGameObject("Camera")
 	cam.AddComponent(s.Camera)
 
 	cam.Transform().SetScalef(1, 1)
@@ -84,7 +89,7 @@ func (s *PirateScene) Load() {
 	bg.AddComponent(Engine.NewSprite2(atlas.Texture, Engine.IndexUV(atlas, spr_bg)))
 	bg.Transform().SetScalef(2000, 1800)
 	bg.Transform().SetPositionf(0, 0)
-	bg.Transform().SetParent2(s.Background)
+	bg.Transform().SetParent2(Background)
 
 	splinter = Engine.NewGameObject("Splinter")
 	splinter.AddComponent(Engine.NewSprite2(atlas.Texture, Engine.IndexUV(atlas, spr_splinter)))
@@ -94,7 +99,7 @@ func (s *PirateScene) Load() {
 	splinter.Tag = "splinter"
 	for i := 0; i < 1; i++ {
 		slc := splinter.Clone()
-		slc.Transform().SetParent2(s.Layer3)
+		slc.Transform().SetParent2(Layer3)
 		slc.Transform().SetWorldPositionf(230, 130)
 	}
 	uvs, ind := Engine.AnimatedGroupUVs(plAtlas, "player_walk", "player_stand", "player_attack", "player_jump", "player_bend", "player_hit", "player_climb")
@@ -117,7 +122,7 @@ func (s *PirateScene) Load() {
 	box.Physics.Shape.SetFriction(1)
 	for i := 0; i < 1; i++ {
 		bc := box.Clone()
-		bc.Transform().SetParent2(s.Layer3)
+		bc.Transform().SetParent2(Layer3)
 		bc.Transform().SetWorldPositionf(30, 150)
 	}
 
@@ -131,7 +136,7 @@ func (s *PirateScene) Load() {
 
 	for i := 0; i < 1; i++ {
 		lc := lader.Clone()
-		lc.Transform().SetParent2(s.Layer3)
+		lc.Transform().SetParent2(Layer3)
 		lc.Transform().SetWorldPositionf(150, 150)
 	}
 
@@ -145,15 +150,24 @@ func (s *PirateScene) Load() {
 
 	chud = Engine.NewGameObject("chud")
 	chud.AddComponent(Engine.NewSprite2(atlas.Texture, Engine.IndexUV(atlas, spr_chud)))
+	chud.AddComponent(NewChud())
 	chud.Transform().SetParent2(cam)
-	chud.Transform().SetPositionf(200, 660)
+	chud.Transform().SetWorldPositionf(200, 550)
 	chud.Transform().SetWorldScalef(100, 100)
+
+	label := Engine.NewGameObject("Label")
+	label.Transform().SetParent2(cam)
+	label.Transform().SetPositionf(20, float32(Engine.Height)-40)
+	label.Transform().SetScalef(20, 20)
+
+	txt2 := label.AddComponent(NewTestBox()).(*TestTextBox)
+	txt2.SetAlign(Engine.AlignLeft)
 
 	for i := 0; i < 10; i++ {
 		f := floor.Clone()
 		var h float32 = 50.0
 
-		f.Transform().SetParent2(s.Layer3)
+		f.Transform().SetParent2(Layer3)
 		d := 4
 		m := i % 5
 		if m == 0 {
@@ -168,12 +182,15 @@ func (s *PirateScene) Load() {
 		f.Transform().SetWorldPositionf(float32(i%5)*100, h)
 		f.Sprite.SetAnimationIndex(d)
 	}
+	up = Engine.NewGameObject("up")
+	up.Transform().SetParent2(cam)
+	s.AddGameObject(up)
 	s.AddGameObject(cam)
-	s.AddGameObject(s.Layer1)
-	s.AddGameObject(s.Layer2)
-	s.AddGameObject(s.Layer3)
-	s.AddGameObject(s.Layer4)
-	s.AddGameObject(s.Background)
+	s.AddGameObject(Layer1)
+	s.AddGameObject(Layer2)
+	s.AddGameObject(Layer3)
+	s.AddGameObject(Layer4)
+	s.AddGameObject(Background)
 
 }
 func LoadTextures() {
@@ -186,6 +203,9 @@ func LoadTextures() {
 	CheckError(atlas.LoadImage("./data/objects/splinter.png", spr_splinter))
 	CheckError(atlas.LoadImage("./data/objects/box.png", spr_box))
 	CheckError(atlas.LoadImage("./data/bar/chud.png", spr_chud))
+	CheckError(atlas.LoadImage("./data/bar/hpBar.png", spr_chudHp))
+	CheckError(atlas.LoadImage("./data/bar/cpBar.png", spr_chudCp))
+	CheckError(atlas.LoadImage("./data/bar/expBar.png", spr_chudExp))
 	CheckError(plAtlas.LoadGroupSheet("./data/player/player_walk.png", 187, 338, 4))
 	CheckError(plAtlas.LoadGroupSheet("./data/player/player_stand.png", 187, 338, 1))
 	CheckError(plAtlas.LoadGroupSheet("./data/player/player_attack.png", 249, 340, 9))

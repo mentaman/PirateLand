@@ -10,8 +10,13 @@ import (
 //	"github.com/vova616/chipmunk"
 )
 
+var (
+	plComp *Player
+)
+
 type Player struct {
 	Engine.BaseComponent
+	Hp        float32
 	width     float32
 	height    float32
 	speed     float32
@@ -32,10 +37,10 @@ const stand_height = 100
 const bend_height = 70
 
 func NewPlayer() *Player {
-	return &Player{Engine.NewComponent(), 50, stand_height, 60, 7000, false, false, false, 1, true, false, true, nil, nil, nil}
+	return &Player{Engine.NewComponent(), 100, 50, stand_height, 60, 7000, false, false, false, 1, true, false, true, nil, nil, nil}
 }
 func (pl *Player) Start() {
-
+	plComp = pl
 }
 func (pl *Player) OnCollisionEnter(arbiter Engine.Arbiter) bool {
 	if arbiter.GameObjectB().Tag == "lader" {
