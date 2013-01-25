@@ -93,6 +93,9 @@ func (pl *Player) OnCollisionExit(arbiter Engine.Arbiter) {
 }
 func (pl *Player) Update() {
 	//Test
+	if Input.KeyPress(Input.KeyEsc) {
+		Engine.LoadScene(MenuSceneG)
+	}
 	ph := pl.GameObject().Physics.Body
 	pl.GameObject().Sprite.SetAlign(Engine.AlignTopCenter)
 	if float32(math.Abs(float64(ph.Velocity().X))) > 3 {

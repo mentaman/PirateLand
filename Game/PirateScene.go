@@ -19,6 +19,7 @@ var (
 	splinter *Engine.GameObject
 	Ps       *PirateScene
 	box      *Engine.GameObject
+	chud     *Engine.GameObject
 )
 
 const (
@@ -27,6 +28,7 @@ const (
 	spr_lader    = 3
 	spr_splinter = 4
 	spr_box      = 5
+	spr_chud     = 6
 )
 
 func CheckError(err error) bool {
@@ -141,6 +143,12 @@ func (s *PirateScene) Load() {
 	floor.Transform().SetWorldScalef(100, 100)
 	floor.AddComponent(Engine.NewPhysics(true, 1, 1))
 
+	chud = Engine.NewGameObject("chud")
+	chud.AddComponent(Engine.NewSprite2(atlas.Texture, Engine.IndexUV(atlas, spr_chud)))
+	chud.Transform().SetParent2(cam)
+	chud.Transform().SetPositionf(200, 660)
+	chud.Transform().SetWorldScalef(100, 100)
+
 	for i := 0; i < 10; i++ {
 		f := floor.Clone()
 		var h float32 = 50.0
@@ -177,6 +185,7 @@ func LoadTextures() {
 	CheckError(atlas.LoadImage("./data/objects/lader.png", spr_lader))
 	CheckError(atlas.LoadImage("./data/objects/splinter.png", spr_splinter))
 	CheckError(atlas.LoadImage("./data/objects/box.png", spr_box))
+	CheckError(atlas.LoadImage("./data/bar/chud.png", spr_chud))
 	CheckError(plAtlas.LoadGroupSheet("./data/player/player_walk.png", 187, 338, 4))
 	CheckError(plAtlas.LoadGroupSheet("./data/player/player_stand.png", 187, 338, 1))
 	CheckError(plAtlas.LoadGroupSheet("./data/player/player_attack.png", 249, 340, 9))
