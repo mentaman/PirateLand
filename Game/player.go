@@ -17,6 +17,7 @@ var (
 type Player struct {
 	Engine.BaseComponent
 	Hp        float32
+	MaxHp     float32
 	width     float32
 	height    float32
 	speed     float32
@@ -37,7 +38,7 @@ const stand_height = 100
 const bend_height = 70
 
 func NewPlayer() *Player {
-	return &Player{Engine.NewComponent(), 100, 50, stand_height, 60, 7000, false, false, false, 1, true, false, true, nil, nil, nil}
+	return &Player{Engine.NewComponent(), 100, 100, 50, stand_height, 60, 7000, false, false, false, 1, true, false, true, nil, nil, nil}
 }
 func (pl *Player) Start() {
 	plComp = pl
@@ -71,7 +72,8 @@ func (pl *Player) OnCollisionEnter(arbiter Engine.Arbiter) bool {
 				pl.hitable = false
 				pl.able = false
 				pl.GameObject().Physics.Body.AddForce(0, pl.jumpPower)
-
+				pl.Hp -= 5
+				ch.Hp.SetValue(pl.Hp / pl.MaxHp)
 				Engine.CoSleep(3)
 				pl.hit = false
 				pl.able = true

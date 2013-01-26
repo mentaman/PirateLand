@@ -19,7 +19,7 @@ var (
 	splinter *Engine.GameObject
 	Ps       *PirateScene
 	box      *Engine.GameObject
-	chud     *Engine.GameObject
+	ch       *Chud
 
 	up         *Engine.GameObject
 	cam        *Engine.GameObject
@@ -65,6 +65,7 @@ func (s *PirateScene) SceneBase() *Engine.SceneData {
 func (s *PirateScene) Load() {
 	Ps = s
 	LoadTextures()
+
 	ArialFont2, _ = Engine.NewFont("./data/Fonts/arial.ttf", 24)
 	ArialFont2.Texture.SetReadOnly()
 
@@ -84,6 +85,9 @@ func (s *PirateScene) Load() {
 	cam.AddComponent(s.Camera)
 
 	cam.Transform().SetScalef(1, 1)
+
+	up = Engine.NewGameObject("up")
+	up.Transform().SetParent2(cam)
 
 	bg = Engine.NewGameObject("bg")
 	bg.AddComponent(Engine.NewSprite2(atlas.Texture, Engine.IndexUV(atlas, spr_bg)))
@@ -148,9 +152,9 @@ func (s *PirateScene) Load() {
 	floor.Transform().SetWorldScalef(100, 100)
 	floor.AddComponent(Engine.NewPhysics(true, 1, 1))
 
-	chud = Engine.NewGameObject("chud")
+	chud := Engine.NewGameObject("chud")
 	chud.AddComponent(Engine.NewSprite2(atlas.Texture, Engine.IndexUV(atlas, spr_chud)))
-	chud.AddComponent(NewChud())
+	ch = chud.AddComponent(NewChud()).(*Chud)
 	chud.Transform().SetParent2(cam)
 	chud.Transform().SetWorldPositionf(200, 550)
 	chud.Transform().SetWorldScalef(100, 100)
@@ -160,7 +164,17 @@ func (s *PirateScene) Load() {
 	label.Transform().SetPositionf(20, float32(Engine.Height)-40)
 	label.Transform().SetScalef(20, 20)
 
-	txt2 := label.AddComponent(NewTestBox()).(*TestTextBox)
+	Hp := Engine.NewGameObject("hpBar")
+	Hp.GameObject().AddComponent(Engine.NewSprite2(atlas.Texture, Engine.IndexUV(atlas, spr_chudHp)))
+	Hp.GameObject().Sprite.SetAlign(Engine.AlignLeft)
+	Hp.GameObject().Transform().SetWorldPosition(Engine.Vector{235, 580, 0})
+	Hp.GameObject().Transform().SetWorldScalef(17, 20)
+	Hp.Transform().SetParent2(up)
+	ch.Hp = (Hp.AddComponent(NewBar(17))).(*Bar)
+
+	txt2 := label.AddComponent(NewTestBox(func(tx *TestTextBox) {
+		Hp.Transform().SetPositionf(235, float32(tx.V))
+	})).(*TestTextBox)
 	txt2.SetAlign(Engine.AlignLeft)
 
 	for i := 0; i < 10; i++ {
@@ -182,8 +196,6 @@ func (s *PirateScene) Load() {
 		f.Transform().SetWorldPositionf(float32(i%5)*100, h)
 		f.Sprite.SetAnimationIndex(d)
 	}
-	up = Engine.NewGameObject("up")
-	up.Transform().SetParent2(cam)
 	s.AddGameObject(up)
 	s.AddGameObject(cam)
 	s.AddGameObject(Layer1)
