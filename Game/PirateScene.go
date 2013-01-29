@@ -118,7 +118,8 @@ func (s *PirateScene) Load() {
 	pl.AddComponent(NewPlayer())
 	pl.AddComponent(Components.NewSmoothFollow(nil, 1, 30))
 	pl.AddComponent(Engine.NewPhysics(false, 1, 1))
-
+	pl.Physics.Shape.SetFriction(0.7)
+	pl.Physics.Shape.SetElasticity(0.2)
 	box = Engine.NewGameObject("box")
 	box.AddComponent(Engine.NewSprite2(atlas.Texture, Engine.IndexUV(atlas, spr_box)))
 	box.Transform().SetWorldScalef(40, 40)

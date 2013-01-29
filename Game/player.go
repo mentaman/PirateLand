@@ -3,6 +3,7 @@ package Game
 import (
 	"github.com/vova616/GarageEngine/Engine"
 	"github.com/vova616/GarageEngine/Engine/Input"
+	"log"
 	"math"
 
 //	"github.com/vova616/chipmunk/vect"
@@ -44,6 +45,7 @@ func (pl *Player) Start() {
 	plComp = pl
 }
 func (pl *Player) OnCollisionEnter(arbiter Engine.Arbiter) bool {
+
 	if arbiter.GameObjectB().Tag == "lader" {
 		pl.pLader = arbiter.GameObjectB()
 		pl.GameObject().Sprite.SetAnimation("player_climb")
@@ -52,8 +54,10 @@ func (pl *Player) OnCollisionEnter(arbiter Engine.Arbiter) bool {
 	} else {
 		count := 0
 		for _, con := range arbiter.Contacts {
+			log.Println(arbiter.Normal(con))
 			if arbiter.Normal(con).Y < -0.9 {
 				count++
+
 			}
 		}
 		if count >= 2 {
