@@ -17,6 +17,7 @@ var (
 
 type Player struct {
 	Engine.BaseComponent
+	frames    int
 	Hp        float32
 	MaxHp     float32
 	width     float32
@@ -24,6 +25,7 @@ type Player struct {
 	speed     float32
 	jumpPower float32
 	Attack    bool
+
 	OnGround  bool
 	bend      bool
 	right     float32
@@ -39,10 +41,11 @@ const stand_height = 100
 const bend_height = 70
 
 func NewPlayer() *Player {
-	return &Player{Engine.NewComponent(), 100, 100, 50, stand_height, 60, 7000, false, false, false, 1, true, false, true, nil, nil, nil}
+	return &Player{Engine.NewComponent(), 0, 100, 100, 50, stand_height, 60, 7000, false, false, false, 1, true, false, true, nil, nil, nil}
 }
 func (pl *Player) Start() {
 	plComp = pl
+	pl.GameObject().Physics.Body.SetMoment(Engine.Inf)
 }
 func (pl *Player) OnCollisionEnter(arbiter Engine.Arbiter) bool {
 
@@ -51,22 +54,6 @@ func (pl *Player) OnCollisionEnter(arbiter Engine.Arbiter) bool {
 		pl.GameObject().Sprite.SetAnimation("player_climb")
 		pl.GameObject().Physics.Body.IgnoreGravity = true
 		pl.OnGround = false
-	} else {
-		count := 0
-		for _, con := range arbiter.Contacts {
-			log.Println(arbiter.Normal(con))
-			if arbiter.Normal(con).Y < -0.9 {
-				count++
-
-			}
-		}
-		if count >= 2 {
-			pl.OnGround = true
-			if pl.GameObject().Sprite.CurrentAnimation() == "player_jump" {
-				pl.GameObject().Sprite.SetAnimation("player_stand")
-			}
-			pl.LastFloor = arbiter.GameObjectB()
-		}
 	}
 	if pl.hitable && arbiter.GameObjectB().Tag == "splinter" {
 		pl.pSplint = arbiter.GameObjectB()
@@ -89,12 +76,33 @@ func (pl *Player) OnCollisionEnter(arbiter Engine.Arbiter) bool {
 	}
 	return true
 }
+func (pl *Player) OnCollisionPostSolve(arbiter Engine.Arbiter) {
+
+	count := 0
+	for _, con := range arbiter.Contacts {
+		log.Println(arbiter.Normal(con))
+		if arbiter.Normal(con).Y < -0.9 {
+			count++
+
+		}
+	}
+	if count >= 1 {
+		if pl.GameObject().Sprite.CurrentAnimation() == "player_jump" {
+			pl.GameObject().Sprite.SetAnimation("player_stand")
+		}
+		pl.LastFloor = arbiter.GameObjectB()
+
+		pl.OnGround = true
+	}
+
+}
+func (pl *Player) FixedUpdate() {
+	pl.OnGround = false
+	pl.LastFloor = nil
+}
+
 func (pl *Player) OnCollisionExit(arbiter Engine.Arbiter) {
-	if arbiter.GameObjectB() == pl.LastFloor {
-		pl.OnGround = false
-		pl.LastFloor = nil
-		pl.GameObject().Sprite.SetAnimation("player_jump")
-	} else if arbiter.GameObjectB() == pl.pSplint {
+	if arbiter.GameObjectB() == pl.pSplint {
 		pl.pSplint = nil
 	} else if arbiter.GameObjectB() == pl.pLader {
 		pl.pLader = nil
@@ -104,6 +112,11 @@ func (pl *Player) OnCollisionExit(arbiter Engine.Arbiter) {
 }
 func (pl *Player) Update() {
 	//Test
+	if pl.OnGround == false {
+		pl.frames++
+	} else {
+		pl.frames = 0
+	}
 	if Input.KeyPress(Input.KeyEsc) {
 		Engine.LoadScene(MenuSceneG)
 	}
@@ -116,7 +129,6 @@ func (pl *Player) Update() {
 	} else if !pl.Attack {
 		pl.GameObject().Sprite.SetAnimation("player_stand")
 	}
-	ph.SetAngularVelocity(0)
 	if pl.able {
 		if Input.KeyDown(Input.Key_Right) {
 			ph.AddForce(pl.speed, 0)
@@ -164,13 +176,12 @@ func (pl *Player) Update() {
 			}
 		}
 	}
-	if pl.GameObject().Sprite.CurrentAnimation() == "player_stand" {
-		if !pl.OnGround {
-			pl.GameObject().Sprite.SetAnimation("player_jump")
-		}
-	}
+
 	if pl.hit {
 		pl.GameObject().Sprite.SetAnimation("player_hit")
+	}
+	if pl.GameObject().Sprite.CurrentAnimation() != "player_jump" && !pl.OnGround && pl.frames > 15 {
+		pl.GameObject().Sprite.SetAnimation("player_jump")
 	}
 
 }

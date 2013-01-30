@@ -124,7 +124,7 @@ func (s *PirateScene) Load() {
 	box.AddComponent(Engine.NewSprite2(atlas.Texture, Engine.IndexUV(atlas, spr_box)))
 	box.Transform().SetWorldScalef(40, 40)
 	box.AddComponent(Engine.NewPhysics(false, 1, 1))
-	box.Physics.Shape.SetFriction(1)
+	box.Physics.Shape.SetFriction(0.3)
 	for i := 0; i < 1; i++ {
 		bc := box.Clone()
 		bc.Transform().SetParent2(Layer3)
