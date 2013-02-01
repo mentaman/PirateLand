@@ -51,7 +51,9 @@ func (pl *Player) OnCollisionEnter(arbiter Engine.Arbiter) bool {
 
 	if arbiter.GameObjectB().Tag == "lader" {
 		pl.pLader = arbiter.GameObjectB()
-		pl.GameObject().Sprite.SetAnimation("player_climb")
+		if pl.GameObject().Sprite.CurrentAnimation() != "player_climb" {
+			pl.GameObject().Sprite.SetAnimation("player_climb")
+		}
 		pl.GameObject().Physics.Body.IgnoreGravity = true
 		pl.OnGround = false
 	}
@@ -77,22 +79,23 @@ func (pl *Player) OnCollisionEnter(arbiter Engine.Arbiter) bool {
 	return true
 }
 func (pl *Player) OnCollisionPostSolve(arbiter Engine.Arbiter) {
+	if arbiter.GameObjectB().Tag != "lader" && arbiter.GameObjectA().Tag != "lader" {
+		count := 0
+		for _, con := range arbiter.Contacts {
+			log.Println(arbiter.Normal(con))
+			if arbiter.Normal(con).Y < -0.9 {
+				count++
 
-	count := 0
-	for _, con := range arbiter.Contacts {
-		log.Println(arbiter.Normal(con))
-		if arbiter.Normal(con).Y < -0.9 {
-			count++
-
+			}
 		}
-	}
-	if count >= 1 {
-		if pl.GameObject().Sprite.CurrentAnimation() == "player_jump" {
-			pl.GameObject().Sprite.SetAnimation("player_stand")
-		}
-		pl.LastFloor = arbiter.GameObjectB()
+		if count >= 1 {
+			if pl.GameObject().Sprite.CurrentAnimation() == "player_jump" {
+				pl.GameObject().Sprite.SetAnimation("player_stand")
+			}
+			pl.LastFloor = arbiter.GameObjectB()
 
-		pl.OnGround = true
+			pl.OnGround = true
+		}
 	}
 
 }
@@ -126,7 +129,7 @@ func (pl *Player) Update() {
 		if pl.GameObject().Sprite.CurrentAnimation() == "player_stand" {
 			pl.GameObject().Sprite.SetAnimation("player_walk")
 		}
-	} else if !pl.Attack {
+	} else if !pl.Attack && pl.pLader == nil {
 		pl.GameObject().Sprite.SetAnimation("player_stand")
 	}
 	if pl.able {
@@ -180,8 +183,10 @@ func (pl *Player) Update() {
 	if pl.hit {
 		pl.GameObject().Sprite.SetAnimation("player_hit")
 	}
-	if pl.GameObject().Sprite.CurrentAnimation() != "player_jump" && !pl.OnGround && pl.frames > 15 {
+	if (pl.GameObject().Sprite.CurrentAnimation() == "player_stand" || pl.GameObject().Sprite.CurrentAnimation() == "player_walk") && !pl.OnGround && pl.frames > 15 {
 		pl.GameObject().Sprite.SetAnimation("player_jump")
 	}
-
+	if pl.GameObject().Sprite.CurrentAnimation() != "player_climb" && pl.pLader != nil {
+		pl.GameObject().Sprite.SetAnimation("player_climb")
+	}
 }
