@@ -3,7 +3,6 @@ package Game
 import (
 	"github.com/vova616/GarageEngine/Engine"
 	"github.com/vova616/GarageEngine/Engine/Input"
-	"log"
 	"math"
 
 //	"github.com/vova616/chipmunk/vect"
@@ -82,7 +81,6 @@ func (pl *Player) OnCollisionPostSolve(arbiter Engine.Arbiter) {
 	if arbiter.GameObjectB().Tag != "lader" && arbiter.GameObjectA().Tag != "lader" {
 		count := 0
 		for _, con := range arbiter.Contacts {
-			log.Println(arbiter.Normal(con))
 			if arbiter.Normal(con).Y < -0.9 {
 				count++
 

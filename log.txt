@@ -1,4 +1,0 @@
-open ./data/Enemy/enemt_walk.png: The system cannot find the file specified.
-open ./data/Enemy/enemy_attack.png: The system cannot find the file specified.
-open ./data/Enemy/enemt_walk.png: The system cannot find the file specified.
-open ./data/Enemy/enemy_attack.png: The system cannot find the file specified.
