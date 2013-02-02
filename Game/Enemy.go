@@ -32,7 +32,7 @@ type Enemy struct {
 }
 
 func NewEnemy(Hp *Bar) *Enemy {
-	return &Enemy{Engine.NewComponent(), 0, 0, 100, Hp, false, false, true, false, false, true, 60, 0, 0, 3000, nil, nil}
+	return &Enemy{Engine.NewComponent(), 0, 100, 100, Hp, false, false, true, false, false, true, 60, 0, 0, 3000, nil, nil}
 
 }
 func (s *Enemy) Start() {
@@ -138,17 +138,25 @@ func (s *Enemy) Hit() {
 
 	s.Hitted = Engine.StartCoroutine(func() {
 		s.hit = true
+		s.Attack = false
 		s.LastFloor = nil
 		s.hitable = false
 		s.able = false
 		s.GameObject().Physics.Body.AddForce(0, s.jumppower)
-		s.Hp -= 5
-		s.HpB.SetValue(s.Hp / s.MaxHp)
+		s.SubLife(50)
 		Engine.CoSleep(3)
 		s.hit = false
 		s.able = true
-		s.GameObject().Sprite.SetAnimation("enemy_stand")
-		Engine.CoSleep(2)
 		s.hitable = true
+		s.GameObject().Sprite.SetAnimation("enemy_stand")
 	})
+
+}
+func (s *Enemy) SubLife(hp float32) {
+	s.Hp -= hp
+	if s.Hp < 0 {
+		s.Hp = 0
+	}
+	s.HpB.SetValue(s.Hp / s.MaxHp)
+
 }

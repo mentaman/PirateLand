@@ -74,10 +74,10 @@ func (pl *Player) Hit() {
 		pl.hit = true
 		pl.LastFloor = nil
 		pl.hitable = false
+		pl.Attack = false
 		pl.able = false
 		pl.GameObject().Physics.Body.AddForce(0, pl.jumpPower)
-		pl.Hp -= 5
-		ch.Hp.SetValue(pl.Hp / pl.MaxHp)
+		pl.SubLife(5)
 		Engine.CoSleep(3)
 		pl.hit = false
 		pl.able = true
@@ -86,6 +86,15 @@ func (pl *Player) Hit() {
 		pl.hitable = true
 	})
 }
+func (pl *Player) SubLife(hp float32) {
+	pl.Hp -= hp
+	if pl.Hp < 0 {
+		pl.Hp = 0
+	}
+	ch.Hp.SetValue(pl.Hp / pl.MaxHp)
+
+}
+
 func (pl *Player) OnCollisionPostSolve(arbiter Engine.Arbiter) {
 	if arbiter.GameObjectB().Tag != "lader" && arbiter.GameObjectA().Tag != "lader" {
 		count := 0
