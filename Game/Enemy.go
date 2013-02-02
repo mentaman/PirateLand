@@ -19,6 +19,8 @@ type Enemy struct {
 	OnGround  bool
 	Attack    bool
 	able      bool
+	jump      bool
+	hit       bool
 	speed     float32
 	width     float32
 	height    float32
@@ -26,7 +28,7 @@ type Enemy struct {
 }
 
 func NewEnemy(Hp *Bar) *Enemy {
-	return &Enemy{Engine.NewComponent(), 0, 0, 100, Hp, false, false, true, 60, 0, 0, nil}
+	return &Enemy{Engine.NewComponent(), 0, 0, 100, Hp, false, false, true, false, false, 60, 0, 0, nil}
 
 }
 func (s *Enemy) Start() {
@@ -73,10 +75,15 @@ func (s *Enemy) Update() {
 			}
 
 		}
-		// if Input.KeyPress(Input.Key_Up) && pl.OnGround {
-		// 	pl.GameObject().Physics.Body.AddForce(0, pl.jumpPower)
-		// 	pl.OnGround = false
-		// }
+		if s.jump && s.OnGround {
+			s.GameObject().Physics.Body.AddForce(0, 100)
+		}
+	}
+	if s.hit {
+		s.GameObject().Sprite.SetAnimation("enemy_hit")
+	}
+	if (s.GameObject().Sprite.CurrentAnimation() == "enemy_stand" || s.GameObject().Sprite.CurrentAnimation() == "enemy_walk") && !s.OnGround && s.frames > 15 {
+		s.GameObject().Sprite.SetAnimation("enemy_jump")
 	}
 
 }
@@ -97,10 +104,26 @@ func (s *Enemy) OnCollisionPostSolve(arbiter Engine.Arbiter) {
 
 			s.OnGround = true
 		}
+		count = 0
+		for _, con := range arbiter.Contacts {
+			if math.Abs(float64(arbiter.Normal(con).X)) > 0.9 {
+				count++
+
+			}
+		}
+		if count >= 1 {
+			s.jump = true
+		}
+		if s.Attack && arbiter.GameObjectB().Tag == "player" {
+			if plComp.hitable {
+				plComp.Hit()
+			}
+		}
 	}
 
 }
 func (s *Enemy) FixedUpdate() {
 	s.OnGround = false
 	s.LastFloor = nil
+	s.jump = false
 }

@@ -122,6 +122,7 @@ func (s *PirateScene) Load() {
 	pl.AddComponent(Engine.NewPhysics(false, 1, 1))
 	pl.Physics.Shape.SetFriction(0.7)
 	pl.Physics.Shape.SetElasticity(0.2)
+	pl.Tag = "player"
 
 	uvs, ind = Engine.AnimatedGroupUVs(enAtlas, "enemy_walk", "enemy_stand", "enemy_attack", "enemy_jump", "enemy_hit")
 	en = Engine.NewGameObject("Enemy")

@@ -34,13 +34,14 @@ type Player struct {
 	pLader    *Engine.GameObject
 	pSplint   *Engine.GameObject
 	LastFloor *Engine.GameObject
+	Hitted    *Engine.Coroutine
 }
 
 const stand_height = 100
 const bend_height = 70
 
 func NewPlayer() *Player {
-	return &Player{Engine.NewComponent(), 0, 100, 100, 50, stand_height, 60, 7000, false, false, false, 1, true, false, true, nil, nil, nil}
+	return &Player{Engine.NewComponent(), 0, 100, 100, 50, stand_height, 60, 7000, false, false, false, 1, true, false, true, nil, nil, nil, nil}
 }
 func (pl *Player) Start() {
 	plComp = pl
@@ -60,22 +61,30 @@ func (pl *Player) OnCollisionEnter(arbiter Engine.Arbiter) bool {
 		pl.pSplint = arbiter.GameObjectB()
 		Engine.StartCoroutine(func() {
 			for pl.pSplint != nil {
-				pl.hit = true
-				pl.hitable = false
-				pl.able = false
-				pl.GameObject().Physics.Body.AddForce(0, pl.jumpPower)
-				pl.Hp -= 5
-				ch.Hp.SetValue(pl.Hp / pl.MaxHp)
-				Engine.CoSleep(3)
-				pl.hit = false
-				pl.able = true
-				pl.GameObject().Sprite.SetAnimation("player_stand")
-				Engine.CoSleep(2)
-				pl.hitable = true
+				pl.Hit()
+				Engine.CoYieldCoroutine(pl.Hitted)
 			}
 		})
 	}
 	return true
+}
+func (pl *Player) Hit() {
+
+	pl.Hitted = Engine.StartCoroutine(func() {
+		pl.hit = true
+		pl.LastFloor = nil
+		pl.hitable = false
+		pl.able = false
+		pl.GameObject().Physics.Body.AddForce(0, pl.jumpPower)
+		pl.Hp -= 5
+		ch.Hp.SetValue(pl.Hp / pl.MaxHp)
+		Engine.CoSleep(3)
+		pl.hit = false
+		pl.able = true
+		pl.GameObject().Sprite.SetAnimation("player_stand")
+		Engine.CoSleep(2)
+		pl.hitable = true
+	})
 }
 func (pl *Player) OnCollisionPostSolve(arbiter Engine.Arbiter) {
 	if arbiter.GameObjectB().Tag != "lader" && arbiter.GameObjectA().Tag != "lader" {
