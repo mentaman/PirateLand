@@ -21,14 +21,18 @@ type Enemy struct {
 	able      bool
 	jump      bool
 	hit       bool
+	hitable   bool
 	speed     float32
 	width     float32
 	height    float32
+	jumppower float32
 	LastFloor *Engine.GameObject
+
+	Hitted *Engine.Coroutine
 }
 
 func NewEnemy(Hp *Bar) *Enemy {
-	return &Enemy{Engine.NewComponent(), 0, 0, 100, Hp, false, false, true, false, false, 60, 0, 0, nil}
+	return &Enemy{Engine.NewComponent(), 0, 0, 100, Hp, false, false, true, false, false, true, 60, 0, 0, 3000, nil, nil}
 
 }
 func (s *Enemy) Start() {
@@ -76,7 +80,7 @@ func (s *Enemy) Update() {
 
 		}
 		if s.jump && s.OnGround {
-			s.GameObject().Physics.Body.AddForce(0, 100)
+			s.GameObject().Physics.Body.AddForce(0, s.jumppower)
 		}
 	}
 	if s.hit {
@@ -114,9 +118,12 @@ func (s *Enemy) OnCollisionPostSolve(arbiter Engine.Arbiter) {
 		if count >= 1 {
 			s.jump = true
 		}
-		if s.Attack && arbiter.GameObjectB().Tag == "player" {
-			if plComp.hitable {
+		if arbiter.GameObjectB().Tag == "player" {
+			if plComp.hitable && s.Attack {
 				plComp.Hit()
+			}
+			if s.hitable && plComp.Attack {
+				s.Hit()
 			}
 		}
 	}
@@ -126,4 +133,22 @@ func (s *Enemy) FixedUpdate() {
 	s.OnGround = false
 	s.LastFloor = nil
 	s.jump = false
+}
+func (s *Enemy) Hit() {
+
+	s.Hitted = Engine.StartCoroutine(func() {
+		s.hit = true
+		s.LastFloor = nil
+		s.hitable = false
+		s.able = false
+		s.GameObject().Physics.Body.AddForce(0, s.jumppower)
+		s.Hp -= 5
+		s.HpB.SetValue(s.Hp / s.MaxHp)
+		Engine.CoSleep(3)
+		s.hit = false
+		s.able = true
+		s.GameObject().Sprite.SetAnimation("enemy_stand")
+		Engine.CoSleep(2)
+		s.hitable = true
+	})
 }
