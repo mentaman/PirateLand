@@ -1,8 +1,8 @@
 package Game
 
 import (
-	"github.com/vova616/GarageEngine/Engine"
-	"github.com/vova616/GarageEngine/Engine/Input"
+	"github.com/vova616/garageEngine/engine"
+	"github.com/vova616/garageEngine/engine/input"
 	"math"
 
 //	"github.com/vova616/chipmunk/vect"
@@ -15,7 +15,7 @@ var (
 )
 
 type Player struct {
-	Engine.BaseComponent
+	engine.BaseComponent
 	frames    int
 	Hp        float32
 	MaxHp     float32
@@ -31,23 +31,23 @@ type Player struct {
 	able      bool
 	hit       bool
 	hitable   bool
-	pLader    *Engine.GameObject
-	pSplint   *Engine.GameObject
-	LastFloor *Engine.GameObject
-	Hitted    *Engine.Coroutine
+	pLader    *engine.GameObject
+	pSplint   *engine.GameObject
+	LastFloor *engine.GameObject
+	Hitted    *engine.Coroutine
 }
 
 const stand_height = 100
 const bend_height = 70
 
 func NewPlayer() *Player {
-	return &Player{Engine.NewComponent(), 0, 100, 100, 50, stand_height, 60, 7000, false, false, false, 1, true, false, true, nil, nil, nil, nil}
+	return &Player{engine.NewComponent(), 0, 100, 100, 50, stand_height, 60, 7000, false, false, false, 1, true, false, true, nil, nil, nil, nil}
 }
 func (pl *Player) Start() {
 	plComp = pl
-	pl.GameObject().Physics.Body.SetMoment(Engine.Inf)
+	pl.GameObject().Physics.Body.SetMoment(engine.Inf)
 }
-func (pl *Player) OnCollisionEnter(arbiter Engine.Arbiter) bool {
+func (pl *Player) OnCollisionEnter(arbiter engine.Arbiter) bool {
 
 	if arbiter.GameObjectB().Tag == "lader" {
 		pl.pLader = arbiter.GameObjectB()
@@ -59,10 +59,10 @@ func (pl *Player) OnCollisionEnter(arbiter Engine.Arbiter) bool {
 	}
 	if pl.hitable && arbiter.GameObjectB().Tag == "splinter" {
 		pl.pSplint = arbiter.GameObjectB()
-		Engine.StartCoroutine(func() {
+		engine.StartCoroutine(func() {
 			for pl.pSplint != nil {
 				pl.Hit()
-				Engine.CoYieldCoroutine(pl.Hitted)
+				engine.CoYieldCoroutine(pl.Hitted)
 			}
 		})
 	}
@@ -70,7 +70,7 @@ func (pl *Player) OnCollisionEnter(arbiter Engine.Arbiter) bool {
 }
 func (pl *Player) Hit() {
 
-	pl.Hitted = Engine.StartCoroutine(func() {
+	pl.Hitted = engine.StartCoroutine(func() {
 		pl.hit = true
 		pl.LastFloor = nil
 		pl.hitable = false
@@ -78,11 +78,11 @@ func (pl *Player) Hit() {
 		pl.able = false
 		pl.GameObject().Physics.Body.AddForce(0, pl.jumpPower)
 		pl.SubLife(5)
-		Engine.CoSleep(3)
+		engine.CoSleep(3)
 		pl.hit = false
 		pl.able = true
 		pl.GameObject().Sprite.SetAnimation("player_stand")
-		Engine.CoSleep(2)
+		engine.CoSleep(2)
 		pl.hitable = true
 	})
 }
@@ -95,7 +95,7 @@ func (pl *Player) SubLife(hp float32) {
 
 }
 
-func (pl *Player) OnCollisionPostSolve(arbiter Engine.Arbiter) {
+func (pl *Player) OnCollisionPostSolve(arbiter engine.Arbiter) {
 	if arbiter.GameObjectB().Tag != "lader" && arbiter.GameObjectA().Tag != "lader" {
 		count := 0
 		for _, con := range arbiter.Contacts {
@@ -120,7 +120,7 @@ func (pl *Player) FixedUpdate() {
 	pl.LastFloor = nil
 }
 
-func (pl *Player) OnCollisionExit(arbiter Engine.Arbiter) {
+func (pl *Player) OnCollisionExit(arbiter engine.Arbiter) {
 	if arbiter.GameObjectB() == pl.pSplint {
 		pl.pSplint = nil
 	} else if arbiter.GameObjectB() == pl.pLader {
@@ -136,11 +136,11 @@ func (pl *Player) Update() {
 	} else {
 		pl.frames = 0
 	}
-	if Input.KeyPress(Input.KeyEsc) {
-		Engine.LoadScene(MenuSceneG)
+	if input.KeyPress(input.KeyEsc) {
+		engine.LoadScene(MenuSceneG)
 	}
 	ph := pl.GameObject().Physics.Body
-	pl.GameObject().Sprite.SetAlign(Engine.AlignTopCenter)
+	pl.GameObject().Sprite.SetAlign(engine.AlignTopCenter)
 	if float32(math.Abs(float64(ph.Velocity().X))) > 3 {
 		if pl.GameObject().Sprite.CurrentAnimation() == "player_stand" {
 			pl.GameObject().Sprite.SetAnimation("player_walk")
@@ -149,43 +149,43 @@ func (pl *Player) Update() {
 		pl.GameObject().Sprite.SetAnimation("player_stand")
 	}
 	if pl.able {
-		if Input.KeyDown(Input.Key_Right) {
+		if input.KeyDown(input.Key_Right) {
 			ph.AddForce(pl.speed, 0)
 			pl.right = 1
 			pl.GameObject().Transform().SetScalef(pl.width, pl.height)
 
-		} else if Input.KeyDown(Input.Key_Left) {
+		} else if input.KeyDown(input.Key_Left) {
 			ph.AddForce(-pl.speed, 0)
 			pl.right = -1
 			pl.GameObject().Transform().SetScalef(-pl.width, pl.height)
 		}
-		if Input.KeyPress(Input.KeyLctrl) {
+		if input.KeyPress(input.KeyLctrl) {
 			pl.Attack = true
 
 			pl.GameObject().Sprite.SetAnimation("player_attack")
-			pl.GameObject().Sprite.AnimationEndCallback = func(sprite *Engine.Sprite) {
+			pl.GameObject().Sprite.AnimationEndCallback = func(sprite *engine.Sprite) {
 				pl.Attack = false
 				pl.GameObject().Sprite.SetAnimation("player_stand")
 			}
 
 		}
-		if Input.KeyPress(Input.Key_Up) && pl.OnGround {
+		if input.KeyPress(input.Key_Up) && pl.OnGround {
 			pl.GameObject().Physics.Body.AddForce(0, pl.jumpPower)
 			pl.OnGround = false
 		}
-		if Input.KeyDown(Input.Key_Up) {
+		if input.KeyDown(input.Key_Up) {
 			if pl.pLader != nil {
 				ph.AddVelocity(0, 1)
 			}
 		}
-		if Input.KeyUp(Input.Key_Down) {
+		if input.KeyUp(input.Key_Down) {
 			if pl.GameObject().Sprite.CurrentAnimation() == "player_bend" {
 				pl.GameObject().Sprite.SetAnimation("player_stand")
 			}
 			pl.height = stand_height
 			pl.GameObject().Transform().SetScalef(pl.width*pl.right, stand_height)
 
-		} else if Input.KeyDown(Input.Key_Down) {
+		} else if input.KeyDown(input.Key_Down) {
 			if pl.pLader != nil {
 				ph.AddVelocity(0, -1)
 			} else {

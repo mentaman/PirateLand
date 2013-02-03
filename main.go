@@ -4,7 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/mentaman/PirateLand/Game"
-	"github.com/vova616/GarageEngine/Engine"
+	"github.com/vova616/garageEngine/engine"
 	//"math"
 	//"github.com/go-gl/gl"
 	"os"
@@ -35,7 +35,7 @@ func main() {
 	os.Stdin = file
 	defer file.Close()
 	go Start()
-	Engine.Terminated()
+	engine.Terminated()
 	if *memprofile != "" {
 		f, err := os.Create(*memprofile)
 		if err != nil {
@@ -51,12 +51,12 @@ func main() {
 func Start() {
 	defer func() {
 		if p := recover(); p != nil {
-			fmt.Println(p, Engine.PanicPath())
+			fmt.Println(p, engine.PanicPath())
 		}
 
-		Engine.Terminate()
+		engine.Terminate()
 	}()
-	Engine.StartEngine()
+	engine.StartEngine()
 	_ = Game.MenuSceneG
 
 	/*
@@ -64,8 +64,8 @@ func Start() {
 	*/
 	//go Server.StartServer()
 
-	Engine.LoadScene(Game.MenuSceneG)
-	for Engine.MainLoop() {
+	engine.LoadScene(Game.MenuSceneG)
+	for engine.MainLoop() {
 
 	}
 }

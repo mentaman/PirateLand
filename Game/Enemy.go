@@ -1,7 +1,7 @@
 package Game
 
 import (
-	"github.com/vova616/GarageEngine/Engine"
+	"github.com/vova616/garageEngine/engine"
 	"math"
 
 //	"github.com/vova616/chipmunk/vect"
@@ -10,7 +10,7 @@ import (
 )
 
 type Enemy struct {
-	Engine.BaseComponent
+	engine.BaseComponent
 
 	frames    int
 	Hp        float32
@@ -26,25 +26,25 @@ type Enemy struct {
 	width     float32
 	height    float32
 	jumppower float32
-	LastFloor *Engine.GameObject
+	LastFloor *engine.GameObject
 
-	Hitted *Engine.Coroutine
+	Hitted *engine.Coroutine
 }
 
 func NewEnemy(Hp *Bar) *Enemy {
-	return &Enemy{Engine.NewComponent(), 0, 100, 100, Hp, false, false, true, false, false, true, 60, 0, 0, 3000, nil, nil}
+	return &Enemy{engine.NewComponent(), 0, 100, 100, Hp, false, false, true, false, false, true, 60, 0, 0, 3000, nil, nil}
 
 }
 func (s *Enemy) Start() {
 	s.GameObject().Sprite.SetAnimation("enemy_jump")
 
-	s.GameObject().Physics.Body.SetMoment(Engine.Inf)
+	s.GameObject().Physics.Body.SetMoment(engine.Inf)
 	s.width = s.Transform().WorldScale().X
 	s.height = s.Transform().WorldScale().Y
 }
 func (s *Enemy) Update() {
 	ph := s.GameObject().Physics.Body
-	s.GameObject().Sprite.SetAlign(Engine.AlignTopCenter)
+	s.GameObject().Sprite.SetAlign(engine.AlignTopCenter)
 	if float32(math.Abs(float64(ph.Velocity().X))) > 3 {
 		if s.GameObject().Sprite.CurrentAnimation() == "enemy_stand" {
 			s.GameObject().Sprite.SetAnimation("enemy_walk")
@@ -58,7 +58,7 @@ func (s *Enemy) Update() {
 		s.frames = 0
 	}
 	d := s.Transform().WorldPosition()
-	s.HpB.Transform().SetWorldPosition(d.Add(Engine.NewVector2(0, 30)))
+	s.HpB.Transform().SetWorldPosition(d.Add(engine.NewVector2(0, 30)))
 	if s.able {
 		if plComp.Transform().WorldPosition().X > s.Transform().WorldPosition().X {
 			ph.AddForce(s.speed, 0)
@@ -73,7 +73,7 @@ func (s *Enemy) Update() {
 			s.Attack = true
 
 			s.GameObject().Sprite.SetAnimation("enemy_attack")
-			s.GameObject().Sprite.AnimationEndCallback = func(sprite *Engine.Sprite) {
+			s.GameObject().Sprite.AnimationEndCallback = func(sprite *engine.Sprite) {
 				s.Attack = false
 				s.GameObject().Sprite.SetAnimation("enemy_stand")
 			}
@@ -91,7 +91,7 @@ func (s *Enemy) Update() {
 	}
 
 }
-func (s *Enemy) OnCollisionPostSolve(arbiter Engine.Arbiter) {
+func (s *Enemy) OnCollisionPostSolve(arbiter engine.Arbiter) {
 	if arbiter.GameObjectB().Tag != "lader" && arbiter.GameObjectA().Tag != "lader" {
 		count := 0
 		for _, con := range arbiter.Contacts {
@@ -136,7 +136,7 @@ func (s *Enemy) FixedUpdate() {
 }
 func (s *Enemy) Hit() {
 
-	s.Hitted = Engine.StartCoroutine(func() {
+	s.Hitted = engine.StartCoroutine(func() {
 		s.hit = true
 		s.Attack = false
 		s.LastFloor = nil
@@ -144,7 +144,7 @@ func (s *Enemy) Hit() {
 		s.able = false
 		s.GameObject().Physics.Body.AddForce(0, s.jumppower)
 		s.SubLife(50)
-		Engine.CoSleep(3)
+		engine.CoSleep(3)
 		s.hit = false
 		s.able = true
 		s.hitable = true
@@ -155,7 +155,7 @@ func (s *Enemy) Hit() {
 func (s *Enemy) SubLife(hp float32) {
 	s.Hp -= hp
 	if s.Hp < 0 {
-		s.Hp = 0
+		s.GameObject().Destroy()
 	}
 	s.HpB.SetValue(s.Hp / s.MaxHp)
 

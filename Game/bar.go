@@ -1,7 +1,7 @@
 package Game
 
 import (
-	"github.com/vova616/GarageEngine/Engine"
+	"github.com/vova616/garageEngine/engine"
 
 //	"github.com/vova616/chipmunk/vect"
 
@@ -9,13 +9,13 @@ import (
 )
 
 type Bar struct {
-	Engine.BaseComponent
+	engine.BaseComponent
 	value float32
 	width float32
 }
 
 func NewBar(width float32) *Bar {
-	return &Bar{Engine.NewComponent(), 0, width}
+	return &Bar{engine.NewComponent(), 0, width}
 }
 func (s *Bar) Start() {
 }
