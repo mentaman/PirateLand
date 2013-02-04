@@ -32,7 +32,7 @@ type Enemy struct {
 }
 
 func NewEnemy(Hp *Bar) *Enemy {
-	return &Enemy{engine.NewComponent(), 0, 100, 100, Hp, false, false, true, false, false, true, 60, 0, 0, 3000, nil, nil}
+	return &Enemy{engine.NewComponent(), 0, 100, 100, Hp, false, false, true, false, false, true, 60, 0, 0, 3000, nil, engine.StartCoroutine(func() {})}
 
 }
 func (s *Enemy) Start() {
@@ -134,29 +134,36 @@ func (s *Enemy) FixedUpdate() {
 	s.LastFloor = nil
 	s.jump = false
 }
+func (s *Enemy) OnDestroy() {
+	s.HpB.GameObject().Destroy()
+}
 func (s *Enemy) Hit() {
+	if s.Hitted.State == engine.Ended {
+		s.Hitted = engine.StartCoroutine(func() {
+			s.hit = true
+			s.Attack = false
+			s.LastFloor = nil
+			s.hitable = false
+			s.able = false
+			if s.GameObject() != nil {
+				s.GameObject().Physics.Body.AddForce(0, s.jumppower)
+			}
+			s.SubLife(50)
+			engine.CoSleep(3)
+			s.hit = false
+			s.able = true
+			s.hitable = true
+			if s.GameObject() != nil {
+				s.GameObject().Sprite.SetAnimation("enemy_stand")
+			}
+		})
 
-	s.Hitted = engine.StartCoroutine(func() {
-		s.hit = true
-		s.Attack = false
-		s.LastFloor = nil
-		s.hitable = false
-		s.able = false
-		s.GameObject().Physics.Body.AddForce(0, s.jumppower)
-		s.SubLife(50)
-		engine.CoSleep(3)
-		s.hit = false
-		s.able = true
-		s.hitable = true
-		s.GameObject().Sprite.SetAnimation("enemy_stand")
-	})
-
+	}
 }
 func (s *Enemy) SubLife(hp float32) {
 	s.Hp -= hp
 	if s.Hp < 0 {
 		s.GameObject().Destroy()
 	}
-	s.HpB.SetValue(s.Hp / s.MaxHp)
-
+	s.HpB.SetValue(s.Hp, s.MaxHp)
 }

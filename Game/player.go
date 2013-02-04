@@ -41,7 +41,7 @@ const stand_height = 100
 const bend_height = 70
 
 func NewPlayer() *Player {
-	return &Player{engine.NewComponent(), 0, 100, 100, 50, stand_height, 60, 7000, false, false, false, 1, true, false, true, nil, nil, nil, nil}
+	return &Player{engine.NewComponent(), 0, 100, 100, 50, stand_height, 60, 7000, false, false, false, 1, true, false, true, nil, nil, nil, engine.StartCoroutine(func() {})}
 }
 func (pl *Player) Start() {
 	plComp = pl
@@ -69,33 +69,37 @@ func (pl *Player) OnCollisionEnter(arbiter engine.Arbiter) bool {
 	return true
 }
 func (pl *Player) Hit() {
-
-	pl.Hitted = engine.StartCoroutine(func() {
-		pl.hit = true
-		pl.LastFloor = nil
-		pl.hitable = false
-		pl.Attack = false
-		pl.able = false
-		pl.GameObject().Physics.Body.AddForce(0, pl.jumpPower)
-		pl.SubLife(5)
-		engine.CoSleep(3)
-		pl.hit = false
-		pl.able = true
-		pl.GameObject().Sprite.SetAnimation("player_stand")
-		engine.CoSleep(2)
-		pl.hitable = true
-	})
+	if pl.Hitted.State == engine.Ended {
+		pl.Hitted = engine.StartCoroutine(func() {
+			pl.hit = true
+			pl.LastFloor = nil
+			pl.hitable = false
+			pl.Attack = false
+			pl.able = false
+			pl.GameObject().Physics.Body.AddForce(0, pl.jumpPower)
+			pl.SubLife(5)
+			engine.CoSleep(3)
+			pl.hit = false
+			pl.able = true
+			pl.GameObject().Sprite.SetAnimation("player_stand")
+			engine.CoSleep(2)
+			pl.hitable = true
+		})
+	}
 }
 func (pl *Player) SubLife(hp float32) {
 	pl.Hp -= hp
 	if pl.Hp < 0 {
 		pl.Hp = 0
 	}
-	ch.Hp.SetValue(pl.Hp / pl.MaxHp)
+	ch.Hp.SetValue(pl.Hp, pl.MaxHp)
 
 }
 
 func (pl *Player) OnCollisionPostSolve(arbiter engine.Arbiter) {
+	if arbiter.GameObjectB() == nil {
+		return
+	}
 	if arbiter.GameObjectB().Tag != "lader" && arbiter.GameObjectA().Tag != "lader" {
 		count := 0
 		for _, con := range arbiter.Contacts {

@@ -1,1 +1,0 @@
-CallbackHandler is not Physics runtime.c:351, Coroutine.go:177, main.go:54, proc.c:1443, Engine.go:36, Physics.go:88, space.go:194, Engine.go:334, Engine.go:236, main.go:68, proc.c:271
