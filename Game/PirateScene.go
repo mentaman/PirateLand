@@ -19,8 +19,10 @@ var (
 	en       *engine.GameObject
 	lader    *engine.GameObject
 	splinter *engine.GameObject
+	spot     *engine.GameObject
 	Ps       *PirateScene
 	box      *engine.GameObject
+	chest    *engine.GameObject
 	ch       *Chud
 
 	up         *engine.GameObject
@@ -44,6 +46,10 @@ const (
 	spr_chudHp   = 7
 	spr_chudCp   = 8
 	spr_chudExp  = 9
+	spr_coin     = 10
+	spr_coin10   = 11
+	spr_diamond  = 12
+	spr_spot     = 13
 )
 
 func CheckError(err error) bool {
@@ -195,6 +201,30 @@ func (s *PirateScene) Load() {
 	label.Transform().SetPositionf(20, float32(engine.Height)-40)
 	label.Transform().SetScalef(20, 20)
 
+	spot = engine.NewGameObject("spot")
+	spot.AddComponent(engine.NewSprite2(atlas.Texture, engine.IndexUV(atlas, spr_spot)))
+	// spot.Transform().SetParent2(Layer3)
+	// spot.Transform().SetWorldPositionf(10, 150)
+	spot.AddComponent(engine.NewPhysics(false, 1, 1))
+	spot.Transform().SetScalef(30, 30)
+	spot.AddComponent(NewItem(func() {
+		plComp.AddHp(float32(rand.Int()%10 + 5))
+		spot.Destroy()
+	}))
+	uvs, ind = engine.AnimatedGroupUVs(atlas, "chest")
+	chest = engine.NewGameObject("chest")
+	chest.AddComponent(engine.NewSprite3(atlas.Texture, uvs))
+	chest.Sprite.BindAnimations(ind)
+	chest.Transform().SetWorldScalef(70, 70)
+	chest.AddComponent(engine.NewPhysics(false, 1, 1))
+	chest.Physics.Shape.IsSensor = true
+	chest.Sprite.AnimationSpeed = 0
+	chest.Physics.Body.IgnoreGravity = true
+	chest.AddComponent(NewChest(money))
+
+	chest.Transform().SetWorldPositionf(300, 150)
+	chest.Transform().SetParent2(Layer3)
+
 	Hp = engine.NewGameObject("hpBar")
 	Hp.GameObject().AddComponent(engine.NewSprite2(atlas.Texture, engine.IndexUV(atlas, spr_chudHp)))
 	Hp.GameObject().Sprite.SetAlign(engine.AlignLeft)
@@ -203,9 +233,16 @@ func (s *PirateScene) Load() {
 	Hp.Transform().SetParent2(up)
 	ch.Hp = (Hp.AddComponent(NewBar(17))).(*Bar)
 
+	money := engine.NewGameObject("money")
+	money.Transform().SetParent2(cam)
+	money.Transform().SetWorldPositionf(100, 500)
+	money.Transform().SetScalef(20, 20)
+	ch.Money = money.AddComponent(components.NewUIText(ArialFont2, "0")).(*components.UIText)
+	ch.Money.SetAlign(engine.AlignLeft)
 	txt2 := label.AddComponent(NewTestBox(func(tx *TestTextBox) {
-		Hp.Transform().SetPositionf(235, float32(tx.V))
+		money.Transform().SetPositionf(235, float32(tx.V))
 	})).(*TestTextBox)
+
 	txt2.SetAlign(engine.AlignLeft)
 
 	for i := 0; i < 10; i++ {
@@ -237,6 +274,11 @@ func LoadTextures() {
 	CheckError(atlas.LoadImageID("./data/bar/hpBar.png", spr_chudHp))
 	CheckError(atlas.LoadImageID("./data/bar/cpBar.png", spr_chudCp))
 	CheckError(atlas.LoadImageID("./data/bar/expBar.png", spr_chudExp))
+	atlas.LoadGroupSheet("./data/items/chest.png", 41, 54, 4)
+	CheckError(atlas.LoadImageID("./data/items/Coin.png", spr_coin))
+	CheckError(atlas.LoadImageID("./data/items/Coin10.png", spr_coin10))
+	CheckError(atlas.LoadImageID("./data/items/Daimond.png", spr_diamond))
+	CheckError(atlas.LoadImageID("./data/items/spot.png", spr_spot))
 
 	e, id := plAtlas.LoadGroupSheet("./data/player/player_walk.png", 187, 338, 4)
 	CheckError(e)

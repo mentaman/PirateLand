@@ -12,20 +12,18 @@ the libraries you need. <br/>
 
 To Do
 ==========
-player: <br/>
-	Bar<br/>
-	Hp<br/>
-	Cp<br/>
-	Load cp<br/>
+<b>player:</b> <br/>
+	<span style="margin-left: 50px;">Chud(more bars: exp, cp and scrolls)</span><br/>
+	<span style="margin-left: 50px;">Load cp</span><br/>
 Skills<br/>
-Enemy<br/>
-Menu - more buttons<br/>
-Items<br/>
-Objects	<br/>
-Levels:<br/>
-	Map editor<br/>
-	Chest<br/>
-	Scroll<br/>
+Enemy(another type: general)<br/>
+Menu(more buttons: Exit, How to play, Load)<br/>
+Map editor<br />
+Objects:<br/>
+	<span style="margin-left: 50px;">Items(more: coin, coin10, daimond, big spot)</span><br/>
+	<span style="margin-left: 50px;">Chest(more types: level, price, skill)</span><br/>
+	<span style="margin-left: 50px;">Scroll</span><br/>
+Levels
 <br/>
 <br/>
 Thank you :)

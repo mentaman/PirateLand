@@ -4,6 +4,7 @@ import (
 	"github.com/vova616/garageEngine/engine"
 	"github.com/vova616/garageEngine/engine/input"
 	"math"
+	"strconv"
 
 //	"github.com/vova616/chipmunk/vect"
 
@@ -17,6 +18,7 @@ var (
 type Player struct {
 	engine.BaseComponent
 	frames    int
+	money     int
 	Hp        float32
 	MaxHp     float32
 	width     float32
@@ -41,11 +43,19 @@ const stand_height = 100
 const bend_height = 70
 
 func NewPlayer() *Player {
-	return &Player{engine.NewComponent(), 0, 100, 100, 50, stand_height, 60, 7000, false, false, false, 1, true, false, true, nil, nil, nil, engine.StartCoroutine(func() {})}
+	return &Player{engine.NewComponent(), 0, 0, 100, 100, 50, stand_height, 60, 7000, false, false, false, 1, true, false, true, nil, nil, nil, engine.StartCoroutine(func() {})}
+}
+func (pl *Player) AddMoney(value int) {
+	pl.money += value
+	ch.Money.SetString(strconv.Itoa(pl.money))
 }
 func (pl *Player) Start() {
 	plComp = pl
 	pl.GameObject().Physics.Body.SetMoment(engine.Inf)
+}
+func (pl *Player) AddHp(val float32) {
+	pl.Hp = float32(math.Min(float64(pl.MaxHp), float64(pl.Hp+val)))
+	ch.Hp.SetValue(pl.Hp, pl.MaxHp)
 }
 func (pl *Player) OnCollisionEnter(arbiter engine.Arbiter) bool {
 
