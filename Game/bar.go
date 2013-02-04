@@ -3,6 +3,7 @@ package Game
 import (
 	"github.com/vova616/garageEngine/engine"
 	"github.com/vova616/garageEngine/engine/components"
+	"log"
 	"strconv"
 
 //	"github.com/vova616/chipmunk/vect"
@@ -12,26 +13,32 @@ import (
 
 type Bar struct {
 	engine.BaseComponent
-	value float32
-	width float32
-	label *engine.GameObject
-	text  *components.UIText
+	inited bool
+	value  float32
+	width  float32
+	label  *engine.GameObject
+	text   *components.UIText
 }
 
 func NewBar(width float32) *Bar {
-	return &Bar{engine.NewComponent(), 0, width, nil, nil}
+	return &Bar{engine.NewComponent(), false, 0, width, nil, nil}
 }
 func (s *Bar) Start() {
-	label := engine.NewGameObject("Label")
-	label.Transform().SetParent(s.Transform().Parent())
-	p := s.Transform().WorldPosition()
-	si := s.Transform().WorldScale()
-	label.Transform().SetWorldPositionf(p.X+si.X/2, p.Y+si.Y/2)
-	label.Transform().SetScalef(20, 20)
-	txt2 := label.AddComponent(components.NewUIText(ArialFont2, "100/100")).(*components.UIText)
-	txt2.SetAlign(engine.AlignLeft)
-	s.text = txt2
-	s.label = label
+	if !s.inited {
+		label := engine.NewGameObject("Label")
+		label.Transform().SetParent(s.Transform().Parent())
+		p := s.Transform().WorldPosition()
+		si := s.Transform().WorldScale()
+		label.Transform().SetWorldPositionf(p.X+si.X/2, p.Y+si.Y/2)
+		label.Transform().SetScalef(20, 20)
+		txt2 := label.AddComponent(components.NewUIText(ArialFont2, "100/100")).(*components.UIText)
+		log.Println(p.X+si.X/2, p.Y+si.Y/2)
+		txt2.SetAlign(engine.AlignLeft)
+		s.text = txt2
+		s.label = label
+	}
+	s.inited = true
+
 }
 func (s *Bar) GetValue() float32 {
 	return s.value

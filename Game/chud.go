@@ -15,8 +15,9 @@ type Chud struct {
 	Cp    *Bar
 	Exp   *Bar
 	Money *components.UIText
+	Level *components.UIText
 }
 
 func NewChud() *Chud {
-	return &Chud{engine.NewComponent(), nil, nil, nil, nil}
+	return &Chud{engine.NewComponent(), nil, nil, nil, nil, nil}
 }

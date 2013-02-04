@@ -233,6 +233,23 @@ func (s *PirateScene) Load() {
 	Hp.Transform().SetParent2(up)
 	ch.Hp = (Hp.AddComponent(NewBar(17))).(*Bar)
 
+	Cp := engine.NewGameObject("hpBar")
+	Cp.GameObject().AddComponent(engine.NewSprite2(atlas.Texture, engine.IndexUV(atlas, spr_chudCp)))
+	Cp.GameObject().Sprite.SetAlign(engine.AlignLeft)
+	Cp.GameObject().Transform().SetWorldPosition(engine.Vector{235, 550, 0})
+	Cp.GameObject().Transform().SetWorldScalef(17, 20)
+	Cp.Transform().SetParent2(up)
+	ch.Cp = (Cp.AddComponent(NewBar(17))).(*Bar)
+
+	Exp := engine.NewGameObject("hpBar")
+	Exp.GameObject().AddComponent(engine.NewSprite2(atlas.Texture, engine.IndexUV(atlas, spr_chudCp)))
+	Exp.GameObject().Sprite.SetAlign(engine.AlignLeft)
+	Exp.GameObject().Transform().SetWorldPosition(engine.Vector{235, 530, 0})
+	Exp.GameObject().Transform().SetWorldScalef(17, 20)
+	Exp.Transform().SetParent2(up)
+	ch.Exp = (Exp.AddComponent(NewBar(17))).(*Bar)
+	ch.Exp.Start()
+	ch.Exp.SetValue(0, 100)
 	money := engine.NewGameObject("money")
 	money.Transform().SetParent2(cam)
 	money.Transform().SetWorldPositionf(100, 500)
@@ -243,6 +260,12 @@ func (s *PirateScene) Load() {
 		money.Transform().SetPositionf(235, float32(tx.V))
 	})).(*TestTextBox)
 
+	level := engine.NewGameObject("money")
+	level.Transform().SetParent2(cam)
+	level.Transform().SetWorldPositionf(50, 500)
+	level.Transform().SetScalef(20, 20)
+	ch.Level = level.AddComponent(components.NewUIText(ArialFont2, "1")).(*components.UIText)
+	ch.Level.SetAlign(engine.AlignLeft)
 	txt2.SetAlign(engine.AlignLeft)
 
 	for i := 0; i < 10; i++ {

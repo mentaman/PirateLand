@@ -183,6 +183,7 @@ func (s *Enemy) FixedUpdate() {
 }
 func (s *Enemy) OnDestroy() {
 	s.HpB.GameObject().Destroy()
+	plComp.AddExp(120)
 }
 func (s *Enemy) Hit() {
 	if s.Hitted.State == engine.Ended {

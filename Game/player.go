@@ -19,6 +19,9 @@ type Player struct {
 	engine.BaseComponent
 	frames    int
 	money     int
+	level     int
+	Exp       float32
+	MaxExp    float32
 	Hp        float32
 	MaxHp     float32
 	width     float32
@@ -43,11 +46,20 @@ const stand_height = 100
 const bend_height = 70
 
 func NewPlayer() *Player {
-	return &Player{engine.NewComponent(), 0, 0, 100, 100, 50, stand_height, 60, 7000, false, false, false, 1, true, false, true, nil, nil, nil, engine.StartCoroutine(func() {})}
+	return &Player{engine.NewComponent(), 0, 0, 1, 0, 100, 100, 100, 50, stand_height, 60, 7000, false, false, false, 1, true, false, true, nil, nil, nil, engine.StartCoroutine(func() {})}
 }
 func (pl *Player) AddMoney(value int) {
 	pl.money += value
 	ch.Money.SetString(strconv.Itoa(pl.money))
+}
+func (pl *Player) AddExp(value float32) {
+	pl.Exp += value
+	for pl.Exp > pl.MaxExp {
+		pl.Exp = pl.Exp - pl.MaxExp
+		pl.level++
+		ch.Level.SetString(strconv.Itoa(pl.level))
+	}
+	ch.Exp.SetValue(pl.Exp, pl.MaxHp)
 }
 func (pl *Player) Start() {
 	plComp = pl
