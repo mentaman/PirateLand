@@ -2,7 +2,9 @@ package Game
 
 import (
 	"github.com/vova616/garageEngine/engine"
+	//"log"
 	"math"
+	"math/rand"
 
 //	"github.com/vova616/chipmunk/vect"
 
@@ -22,17 +24,18 @@ type Enemy struct {
 	jump      bool
 	hit       bool
 	hitable   bool
+	isClose   bool
 	speed     float32
 	width     float32
 	height    float32
 	jumppower float32
 	LastFloor *engine.GameObject
-
-	Hitted *engine.Coroutine
+	target    engine.Vector
+	Hitted    *engine.Coroutine
 }
 
 func NewEnemy(Hp *Bar) *Enemy {
-	return &Enemy{engine.NewComponent(), 0, 100, 100, Hp, false, false, true, false, false, true, 60, 0, 0, 3000, nil, engine.StartCoroutine(func() {})}
+	return &Enemy{engine.NewComponent(), 0, 100, 100, Hp, false, false, true, false, false, true, false, 60, 0, 0, 3000, nil, engine.Vector{0, 0, 0}, engine.StartCoroutine(func() {})}
 
 }
 func (s *Enemy) Start() {
@@ -43,6 +46,50 @@ func (s *Enemy) Start() {
 	s.height = s.Transform().WorldScale().Y
 }
 func (s *Enemy) Update() {
+	plpc := pl.Transform().WorldPosition()
+	if plpc.Distance(s.Transform().WorldPosition()) < 200 {
+		s.target = plpc
+		s.speed = 60
+		s.isClose = false
+	} else {
+		if !s.isClose && s.speed != 0 {
+			s.target = s.Transform().WorldPosition()
+			r := float32(rand.Int()%200) - 100
+			if r > 0 {
+				r += 20
+			} else {
+				r -= 20
+			}
+			s.target = s.target.Add(engine.NewVector2(r, 0))
+
+			s.isClose = true
+		}
+		if s.isClose {
+			if s.target.Distance(s.Transform().WorldPosition()) < 60 {
+
+				s.isClose = false
+
+				engine.StartCoroutine(func() {
+					s.speed = 0
+					engine.CoSleep(float32(rand.Int()%2) + 3)
+					if plpc.Distance(s.Transform().WorldPosition()) >= 200 {
+						s.speed = 60
+						s.isClose = true
+						r := float32(rand.Int()%200) - 100
+						if r > 0 {
+							r += 60
+						} else {
+							r -= 60
+						}
+						s.target = s.Transform().WorldPosition()
+						s.target = s.target.Add(engine.NewVector2(r, 0))
+					}
+				})
+
+				return
+			}
+		}
+	}
 	ph := s.GameObject().Physics.Body
 	s.GameObject().Sprite.SetAlign(engine.AlignTopCenter)
 	if float32(math.Abs(float64(ph.Velocity().X))) > 3 {
@@ -60,7 +107,7 @@ func (s *Enemy) Update() {
 	d := s.Transform().WorldPosition()
 	s.HpB.Transform().SetWorldPosition(d.Add(engine.NewVector2(0, 30)))
 	if s.able {
-		if plComp.Transform().WorldPosition().X > s.Transform().WorldPosition().X {
+		if s.target.X > s.Transform().WorldPosition().X {
 			ph.AddForce(s.speed, 0)
 			s.GameObject().Transform().SetScalef(s.width, s.height)
 

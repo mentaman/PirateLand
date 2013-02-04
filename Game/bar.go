@@ -42,7 +42,9 @@ func (s *Bar) Update() {
 	s.label.Transform().SetWorldPositionf(p.X+si.X/2, p.Y+si.Y/2)
 }
 func (s *Bar) OnDestroy() {
-	s.label.GameObject().Destroy()
+	if s.label.GameObject() != nil {
+		s.label.GameObject().Destroy()
+	}
 }
 func (s *Bar) SetValue(min, max float32) {
 	s.value = min / max

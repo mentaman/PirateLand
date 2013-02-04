@@ -186,6 +186,7 @@ func (pl *Player) Update() {
 			if pl.GameObject().Sprite.CurrentAnimation() == "player_bend" {
 				pl.GameObject().Sprite.SetAnimation("player_stand")
 			}
+			pl.GameObject().Physics.Shape.SetFriction(0.7)
 			pl.height = stand_height
 			pl.GameObject().Transform().SetScalef(pl.width*pl.right, stand_height)
 
@@ -194,6 +195,7 @@ func (pl *Player) Update() {
 				ph.AddVelocity(0, -1)
 			} else {
 				pl.GameObject().Sprite.SetAnimation("player_bend")
+				pl.GameObject().Physics.Shape.SetFriction(1.2)
 				pl.height = bend_height
 				pl.GameObject().Transform().SetScalef(pl.width*pl.right, bend_height)
 			}
