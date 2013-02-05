@@ -2,6 +2,7 @@ package Player
 
 import (
 	"github.com/vova616/garageEngine/engine"
+	"github.com/vova616/garageEngine/engine/components"
 	"github.com/vova616/garageEngine/engine/input"
 	"math"
 	"strconv"
@@ -14,7 +15,7 @@ import (
 var (
 	PlComp *Player
 	Pl     *engine.GameObject
-	Ch     *Chud
+	Atlas  *engine.ManagedAtlas
 )
 
 type Player struct {
@@ -49,6 +50,21 @@ type Player struct {
 const stand_height = 100
 const bend_height = 70
 
+func CreatePlayer() {
+	uvs, ind := engine.AnimatedGroupUVs(Atlas, "player_walk", "player_stand", "player_attack", "player_jump", "player_bend", "player_hit", "player_climb")
+	Pl = engine.NewGameObject("Player")
+	Pl.AddComponent(engine.NewSprite3(Atlas.Texture, uvs))
+	Pl.Sprite.BindAnimations(ind)
+	Pl.Sprite.AnimationSpeed = 10
+	Pl.Transform().SetWorldPositionf(100, 180)
+	Pl.Transform().SetWorldScalef(50, 100)
+	Pl.AddComponent(NewPlayer())
+	Pl.AddComponent(components.NewSmoothFollow(nil, 1, 30))
+	Pl.AddComponent(engine.NewPhysics(false, 1, 1))
+	Pl.Physics.Shape.SetFriction(0.7)
+	Pl.Physics.Shape.SetElasticity(0.2)
+	Pl.Tag = "player"
+}
 func NewPlayer() *Player {
 	return &Player{engine.NewComponent(), 0, 0, 1, 0, 100, 100, 100, 100, 100, 50, stand_height, 60, 7000, false, false, false, 1, true, false, true, nil, nil, nil, engine.StartCoroutine(func() {})}
 }

@@ -10,6 +10,18 @@ import (
 //	"github.com/vova616/chipmunk"
 )
 
+var (
+	Ch        *Chud
+	ChudAtlas *engine.ManagedAtlas
+)
+
+const (
+	Spr_chud    = 1
+	Spr_chudHp  = 2
+	Spr_chudCp  = 3
+	Spr_chudExp = 4
+)
+
 type Chud struct {
 	engine.BaseComponent
 	Hp    *GUI.Bar
@@ -17,6 +29,14 @@ type Chud struct {
 	Exp   *GUI.Bar
 	Money *components.UIText
 	Level *components.UIText
+}
+
+func CreateChud() {
+	chud := engine.NewGameObject("chud")
+	Ch = chud.AddComponent(NewChud()).(*Chud)
+	chud.AddComponent(engine.NewSprite2(ChudAtlas.Texture, engine.IndexUV(ChudAtlas, Spr_chud)))
+	chud.Transform().SetWorldPositionf(200, 550)
+	chud.Transform().SetWorldScalef(100, 100)
 }
 
 func NewChud() *Chud {

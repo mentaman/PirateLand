@@ -11,6 +11,7 @@ import (
 
 var (
 	Atlas *engine.ManagedAtlas
+	Spot  *engine.GameObject
 )
 
 const (
@@ -22,10 +23,10 @@ const (
 
 type Item struct {
 	engine.BaseComponent
-	coll func()
+	coll func(*engine.GameObject)
 }
 
-func NewItem(coll func()) *Item {
+func NewItem(coll func(*engine.GameObject)) *Item {
 	return &Item{engine.NewComponent(), coll}
 }
 func (s *Item) Pop() {
@@ -33,7 +34,7 @@ func (s *Item) Pop() {
 }
 func (s *Item) OnCollisionEnter(arbiter engine.Arbiter) bool {
 	if arbiter.GameObjectB().Tag == "player" {
-		s.coll()
+		s.coll(s.GameObject())
 	}
 	return true
 }

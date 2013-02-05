@@ -37,6 +37,28 @@ type Enemy struct {
 	Hitted    *engine.Coroutine
 }
 
+var (
+	Regular *engine.GameObject
+	Atlas   *engine.ManagedAtlas
+	HpBar   *engine.GameObject
+)
+
+func CreateEnemy() {
+	uvs, ind := engine.AnimatedGroupUVs(Atlas, "enemy_walk", "enemy_stand", "enemy_attack", "enemy_jump", "enemy_hit")
+	Regular = engine.NewGameObject("Enemy")
+	Regular.AddComponent(engine.NewSprite3(Atlas.Texture, uvs))
+	Regular.Sprite.BindAnimations(ind)
+	Regular.Transform().SetWorldScalef(50, 100)
+	Regular.AddComponent(engine.NewPhysics(false, 1, 1))
+	Regular.Physics.Shape.SetFriction(0.7)
+	Regular.Physics.Shape.SetElasticity(0.2)
+
+	HpBar = engine.NewGameObject("hpBar")
+	HpBar.GameObject().AddComponent(engine.NewSprite2(Player.ChudAtlas.Texture, engine.IndexUV(Player.ChudAtlas, Player.Spr_chudHp)))
+	HpBar.GameObject().Sprite.SetAlign(engine.AlignLeft)
+	HpBar.GameObject().Transform().SetWorldScalef(10, 15)
+	HpBar.AddComponent(GUI.NewBar(17))
+}
 func NewEnemy(Hp *GUI.Bar) *Enemy {
 	return &Enemy{engine.NewComponent(), 0, 100, 100, Hp, false, false, true, false, false, true, false, 60, 0, 0, 3000, nil, engine.Vector{0, 0, 0}, engine.StartCoroutine(func() {})}
 
@@ -108,7 +130,7 @@ func (s *Enemy) Update() {
 		s.frames = 0
 	}
 	d := s.Transform().WorldPosition()
-	s.HpB.Transform().SetWorldPosition(d.Add(engine.NewVector2(0, 30)))
+	s.HpB.Transform().SetWorldPosition(d.Add(engine.NewVector2(0, -10)))
 	if s.able {
 		if s.target.X > s.Transform().WorldPosition().X {
 			ph.AddForce(s.speed, 0)

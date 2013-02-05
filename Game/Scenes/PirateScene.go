@@ -5,6 +5,7 @@ import (
 	"github.com/mentaman/PirateLand/Game/Fonts"
 	"github.com/mentaman/PirateLand/Game/Player"
 
+	"github.com/mentaman/PirateLand/Game/Background"
 	"github.com/mentaman/PirateLand/Game/Enemy"
 	"github.com/mentaman/PirateLand/Game/GUI"
 	"github.com/mentaman/PirateLand/Game/Objects"
@@ -15,40 +16,22 @@ import (
 )
 
 var (
-	atlas    *engine.ManagedAtlas
-	plAtlas  *engine.ManagedAtlas
-	enAtlas  *engine.ManagedAtlas
-	tileset  *engine.ManagedAtlas
-	bg       *engine.GameObject
-	floor    *engine.GameObject
-	en       *engine.GameObject
-	lader    *engine.GameObject
-	splinter *engine.GameObject
-	spot     *engine.GameObject
+	atlas *engine.ManagedAtlas
+	bg    *engine.GameObject
+	en    *engine.GameObject
+	spot  *engine.GameObject
 
 	Ps    *PirateScene
-	box   *engine.GameObject
 	chest *engine.GameObject
 
-	up         *engine.GameObject
-	cam        *engine.GameObject
-	Layer1     *engine.GameObject
-	Layer2     *engine.GameObject
-	Layer3     *engine.GameObject
-	Layer4     *engine.GameObject
-	Background *engine.GameObject
-)
+	up     *engine.GameObject
+	cam    *engine.GameObject
+	Layer1 *engine.GameObject
+	Layer2 *engine.GameObject
+	Layer3 *engine.GameObject
+	Layer4 *engine.GameObject
 
-const (
-	spr_bg       = 1
-	spr_floor    = 2
-	spr_lader    = 3
-	spr_splinter = 4
-	spr_box      = 5
-	spr_chud     = 6
-	spr_chudHp   = 7
-	spr_chudCp   = 8
-	spr_chudExp  = 9
+	background *engine.GameObject
 )
 
 func CheckError(err error) bool {
@@ -82,7 +65,7 @@ func (s *PirateScene) Load() {
 	Layer2 = engine.NewGameObject("Layer2")
 	Layer3 = engine.NewGameObject("Layer3")
 	Layer4 = engine.NewGameObject("Layer4")
-	Background = engine.NewGameObject("Background")
+	background = engine.NewGameObject("Background")
 
 	rand.Seed(time.Now().UnixNano())
 
@@ -95,121 +78,57 @@ func (s *PirateScene) Load() {
 	up = engine.NewGameObject("up")
 	up.Transform().SetParent2(cam)
 
-	bg = engine.NewGameObject("bg")
-	bg.AddComponent(engine.NewSprite2(atlas.Texture, engine.IndexUV(atlas, spr_bg)))
-	bg.Transform().SetScalef(2000, 1800)
-	bg.Transform().SetPositionf(0, 0)
-	bg.Transform().SetParent2(Background)
+	Objects.CreateObjects()
+	Background.Create()
+	Background.Object.Transform().SetParent2(background)
 
-	splinter = engine.NewGameObject("Splinter")
-	splinter.AddComponent(engine.NewSprite2(atlas.Texture, engine.IndexUV(atlas, spr_splinter)))
-	splinter.Transform().SetWorldScalef(100, 30)
-	splinter.AddComponent(engine.NewPhysics(true, 1, 1))
-	splinter.Physics.Shape.IsSensor = true
-	splinter.Tag = "splinter"
 	for i := 0; i < 1; i++ {
-		slc := splinter.Clone()
+		slc := Objects.Splinter.Clone()
 		slc.Transform().SetParent2(Layer3)
 		slc.Transform().SetWorldPositionf(230, 130)
 	}
-	uvs, ind := engine.AnimatedGroupUVs(plAtlas, "player_walk", "player_stand", "player_attack", "player_jump", "player_bend", "player_hit", "player_climb")
 
-	Player.Pl = engine.NewGameObject("Player")
-	Player.Pl.AddComponent(engine.NewSprite3(plAtlas.Texture, uvs))
-	Player.Pl.Sprite.BindAnimations(ind)
-	Player.Pl.Sprite.AnimationSpeed = 10
-	Player.Pl.Transform().SetWorldPositionf(100, 180)
-	Player.Pl.Transform().SetWorldScalef(50, 100)
+	Player.CreatePlayer()
 	Player.Pl.Transform().SetParent2(Layer2)
-	Player.Pl.AddComponent(Player.NewPlayer())
-	Player.Pl.AddComponent(components.NewSmoothFollow(nil, 1, 30))
-	Player.Pl.AddComponent(engine.NewPhysics(false, 1, 1))
-	Player.Pl.Physics.Shape.SetFriction(0.7)
-	Player.Pl.Physics.Shape.SetElasticity(0.2)
-	Player.Pl.Tag = "player"
 
-	uvs, ind = engine.AnimatedGroupUVs(enAtlas, "enemy_walk", "enemy_stand", "enemy_attack", "enemy_jump", "enemy_hit")
-	en = engine.NewGameObject("Enemy")
-	en.AddComponent(engine.NewSprite3(enAtlas.Texture, uvs))
-	en.Sprite.BindAnimations(ind)
-	en.Transform().SetWorldScalef(50, 100)
-	en.AddComponent(engine.NewPhysics(false, 1, 1))
-	en.Physics.Shape.SetFriction(0.7)
-	en.Physics.Shape.SetElasticity(0.2)
-
-	Hp := engine.NewGameObject("hpBar")
-	Hp.GameObject().AddComponent(engine.NewSprite2(atlas.Texture, engine.IndexUV(atlas, spr_chudHp)))
-	Hp.GameObject().Sprite.SetAlign(engine.AlignLeft)
-	Hp.GameObject().Transform().SetWorldScalef(10, 15)
-
+	Enemy.CreateEnemy()
+	sd := GUI.NewBar(10)
 	for i := 0; i < 1; i++ {
-		ec := en.Clone()
-		Hp.GameObject().Transform().SetWorldPosition(engine.Vector{0, 580, 0})
+		ec := Enemy.Regular.Clone()
+		hpB := Enemy.HpBar.Clone()
+		hpBd := hpB.ComponentTypeOfi(sd).(*GUI.Bar)
 
 		ec.Transform().SetWorldPositionf(200, 110)
-		ec.AddComponent(Enemy.NewEnemy((Hp.AddComponent(GUI.NewBar(17))).(*GUI.Bar)))
+		ec.AddComponent(Enemy.NewEnemy(hpBd))
 		ec.Transform().SetParent2(Layer2)
 
 		ec.Sprite.AnimationSpeed = 10
-		Hp.Transform().SetParent2(up)
+		hpB.Transform().SetParent2(up)
 	}
-	box = engine.NewGameObject("box")
-	box.AddComponent(engine.NewSprite2(atlas.Texture, engine.IndexUV(atlas, spr_box)))
-	box.Transform().SetWorldScalef(40, 40)
-	box.AddComponent(engine.NewPhysics(false, 1, 1))
-	box.Physics.Body.SetMass(1.5)
-	box.Physics.Shape.SetFriction(0.3)
+
 	for i := 0; i < 1; i++ {
-		bc := box.Clone()
+		bc := Objects.Box.Clone()
 		bc.Transform().SetParent2(Layer3)
 		bc.Transform().SetWorldPositionf(30, 150)
 	}
 
-	lader = engine.NewGameObject("lader")
-	lader.AddComponent(engine.NewSprite2(atlas.Texture, engine.IndexUV(atlas, spr_lader)))
-	lader.Transform().SetWorldScalef(60, 100)
-	lader.AddComponent(engine.NewPhysics(true, 1, 1))
-	lader.Physics.Shape.IsSensor = true
-	lader.Physics.Shape.SetFriction(2)
-	lader.Tag = "lader"
-
 	for i := 0; i < 1; i++ {
-		lc := lader.Clone()
+		lc := Objects.Lader.Clone()
 		lc.Transform().SetParent2(Layer3)
 		lc.Transform().SetWorldPositionf(150, 150)
 	}
-
-	uvs, ind = engine.AnimatedGroupUVs(tileset, "ground")
-	floor = engine.NewGameObject("floor")
-	floor.AddComponent(engine.NewSprite3(tileset.Texture, uvs))
-	floor.Sprite.BindAnimations(ind)
-	floor.Sprite.AnimationSpeed = 0
-	floor.Transform().SetWorldScalef(100, 100)
-	floor.AddComponent(engine.NewPhysics(true, 1, 1))
-
-	chud := engine.NewGameObject("chud")
-	chud.AddComponent(engine.NewSprite2(atlas.Texture, engine.IndexUV(atlas, spr_chud)))
-	Player.Ch = chud.AddComponent(Player.NewChud()).(*Player.Chud)
-	chud.Transform().SetParent2(cam)
-	chud.Transform().SetWorldPositionf(200, 550)
-	chud.Transform().SetWorldScalef(100, 100)
+	Player.CreateChud()
+	Player.Ch.Transform().SetParent2(cam)
 
 	label := engine.NewGameObject("Label")
 	label.Transform().SetParent2(cam)
 	label.Transform().SetPositionf(20, float32(engine.Height)-40)
 	label.Transform().SetScalef(20, 20)
 
-	spot = engine.NewGameObject("spot")
-	spot.AddComponent(engine.NewSprite2(Objects.Atlas.Texture, engine.IndexUV(Objects.Atlas, Objects.Spr_spot)))
-	// spot.Transform().SetParent2(Layer3)
-	// spot.Transform().SetWorldPositionf(10, 150)
-	spot.AddComponent(engine.NewPhysics(false, 1, 1))
-	spot.Transform().SetScalef(30, 30)
-	spot.AddComponent(Objects.NewItem(func() {
-		Player.PlComp.AddHp(float32(rand.Int()%10 + 5))
-		spot.Destroy()
-	}))
-	uvs, ind = engine.AnimatedGroupUVs(atlas, "chest")
+	txt2 := label.AddComponent(GUI.NewTestBox(func(tx *GUI.TestTextBox) {
+	})).(*GUI.TestTextBox)
+
+	uvs, ind := engine.AnimatedGroupUVs(atlas, "chest")
 	chest = engine.NewGameObject("chest")
 	chest.AddComponent(engine.NewSprite3(atlas.Texture, uvs))
 	chest.Sprite.BindAnimations(ind)
@@ -223,8 +142,8 @@ func (s *PirateScene) Load() {
 	chest.Transform().SetWorldPositionf(300, 150)
 	chest.Transform().SetParent2(Layer3)
 
-	Hp = engine.NewGameObject("hpBar")
-	Hp.GameObject().AddComponent(engine.NewSprite2(atlas.Texture, engine.IndexUV(atlas, spr_chudHp)))
+	Hp := engine.NewGameObject("hpBar")
+	Hp.GameObject().AddComponent(engine.NewSprite2(Player.ChudAtlas.Texture, engine.IndexUV(Player.ChudAtlas, Player.Spr_chudHp)))
 	Hp.GameObject().Sprite.SetAlign(engine.AlignLeft)
 	Hp.GameObject().Transform().SetWorldPosition(engine.Vector{235, 580, 0})
 	Hp.GameObject().Transform().SetWorldScalef(17, 20)
@@ -232,7 +151,7 @@ func (s *PirateScene) Load() {
 	Player.Ch.Hp = (Hp.AddComponent(GUI.NewBar(17))).(*GUI.Bar)
 
 	Cp := engine.NewGameObject("hpBar")
-	Cp.GameObject().AddComponent(engine.NewSprite2(atlas.Texture, engine.IndexUV(atlas, spr_chudCp)))
+	Cp.GameObject().AddComponent(engine.NewSprite2(Player.ChudAtlas.Texture, engine.IndexUV(Player.ChudAtlas, Player.Spr_chudCp)))
 	Cp.GameObject().Sprite.SetAlign(engine.AlignLeft)
 	Cp.GameObject().Transform().SetWorldPosition(engine.Vector{235, 550, 0})
 	Cp.GameObject().Transform().SetWorldScalef(17, 20)
@@ -240,7 +159,7 @@ func (s *PirateScene) Load() {
 	Player.Ch.Cp = (Cp.AddComponent(GUI.NewBar(17))).(*GUI.Bar)
 
 	Exp := engine.NewGameObject("hpBar")
-	Exp.GameObject().AddComponent(engine.NewSprite2(atlas.Texture, engine.IndexUV(atlas, spr_chudCp)))
+	Exp.GameObject().AddComponent(engine.NewSprite2(Player.ChudAtlas.Texture, engine.IndexUV(Player.ChudAtlas, Player.Spr_chudCp)))
 	Exp.GameObject().Sprite.SetAlign(engine.AlignLeft)
 	Exp.GameObject().Transform().SetWorldPosition(engine.Vector{235, 530, 0})
 	Exp.GameObject().Transform().SetWorldScalef(17, 20)
@@ -254,9 +173,6 @@ func (s *PirateScene) Load() {
 	money.Transform().SetScalef(20, 20)
 	Player.Ch.Money = money.AddComponent(components.NewUIText(Fonts.ArialFont2, "0")).(*components.UIText)
 	Player.Ch.Money.SetAlign(engine.AlignLeft)
-	txt2 := label.AddComponent(GUI.NewTestBox(func(tx *GUI.TestTextBox) {
-		money.Transform().SetPositionf(235, float32(tx.V))
-	})).(*GUI.TestTextBox)
 
 	level := engine.NewGameObject("money")
 	level.Transform().SetParent2(cam)
@@ -265,9 +181,8 @@ func (s *PirateScene) Load() {
 	Player.Ch.Level = level.AddComponent(components.NewUIText(Fonts.ArialFont2, "1")).(*components.UIText)
 	Player.Ch.Level.SetAlign(engine.AlignLeft)
 	txt2.SetAlign(engine.AlignLeft)
-
 	for i := 0; i < 10; i++ {
-		f := floor.Clone()
+		f := Objects.Floor.Clone()
 		f.Transform().SetWorldPositionf(float32(i)*100, 50)
 		f.Sprite.SetAnimationIndex(4)
 		f.Transform().SetParent2(Layer3)
@@ -278,57 +193,61 @@ func (s *PirateScene) Load() {
 	s.AddGameObject(Layer2)
 	s.AddGameObject(Layer3)
 	s.AddGameObject(Layer4)
-	s.AddGameObject(Background)
+	s.AddGameObject(background)
 
 }
 func LoadTextures() {
 	atlas = engine.NewManagedAtlas(2048, 1024)
+	Background.Atlas = engine.NewManagedAtlas(2048, 1024)
 	Objects.Atlas = engine.NewManagedAtlas(2048, 1024)
-	plAtlas = engine.NewManagedAtlas(2048, 1024)
-	enAtlas = engine.NewManagedAtlas(2048, 1024)
-	tileset = engine.NewManagedAtlas(2048, 1024)
+	Objects.ObjectsAtlas = engine.NewManagedAtlas(2048, 1024)
+	Player.Atlas = engine.NewManagedAtlas(2048, 1024)
+	Enemy.Atlas = engine.NewManagedAtlas(2048, 1024)
+	Objects.Tileset = engine.NewManagedAtlas(2048, 1024)
 	menuAtlas = engine.NewManagedAtlas(2048, 1024)
-	CheckError(atlas.LoadImageID("./data/background/backGame.png", spr_bg))
-	CheckError(atlas.LoadImageID("./data/objects/lader.png", spr_lader))
-	CheckError(atlas.LoadImageID("./data/objects/splinter.png", spr_splinter))
-	CheckError(atlas.LoadImageID("./data/objects/box.png", spr_box))
-	CheckError(atlas.LoadImageID("./data/bar/chud.png", spr_chud))
-	CheckError(atlas.LoadImageID("./data/bar/hpBar.png", spr_chudHp))
-	CheckError(atlas.LoadImageID("./data/bar/cpBar.png", spr_chudCp))
-	CheckError(atlas.LoadImageID("./data/bar/expBar.png", spr_chudExp))
+	Player.ChudAtlas = engine.NewManagedAtlas(2048, 1024)
+
+	CheckError(Background.Atlas.LoadImageID("./data/background/backGame.png", Background.Spr_bg))
+	CheckError(Objects.ObjectsAtlas.LoadImageID("./data/objects/lader.png", Objects.Spr_lader))
+	CheckError(Objects.ObjectsAtlas.LoadImageID("./data/objects/splinter.png", Objects.Spr_splinter))
+	CheckError(Objects.ObjectsAtlas.LoadImageID("./data/objects/box.png", Objects.Spr_box))
+	CheckError(Player.ChudAtlas.LoadImageID("./data/bar/chud.png", Player.Spr_chud))
+	CheckError(Player.ChudAtlas.LoadImageID("./data/bar/hpBar.png", Player.Spr_chudHp))
+	CheckError(Player.ChudAtlas.LoadImageID("./data/bar/cpBar.png", Player.Spr_chudCp))
+	CheckError(Player.ChudAtlas.LoadImageID("./data/bar/expBar.png", Player.Spr_chudExp))
 	atlas.LoadGroupSheet("./data/items/chest.png", 41, 54, 4)
 	CheckError(Objects.Atlas.LoadImageID("./data/items/Coin.png", Objects.Spr_coin))
 	CheckError(Objects.Atlas.LoadImageID("./data/items/Coin10.png", Objects.Spr_coin10))
 	CheckError(Objects.Atlas.LoadImageID("./data/items/Daimond.png", Objects.Spr_diamond))
 	CheckError(Objects.Atlas.LoadImageID("./data/items/spot.png", Objects.Spr_spot))
 
-	e, id := plAtlas.LoadGroupSheet("./data/player/player_walk.png", 187, 338, 4)
+	e, id := Player.Atlas.LoadGroupSheet("./data/player/player_walk.png", 187, 338, 4)
 	CheckError(e)
-	e, id = plAtlas.LoadGroupSheet("./data/player/player_stand.png", 187, 338, 1)
+	e, id = Player.Atlas.LoadGroupSheet("./data/player/player_stand.png", 187, 338, 1)
 	CheckError(e)
-	e, id = plAtlas.LoadGroupSheet("./data/player/player_attack.png", 249, 340, 9)
+	e, id = Player.Atlas.LoadGroupSheet("./data/player/player_attack.png", 249, 340, 9)
 	CheckError(e)
-	e, id = plAtlas.LoadGroupSheet("./data/player/player_jump.png", 236, 338, 1)
+	e, id = Player.Atlas.LoadGroupSheet("./data/player/player_jump.png", 236, 338, 1)
 	CheckError(e)
-	e, id = plAtlas.LoadGroupSheet("./data/player/player_bend.png", 188, 259, 1)
+	e, id = Player.Atlas.LoadGroupSheet("./data/player/player_bend.png", 188, 259, 1)
 	CheckError(e)
-	e, id = plAtlas.LoadGroupSheet("./data/player/player_climb.png", 236, 363, 2)
+	e, id = Player.Atlas.LoadGroupSheet("./data/player/player_climb.png", 236, 363, 2)
 	CheckError(e)
-	e, id = plAtlas.LoadGroupSheet("./data/player/player_hit.png", 206, 334, 1)
-	CheckError(e)
-
-	e, id = enAtlas.LoadGroupSheet("./data/Enemy/enemy_walk.png", 187, 338, 4)
-	CheckError(e)
-	e, id = enAtlas.LoadGroupSheet("./data/Enemy/enemy_stand.png", 187, 338, 1)
-	CheckError(e)
-	e, id = enAtlas.LoadGroupSheet("./data/Enemy/enemy_attack.png", 249, 340, 9)
-	CheckError(e)
-	e, id = enAtlas.LoadGroupSheet("./data/Enemy/enemy_jump.png", 236, 338, 1)
-	CheckError(e)
-	e, id = enAtlas.LoadGroupSheet("./data/Enemy/enemy_hit.png", 206, 334, 1)
+	e, id = Player.Atlas.LoadGroupSheet("./data/player/player_hit.png", 206, 334, 1)
 	CheckError(e)
 
-	e, id = tileset.LoadGroupSheet("./data/tileset/ground.png", 32, 32, 110)
+	e, id = Enemy.Atlas.LoadGroupSheet("./data/Enemy/enemy_walk.png", 187, 338, 4)
+	CheckError(e)
+	e, id = Enemy.Atlas.LoadGroupSheet("./data/Enemy/enemy_stand.png", 187, 338, 1)
+	CheckError(e)
+	e, id = Enemy.Atlas.LoadGroupSheet("./data/Enemy/enemy_attack.png", 249, 340, 9)
+	CheckError(e)
+	e, id = Enemy.Atlas.LoadGroupSheet("./data/Enemy/enemy_jump.png", 236, 338, 1)
+	CheckError(e)
+	e, id = Enemy.Atlas.LoadGroupSheet("./data/Enemy/enemy_hit.png", 206, 334, 1)
+	CheckError(e)
+
+	e, id = Objects.Tileset.LoadGroupSheet("./data/tileset/ground.png", 32, 32, 110)
 	CheckError(e)
 
 	_ = id
@@ -343,30 +262,45 @@ func LoadTextures() {
 	atlas.SetFiltering(engine.MipMapLinearNearest, engine.Nearest)
 	atlas.Texture.SetReadOnly()
 
+	Background.Atlas.BuildAtlas()
+	Background.Atlas.BuildMipmaps()
+	Background.Atlas.SetFiltering(engine.MipMapLinearNearest, engine.Nearest)
+	Background.Atlas.Texture.SetReadOnly()
+
 	Objects.Atlas.BuildAtlas()
 	Objects.Atlas.BuildMipmaps()
 	Objects.Atlas.SetFiltering(engine.MipMapLinearNearest, engine.Nearest)
 	Objects.Atlas.Texture.SetReadOnly()
 
-	enAtlas.BuildAtlas()
-	enAtlas.BuildMipmaps()
-	enAtlas.SetFiltering(engine.MipMapLinearNearest, engine.Nearest)
-	enAtlas.Texture.SetReadOnly()
+	Objects.ObjectsAtlas.BuildAtlas()
+	Objects.ObjectsAtlas.BuildMipmaps()
+	Objects.ObjectsAtlas.SetFiltering(engine.MipMapLinearNearest, engine.Nearest)
+	Objects.ObjectsAtlas.Texture.SetReadOnly()
 
-	plAtlas.BuildAtlas()
-	plAtlas.BuildMipmaps()
-	plAtlas.SetFiltering(engine.MipMapLinearNearest, engine.Nearest)
-	plAtlas.Texture.SetReadOnly()
+	Enemy.Atlas.BuildAtlas()
+	Enemy.Atlas.BuildMipmaps()
+	Enemy.Atlas.SetFiltering(engine.MipMapLinearNearest, engine.Nearest)
+	Enemy.Atlas.Texture.SetReadOnly()
+
+	Player.ChudAtlas.BuildAtlas()
+	Player.ChudAtlas.BuildMipmaps()
+	Player.ChudAtlas.SetFiltering(engine.MipMapLinearNearest, engine.Nearest)
+	Player.ChudAtlas.Texture.SetReadOnly()
+
+	Player.Atlas.BuildAtlas()
+	Player.Atlas.BuildMipmaps()
+	Player.Atlas.SetFiltering(engine.MipMapLinearNearest, engine.Nearest)
+	Player.Atlas.Texture.SetReadOnly()
 
 	menuAtlas.BuildAtlas()
 	menuAtlas.BuildMipmaps()
 	menuAtlas.SetFiltering(engine.MipMapLinearNearest, engine.Nearest)
 	menuAtlas.Texture.SetReadOnly()
 
-	tileset.BuildAtlas()
-	tileset.BuildMipmaps()
-	tileset.SetFiltering(engine.MipMapLinearNearest, engine.Nearest)
-	tileset.Texture.SetReadOnly()
+	Objects.Tileset.BuildAtlas()
+	Objects.Tileset.BuildMipmaps()
+	Objects.Tileset.SetFiltering(engine.MipMapLinearNearest, engine.Nearest)
+	Objects.Tileset.Texture.SetReadOnly()
 }
 func (s *PirateScene) New() engine.Scene {
 	gs := new(PirateScene)
