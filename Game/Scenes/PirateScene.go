@@ -2,6 +2,12 @@ package Game
 
 import (
 	"fmt"
+	"github.com/mentaman/PirateLand/Game/Fonts"
+	"github.com/mentaman/PirateLand/Game/Player"
+
+	"github.com/mentaman/PirateLand/Game/Enemy"
+	"github.com/mentaman/PirateLand/Game/GUI"
+	"github.com/mentaman/PirateLand/Game/Objects"
 	"github.com/vova616/garageEngine/engine"
 	"github.com/vova616/garageEngine/engine/components"
 	"math/rand"
@@ -15,15 +21,14 @@ var (
 	tileset  *engine.ManagedAtlas
 	bg       *engine.GameObject
 	floor    *engine.GameObject
-	pl       *engine.GameObject
 	en       *engine.GameObject
 	lader    *engine.GameObject
 	splinter *engine.GameObject
 	spot     *engine.GameObject
-	Ps       *PirateScene
-	box      *engine.GameObject
-	chest    *engine.GameObject
-	ch       *Chud
+
+	Ps    *PirateScene
+	box   *engine.GameObject
+	chest *engine.GameObject
 
 	up         *engine.GameObject
 	cam        *engine.GameObject
@@ -32,8 +37,6 @@ var (
 	Layer3     *engine.GameObject
 	Layer4     *engine.GameObject
 	Background *engine.GameObject
-
-	ArialFont2 *engine.Font
 )
 
 const (
@@ -46,10 +49,6 @@ const (
 	spr_chudHp   = 7
 	spr_chudCp   = 8
 	spr_chudExp  = 9
-	spr_coin     = 10
-	spr_coin10   = 11
-	spr_diamond  = 12
-	spr_spot     = 13
 )
 
 func CheckError(err error) bool {
@@ -73,9 +72,8 @@ func (s *PirateScene) SceneBase() *engine.SceneData {
 func (s *PirateScene) Load() {
 	Ps = s
 	LoadTextures()
-
-	ArialFont2, _ = engine.NewFont("./data/Fonts/arial.ttf", 24)
-	ArialFont2.Texture.SetReadOnly()
+	Fonts.ArialFont2, _ = engine.NewFont("./data/Fonts/arial.ttf", 24)
+	Fonts.ArialFont2.Texture.SetReadOnly()
 
 	engine.Space.Gravity.Y = -100
 	engine.Space.Iterations = 10
@@ -116,19 +114,19 @@ func (s *PirateScene) Load() {
 	}
 	uvs, ind := engine.AnimatedGroupUVs(plAtlas, "player_walk", "player_stand", "player_attack", "player_jump", "player_bend", "player_hit", "player_climb")
 
-	pl = engine.NewGameObject("Player")
-	pl.AddComponent(engine.NewSprite3(plAtlas.Texture, uvs))
-	pl.Sprite.BindAnimations(ind)
-	pl.Sprite.AnimationSpeed = 10
-	pl.Transform().SetWorldPositionf(100, 180)
-	pl.Transform().SetWorldScalef(50, 100)
-	pl.Transform().SetParent2(Layer2)
-	pl.AddComponent(NewPlayer())
-	pl.AddComponent(components.NewSmoothFollow(nil, 1, 30))
-	pl.AddComponent(engine.NewPhysics(false, 1, 1))
-	pl.Physics.Shape.SetFriction(0.7)
-	pl.Physics.Shape.SetElasticity(0.2)
-	pl.Tag = "player"
+	Player.Pl = engine.NewGameObject("Player")
+	Player.Pl.AddComponent(engine.NewSprite3(plAtlas.Texture, uvs))
+	Player.Pl.Sprite.BindAnimations(ind)
+	Player.Pl.Sprite.AnimationSpeed = 10
+	Player.Pl.Transform().SetWorldPositionf(100, 180)
+	Player.Pl.Transform().SetWorldScalef(50, 100)
+	Player.Pl.Transform().SetParent2(Layer2)
+	Player.Pl.AddComponent(Player.NewPlayer())
+	Player.Pl.AddComponent(components.NewSmoothFollow(nil, 1, 30))
+	Player.Pl.AddComponent(engine.NewPhysics(false, 1, 1))
+	Player.Pl.Physics.Shape.SetFriction(0.7)
+	Player.Pl.Physics.Shape.SetElasticity(0.2)
+	Player.Pl.Tag = "player"
 
 	uvs, ind = engine.AnimatedGroupUVs(enAtlas, "enemy_walk", "enemy_stand", "enemy_attack", "enemy_jump", "enemy_hit")
 	en = engine.NewGameObject("Enemy")
@@ -149,7 +147,7 @@ func (s *PirateScene) Load() {
 		Hp.GameObject().Transform().SetWorldPosition(engine.Vector{0, 580, 0})
 
 		ec.Transform().SetWorldPositionf(200, 110)
-		ec.AddComponent(NewEnemy((Hp.AddComponent(NewBar(17))).(*Bar)))
+		ec.AddComponent(Enemy.NewEnemy((Hp.AddComponent(GUI.NewBar(17))).(*GUI.Bar)))
 		ec.Transform().SetParent2(Layer2)
 
 		ec.Sprite.AnimationSpeed = 10
@@ -191,7 +189,7 @@ func (s *PirateScene) Load() {
 
 	chud := engine.NewGameObject("chud")
 	chud.AddComponent(engine.NewSprite2(atlas.Texture, engine.IndexUV(atlas, spr_chud)))
-	ch = chud.AddComponent(NewChud()).(*Chud)
+	Player.Ch = chud.AddComponent(Player.NewChud()).(*Player.Chud)
 	chud.Transform().SetParent2(cam)
 	chud.Transform().SetWorldPositionf(200, 550)
 	chud.Transform().SetWorldScalef(100, 100)
@@ -202,13 +200,13 @@ func (s *PirateScene) Load() {
 	label.Transform().SetScalef(20, 20)
 
 	spot = engine.NewGameObject("spot")
-	spot.AddComponent(engine.NewSprite2(atlas.Texture, engine.IndexUV(atlas, spr_spot)))
+	spot.AddComponent(engine.NewSprite2(Objects.Atlas.Texture, engine.IndexUV(Objects.Atlas, Objects.Spr_spot)))
 	// spot.Transform().SetParent2(Layer3)
 	// spot.Transform().SetWorldPositionf(10, 150)
 	spot.AddComponent(engine.NewPhysics(false, 1, 1))
 	spot.Transform().SetScalef(30, 30)
-	spot.AddComponent(NewItem(func() {
-		plComp.AddHp(float32(rand.Int()%10 + 5))
+	spot.AddComponent(Objects.NewItem(func() {
+		Player.PlComp.AddHp(float32(rand.Int()%10 + 5))
 		spot.Destroy()
 	}))
 	uvs, ind = engine.AnimatedGroupUVs(atlas, "chest")
@@ -220,7 +218,7 @@ func (s *PirateScene) Load() {
 	chest.Physics.Shape.IsSensor = true
 	chest.Sprite.AnimationSpeed = 0
 	chest.Physics.Body.IgnoreGravity = true
-	chest.AddComponent(NewChest(money))
+	chest.AddComponent(Objects.NewChest(Objects.Type_money))
 
 	chest.Transform().SetWorldPositionf(300, 150)
 	chest.Transform().SetParent2(Layer3)
@@ -231,7 +229,7 @@ func (s *PirateScene) Load() {
 	Hp.GameObject().Transform().SetWorldPosition(engine.Vector{235, 580, 0})
 	Hp.GameObject().Transform().SetWorldScalef(17, 20)
 	Hp.Transform().SetParent2(up)
-	ch.Hp = (Hp.AddComponent(NewBar(17))).(*Bar)
+	Player.Ch.Hp = (Hp.AddComponent(GUI.NewBar(17))).(*GUI.Bar)
 
 	Cp := engine.NewGameObject("hpBar")
 	Cp.GameObject().AddComponent(engine.NewSprite2(atlas.Texture, engine.IndexUV(atlas, spr_chudCp)))
@@ -239,7 +237,7 @@ func (s *PirateScene) Load() {
 	Cp.GameObject().Transform().SetWorldPosition(engine.Vector{235, 550, 0})
 	Cp.GameObject().Transform().SetWorldScalef(17, 20)
 	Cp.Transform().SetParent2(up)
-	ch.Cp = (Cp.AddComponent(NewBar(17))).(*Bar)
+	Player.Ch.Cp = (Cp.AddComponent(GUI.NewBar(17))).(*GUI.Bar)
 
 	Exp := engine.NewGameObject("hpBar")
 	Exp.GameObject().AddComponent(engine.NewSprite2(atlas.Texture, engine.IndexUV(atlas, spr_chudCp)))
@@ -247,25 +245,25 @@ func (s *PirateScene) Load() {
 	Exp.GameObject().Transform().SetWorldPosition(engine.Vector{235, 530, 0})
 	Exp.GameObject().Transform().SetWorldScalef(17, 20)
 	Exp.Transform().SetParent2(up)
-	ch.Exp = (Exp.AddComponent(NewBar(17))).(*Bar)
-	ch.Exp.Start()
-	ch.Exp.SetValue(0, 100)
+	Player.Ch.Exp = (Exp.AddComponent(GUI.NewBar(17))).(*GUI.Bar)
+	Player.Ch.Exp.Start()
+	Player.Ch.Exp.SetValue(0, 100)
 	money := engine.NewGameObject("money")
 	money.Transform().SetParent2(cam)
 	money.Transform().SetWorldPositionf(100, 500)
 	money.Transform().SetScalef(20, 20)
-	ch.Money = money.AddComponent(components.NewUIText(ArialFont2, "0")).(*components.UIText)
-	ch.Money.SetAlign(engine.AlignLeft)
-	txt2 := label.AddComponent(NewTestBox(func(tx *TestTextBox) {
+	Player.Ch.Money = money.AddComponent(components.NewUIText(Fonts.ArialFont2, "0")).(*components.UIText)
+	Player.Ch.Money.SetAlign(engine.AlignLeft)
+	txt2 := label.AddComponent(GUI.NewTestBox(func(tx *GUI.TestTextBox) {
 		money.Transform().SetPositionf(235, float32(tx.V))
-	})).(*TestTextBox)
+	})).(*GUI.TestTextBox)
 
 	level := engine.NewGameObject("money")
 	level.Transform().SetParent2(cam)
 	level.Transform().SetWorldPositionf(50, 500)
 	level.Transform().SetScalef(20, 20)
-	ch.Level = level.AddComponent(components.NewUIText(ArialFont2, "1")).(*components.UIText)
-	ch.Level.SetAlign(engine.AlignLeft)
+	Player.Ch.Level = level.AddComponent(components.NewUIText(Fonts.ArialFont2, "1")).(*components.UIText)
+	Player.Ch.Level.SetAlign(engine.AlignLeft)
 	txt2.SetAlign(engine.AlignLeft)
 
 	for i := 0; i < 10; i++ {
@@ -285,6 +283,7 @@ func (s *PirateScene) Load() {
 }
 func LoadTextures() {
 	atlas = engine.NewManagedAtlas(2048, 1024)
+	Objects.Atlas = engine.NewManagedAtlas(2048, 1024)
 	plAtlas = engine.NewManagedAtlas(2048, 1024)
 	enAtlas = engine.NewManagedAtlas(2048, 1024)
 	tileset = engine.NewManagedAtlas(2048, 1024)
@@ -298,10 +297,10 @@ func LoadTextures() {
 	CheckError(atlas.LoadImageID("./data/bar/cpBar.png", spr_chudCp))
 	CheckError(atlas.LoadImageID("./data/bar/expBar.png", spr_chudExp))
 	atlas.LoadGroupSheet("./data/items/chest.png", 41, 54, 4)
-	CheckError(atlas.LoadImageID("./data/items/Coin.png", spr_coin))
-	CheckError(atlas.LoadImageID("./data/items/Coin10.png", spr_coin10))
-	CheckError(atlas.LoadImageID("./data/items/Daimond.png", spr_diamond))
-	CheckError(atlas.LoadImageID("./data/items/spot.png", spr_spot))
+	CheckError(Objects.Atlas.LoadImageID("./data/items/Coin.png", Objects.Spr_coin))
+	CheckError(Objects.Atlas.LoadImageID("./data/items/Coin10.png", Objects.Spr_coin10))
+	CheckError(Objects.Atlas.LoadImageID("./data/items/Daimond.png", Objects.Spr_diamond))
+	CheckError(Objects.Atlas.LoadImageID("./data/items/spot.png", Objects.Spr_spot))
 
 	e, id := plAtlas.LoadGroupSheet("./data/player/player_walk.png", 187, 338, 4)
 	CheckError(e)
@@ -343,6 +342,11 @@ func LoadTextures() {
 	atlas.BuildMipmaps()
 	atlas.SetFiltering(engine.MipMapLinearNearest, engine.Nearest)
 	atlas.Texture.SetReadOnly()
+
+	Objects.Atlas.BuildAtlas()
+	Objects.Atlas.BuildMipmaps()
+	Objects.Atlas.SetFiltering(engine.MipMapLinearNearest, engine.Nearest)
+	Objects.Atlas.Texture.SetReadOnly()
 
 	enAtlas.BuildAtlas()
 	enAtlas.BuildMipmaps()

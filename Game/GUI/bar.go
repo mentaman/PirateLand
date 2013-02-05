@@ -1,8 +1,10 @@
-package Game
+package GUI
 
 import (
 	"github.com/vova616/garageEngine/engine"
 	"github.com/vova616/garageEngine/engine/components"
+
+	"github.com/mentaman/PirateLand/Game/Fonts"
 	"log"
 	"strconv"
 
@@ -31,7 +33,7 @@ func (s *Bar) Start() {
 		si := s.Transform().WorldScale()
 		label.Transform().SetWorldPositionf(p.X+si.X/2, p.Y+si.Y/2)
 		label.Transform().SetScalef(20, 20)
-		txt2 := label.AddComponent(components.NewUIText(ArialFont2, "100/100")).(*components.UIText)
+		txt2 := label.AddComponent(components.NewUIText(Fonts.ArialFont2, "100/100")).(*components.UIText)
 		log.Println(p.X+si.X/2, p.Y+si.Y/2)
 		txt2.SetAlign(engine.AlignLeft)
 		s.text = txt2

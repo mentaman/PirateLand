@@ -1,4 +1,4 @@
-package Game
+package Player
 
 import (
 	"github.com/vova616/garageEngine/engine"
@@ -12,7 +12,9 @@ import (
 )
 
 var (
-	plComp *Player
+	PlComp *Player
+	Pl     *engine.GameObject
+	Ch     *Chud
 )
 
 type Player struct {
@@ -22,6 +24,8 @@ type Player struct {
 	level     int
 	Exp       float32
 	MaxExp    float32
+	Cp        float32
+	MaxCp     float32
 	Hp        float32
 	MaxHp     float32
 	width     float32
@@ -35,7 +39,7 @@ type Player struct {
 	right     float32
 	able      bool
 	hit       bool
-	hitable   bool
+	Hitable   bool
 	pLader    *engine.GameObject
 	pSplint   *engine.GameObject
 	LastFloor *engine.GameObject
@@ -46,28 +50,28 @@ const stand_height = 100
 const bend_height = 70
 
 func NewPlayer() *Player {
-	return &Player{engine.NewComponent(), 0, 0, 1, 0, 100, 100, 100, 50, stand_height, 60, 7000, false, false, false, 1, true, false, true, nil, nil, nil, engine.StartCoroutine(func() {})}
+	return &Player{engine.NewComponent(), 0, 0, 1, 0, 100, 100, 100, 100, 100, 50, stand_height, 60, 7000, false, false, false, 1, true, false, true, nil, nil, nil, engine.StartCoroutine(func() {})}
 }
 func (pl *Player) AddMoney(value int) {
 	pl.money += value
-	ch.Money.SetString(strconv.Itoa(pl.money))
+	Ch.Money.SetString(strconv.Itoa(pl.money))
 }
 func (pl *Player) AddExp(value float32) {
 	pl.Exp += value
 	for pl.Exp > pl.MaxExp {
 		pl.Exp = pl.Exp - pl.MaxExp
 		pl.level++
-		ch.Level.SetString(strconv.Itoa(pl.level))
+		Ch.Level.SetString(strconv.Itoa(pl.level))
 	}
-	ch.Exp.SetValue(pl.Exp, pl.MaxHp)
+	Ch.Exp.SetValue(pl.Exp, pl.MaxHp)
 }
 func (pl *Player) Start() {
-	plComp = pl
+	PlComp = pl
 	pl.GameObject().Physics.Body.SetMoment(engine.Inf)
 }
 func (pl *Player) AddHp(val float32) {
 	pl.Hp = float32(math.Min(float64(pl.MaxHp), float64(pl.Hp+val)))
-	ch.Hp.SetValue(pl.Hp, pl.MaxHp)
+	Ch.Hp.SetValue(pl.Hp, pl.MaxHp)
 }
 func (pl *Player) OnCollisionEnter(arbiter engine.Arbiter) bool {
 
@@ -79,7 +83,7 @@ func (pl *Player) OnCollisionEnter(arbiter engine.Arbiter) bool {
 		pl.GameObject().Physics.Body.IgnoreGravity = true
 		pl.OnGround = false
 	}
-	if pl.hitable && arbiter.GameObjectB().Tag == "splinter" {
+	if pl.Hitable && arbiter.GameObjectB().Tag == "splinter" {
 		pl.pSplint = arbiter.GameObjectB()
 		engine.StartCoroutine(func() {
 			for pl.pSplint != nil {
@@ -95,7 +99,7 @@ func (pl *Player) Hit() {
 		pl.Hitted = engine.StartCoroutine(func() {
 			pl.hit = true
 			pl.LastFloor = nil
-			pl.hitable = false
+			pl.Hitable = false
 			pl.Attack = false
 			pl.able = false
 			pl.GameObject().Physics.Body.AddForce(0, pl.jumpPower)
@@ -105,7 +109,7 @@ func (pl *Player) Hit() {
 			pl.able = true
 			pl.GameObject().Sprite.SetAnimation("player_stand")
 			engine.CoSleep(2)
-			pl.hitable = true
+			pl.Hitable = true
 		})
 	}
 }
@@ -114,7 +118,7 @@ func (pl *Player) SubLife(hp float32) {
 	if pl.Hp < 0 {
 		pl.Hp = 0
 	}
-	ch.Hp.SetValue(pl.Hp, pl.MaxHp)
+	Ch.Hp.SetValue(pl.Hp, pl.MaxHp)
 
 }
 
@@ -162,9 +166,9 @@ func (pl *Player) Update() {
 	} else {
 		pl.frames = 0
 	}
-	if input.KeyPress(input.KeyEsc) {
-		engine.LoadScene(MenuSceneG)
-	}
+	// if input.KeyPress(input.KeyEsc) {
+	// 	engine.LoadScene(MenuSceneG)
+	// }
 	ph := pl.GameObject().Physics.Body
 	pl.GameObject().Sprite.SetAlign(engine.AlignTopCenter)
 	if float32(math.Abs(float64(ph.Velocity().X))) > 3 {

@@ -1,7 +1,8 @@
-package Game
+package GUI
 
 import (
 	// "github.com/vova616/garageEngine/Engine"
+	"github.com/mentaman/PirateLand/Game/Fonts"
 	"github.com/vova616/garageEngine/engine/components"
 	"github.com/vova616/garageEngine/engine/input"
 	"strconv"
@@ -15,7 +16,7 @@ type TestTextBox struct {
 }
 
 func NewTestBox(do func(*TestTextBox)) *TestTextBox {
-	return &TestTextBox{components.NewUIText(ArialFont2, ""), false, do, 0}
+	return &TestTextBox{components.NewUIText(Fonts.ArialFont2, ""), false, do, 0}
 }
 func (s *TestTextBox) Update() {
 	if input.KeyPress(input.KeyF2) {

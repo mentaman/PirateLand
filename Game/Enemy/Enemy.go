@@ -1,7 +1,10 @@
-package Game
+package Enemy
 
 import (
+	"github.com/mentaman/PirateLand/Game/GUI"
 	"github.com/vova616/garageEngine/engine"
+
+	"github.com/mentaman/PirateLand/Game/Player"
 	//"log"
 	"math"
 	"math/rand"
@@ -17,7 +20,7 @@ type Enemy struct {
 	frames    int
 	Hp        float32
 	MaxHp     float32
-	HpB       *Bar
+	HpB       *GUI.Bar
 	OnGround  bool
 	Attack    bool
 	able      bool
@@ -34,7 +37,7 @@ type Enemy struct {
 	Hitted    *engine.Coroutine
 }
 
-func NewEnemy(Hp *Bar) *Enemy {
+func NewEnemy(Hp *GUI.Bar) *Enemy {
 	return &Enemy{engine.NewComponent(), 0, 100, 100, Hp, false, false, true, false, false, true, false, 60, 0, 0, 3000, nil, engine.Vector{0, 0, 0}, engine.StartCoroutine(func() {})}
 
 }
@@ -46,7 +49,7 @@ func (s *Enemy) Start() {
 	s.height = s.Transform().WorldScale().Y
 }
 func (s *Enemy) Update() {
-	plpc := pl.Transform().WorldPosition()
+	plpc := Player.Pl.Transform().WorldPosition()
 	if plpc.Distance(s.Transform().WorldPosition()) < 200 {
 		s.target = plpc
 		s.speed = 60
@@ -115,7 +118,7 @@ func (s *Enemy) Update() {
 			ph.AddForce(-s.speed, 0)
 			s.GameObject().Transform().SetScalef(-s.width, s.height)
 		}
-		d = plComp.Transform().WorldPosition()
+		d = Player.PlComp.Transform().WorldPosition()
 		if d.Distance(s.Transform().WorldPosition()) < 50 {
 			s.Attack = true
 
@@ -166,10 +169,10 @@ func (s *Enemy) OnCollisionPostSolve(arbiter engine.Arbiter) {
 			s.jump = true
 		}
 		if arbiter.GameObjectB().Tag == "player" {
-			if plComp.hitable && s.Attack {
-				plComp.Hit()
+			if Player.PlComp.Hitable && s.Attack {
+				Player.PlComp.Hit()
 			}
-			if s.hitable && plComp.Attack {
+			if s.hitable && Player.PlComp.Attack {
 				s.Hit()
 			}
 		}
@@ -183,7 +186,7 @@ func (s *Enemy) FixedUpdate() {
 }
 func (s *Enemy) OnDestroy() {
 	s.HpB.GameObject().Destroy()
-	plComp.AddExp(120)
+	Player.PlComp.AddExp(120)
 }
 func (s *Enemy) Hit() {
 	if s.Hitted.State == engine.Ended {

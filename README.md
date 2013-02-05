@@ -13,7 +13,7 @@ the libraries you need. <br/>
 To Do
 ==========
 <b>player:</b> <br/>
-	Chud(more bars: exp, cp and scrolls)<br/>
+	Chud(scrolls)<br/>
 	Load cp<br/>
 <b>Skills</b><br/>
 <b>Enemy</b>(another type: general)<br/>

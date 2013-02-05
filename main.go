@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/mentaman/PirateLand/Game"
+	"github.com/mentaman/PirateLand/Game/Scenes"
 	"github.com/vova616/garageEngine/engine"
 	//"math"
 	//"github.com/go-gl/gl"

@@ -1,6 +1,7 @@
-package Game
+package Player
 
 import (
+	"github.com/mentaman/PirateLand/Game/GUI"
 	"github.com/vova616/garageEngine/engine"
 	"github.com/vova616/garageEngine/engine/components"
 
@@ -11,9 +12,9 @@ import (
 
 type Chud struct {
 	engine.BaseComponent
-	Hp    *Bar
-	Cp    *Bar
-	Exp   *Bar
+	Hp    *GUI.Bar
+	Cp    *GUI.Bar
+	Exp   *GUI.Bar
 	Money *components.UIText
 	Level *components.UIText
 }

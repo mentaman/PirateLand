@@ -1,8 +1,10 @@
-package Game
+package Objects
 
 import (
 	"github.com/vova616/garageEngine/engine"
 	"github.com/vova616/garageEngine/engine/input"
+
+	"github.com/mentaman/PirateLand/Game/Player"
 	"math/rand"
 
 //	"github.com/vova616/chipmunk/vect"
@@ -13,8 +15,8 @@ import (
 type typeGift byte
 
 const (
-	money  = typeGift(1)
-	prices = typeGift(2)
+	Type_money  = typeGift(1)
+	Type_prices = typeGift(2)
 )
 
 type Chest struct {
@@ -32,8 +34,8 @@ func (c *Chest) Update() {
 	if !c.done && c.playerIn && input.KeyDown('E') {
 		c.done = true
 		switch c.priceType {
-		case money:
-			plComp.AddMoney(rand.Int()%1000 + 1)
+		case Type_money:
+			Player.PlComp.AddMoney(rand.Int()%1000 + 1)
 			c.GameObject().Sprite.AnimationSpeed = 5
 
 			c.GameObject().Sprite.AnimationEndCallback = func(sprite *engine.Sprite) {
