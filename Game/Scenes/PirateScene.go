@@ -10,7 +10,6 @@ import (
 	"github.com/mentaman/PirateLand/Game/GUI"
 	"github.com/mentaman/PirateLand/Game/Objects"
 	"github.com/vova616/garageEngine/engine"
-	"github.com/vova616/garageEngine/engine/components"
 	"math/rand"
 	"time"
 )
@@ -21,8 +20,7 @@ var (
 	en    *engine.GameObject
 	spot  *engine.GameObject
 
-	Ps    *PirateScene
-	chest *engine.GameObject
+	Ps *PirateScene
 
 	up     *engine.GameObject
 	cam    *engine.GameObject
@@ -88,6 +86,8 @@ func (s *PirateScene) Load() {
 		slc.Transform().SetWorldPositionf(230, 130)
 	}
 
+	Player.CreateChud()
+	Player.Ch.Transform().SetParent2(cam)
 	Player.CreatePlayer()
 	Player.Pl.Transform().SetParent2(Layer2)
 
@@ -117,8 +117,6 @@ func (s *PirateScene) Load() {
 		lc.Transform().SetParent2(Layer3)
 		lc.Transform().SetWorldPositionf(150, 150)
 	}
-	Player.CreateChud()
-	Player.Ch.Transform().SetParent2(cam)
 
 	label := engine.NewGameObject("Label")
 	label.Transform().SetParent2(cam)
@@ -127,60 +125,18 @@ func (s *PirateScene) Load() {
 
 	txt2 := label.AddComponent(GUI.NewTestBox(func(tx *GUI.TestTextBox) {
 	})).(*GUI.TestTextBox)
+	txt2.SetAlign(engine.AlignLeft)
 
-	uvs, ind := engine.AnimatedGroupUVs(atlas, "chest")
-	chest = engine.NewGameObject("chest")
-	chest.AddComponent(engine.NewSprite3(atlas.Texture, uvs))
-	chest.Sprite.BindAnimations(ind)
-	chest.Transform().SetWorldScalef(70, 70)
-	chest.AddComponent(engine.NewPhysics(false, 1, 1))
-	chest.Physics.Shape.IsSensor = true
-	chest.Sprite.AnimationSpeed = 0
-	chest.Physics.Body.IgnoreGravity = true
-	chest.AddComponent(Objects.NewChest(Objects.Type_money))
+	Objects.ChestO.Transform().SetWorldPositionf(300, 150)
+	Objects.ChestO.Transform().SetParent2(Layer3)
 
-	chest.Transform().SetWorldPositionf(300, 150)
-	chest.Transform().SetParent2(Layer3)
-
-	Hp := engine.NewGameObject("hpBar")
-	Hp.GameObject().AddComponent(engine.NewSprite2(Player.ChudAtlas.Texture, engine.IndexUV(Player.ChudAtlas, Player.Spr_chudHp)))
-	Hp.GameObject().Sprite.SetAlign(engine.AlignLeft)
-	Hp.GameObject().Transform().SetWorldPosition(engine.Vector{235, 580, 0})
-	Hp.GameObject().Transform().SetWorldScalef(17, 20)
-	Hp.Transform().SetParent2(up)
-	Player.Ch.Hp = (Hp.AddComponent(GUI.NewBar(17))).(*GUI.Bar)
-
-	Cp := engine.NewGameObject("hpBar")
-	Cp.GameObject().AddComponent(engine.NewSprite2(Player.ChudAtlas.Texture, engine.IndexUV(Player.ChudAtlas, Player.Spr_chudCp)))
-	Cp.GameObject().Sprite.SetAlign(engine.AlignLeft)
-	Cp.GameObject().Transform().SetWorldPosition(engine.Vector{235, 550, 0})
-	Cp.GameObject().Transform().SetWorldScalef(17, 20)
-	Cp.Transform().SetParent2(up)
-	Player.Ch.Cp = (Cp.AddComponent(GUI.NewBar(17))).(*GUI.Bar)
-
-	Exp := engine.NewGameObject("hpBar")
-	Exp.GameObject().AddComponent(engine.NewSprite2(Player.ChudAtlas.Texture, engine.IndexUV(Player.ChudAtlas, Player.Spr_chudCp)))
-	Exp.GameObject().Sprite.SetAlign(engine.AlignLeft)
-	Exp.GameObject().Transform().SetWorldPosition(engine.Vector{235, 530, 0})
-	Exp.GameObject().Transform().SetWorldScalef(17, 20)
-	Exp.Transform().SetParent2(up)
-	Player.Ch.Exp = (Exp.AddComponent(GUI.NewBar(17))).(*GUI.Bar)
+	Player.Ch.Hp.Transform().SetParent2(up)
+	Player.Ch.Cp.Transform().SetParent2(up)
+	Player.Ch.Exp.Transform().SetParent2(up)
 	Player.Ch.Exp.Start()
 	Player.Ch.Exp.SetValue(0, 100)
-	money := engine.NewGameObject("money")
-	money.Transform().SetParent2(cam)
-	money.Transform().SetWorldPositionf(100, 500)
-	money.Transform().SetScalef(20, 20)
-	Player.Ch.Money = money.AddComponent(components.NewUIText(Fonts.ArialFont2, "0")).(*components.UIText)
-	Player.Ch.Money.SetAlign(engine.AlignLeft)
-
-	level := engine.NewGameObject("money")
-	level.Transform().SetParent2(cam)
-	level.Transform().SetWorldPositionf(50, 500)
-	level.Transform().SetScalef(20, 20)
-	Player.Ch.Level = level.AddComponent(components.NewUIText(Fonts.ArialFont2, "1")).(*components.UIText)
-	Player.Ch.Level.SetAlign(engine.AlignLeft)
-	txt2.SetAlign(engine.AlignLeft)
+	Player.Ch.Money.Transform().SetParent2(cam)
+	Player.Ch.Level.Transform().SetParent2(cam)
 	for i := 0; i < 10; i++ {
 		f := Objects.Floor.Clone()
 		f.Transform().SetWorldPositionf(float32(i)*100, 50)
@@ -215,7 +171,7 @@ func LoadTextures() {
 	CheckError(Player.ChudAtlas.LoadImageID("./data/bar/hpBar.png", Player.Spr_chudHp))
 	CheckError(Player.ChudAtlas.LoadImageID("./data/bar/cpBar.png", Player.Spr_chudCp))
 	CheckError(Player.ChudAtlas.LoadImageID("./data/bar/expBar.png", Player.Spr_chudExp))
-	atlas.LoadGroupSheet("./data/items/chest.png", 41, 54, 4)
+	Objects.ObjectsAtlas.LoadGroupSheet("./data/items/chest.png", 41, 54, 4)
 	CheckError(Objects.Atlas.LoadImageID("./data/items/Coin.png", Objects.Spr_coin))
 	CheckError(Objects.Atlas.LoadImageID("./data/items/Coin10.png", Objects.Spr_coin10))
 	CheckError(Objects.Atlas.LoadImageID("./data/items/Daimond.png", Objects.Spr_diamond))

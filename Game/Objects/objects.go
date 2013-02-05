@@ -7,11 +7,11 @@ import (
 )
 
 var (
-	Floor    *engine.GameObject
-	Splinter *engine.GameObject
-	Lader    *engine.GameObject
-	Box      *engine.GameObject
-
+	Floor        *engine.GameObject
+	Splinter     *engine.GameObject
+	Lader        *engine.GameObject
+	Box          *engine.GameObject
+	ChestO       *engine.GameObject
 	Tileset      *engine.ManagedAtlas
 	ObjectsAtlas *engine.ManagedAtlas
 )
@@ -67,10 +67,23 @@ func createSpot() {
 		so.Destroy()
 	}))
 }
+func createChest() {
+	uvs, ind := engine.AnimatedGroupUVs(ObjectsAtlas, "chest")
+	ChestO = engine.NewGameObject("chest")
+	ChestO.AddComponent(engine.NewSprite3(ObjectsAtlas.Texture, uvs))
+	ChestO.Sprite.BindAnimations(ind)
+	ChestO.Transform().SetWorldScalef(70, 70)
+	ChestO.AddComponent(engine.NewPhysics(false, 1, 1))
+	ChestO.Physics.Shape.IsSensor = true
+	ChestO.Sprite.AnimationSpeed = 0
+	ChestO.Physics.Body.IgnoreGravity = true
+	ChestO.AddComponent(NewChest(Type_money))
+}
 func CreateObjects() {
 	createFloor()
 	createSplinter()
 	createBox()
 	createLader()
 	createSpot()
+	createChest()
 }

@@ -1,6 +1,9 @@
 package Player
 
 import (
+	"github.com/mentaman/PirateLand/Game/GUI"
+
+	"github.com/mentaman/PirateLand/Game/Fonts"
 	"github.com/vova616/garageEngine/engine"
 	"github.com/vova616/garageEngine/engine/components"
 	"github.com/vova616/garageEngine/engine/input"
@@ -64,6 +67,39 @@ func CreatePlayer() {
 	Pl.Physics.Shape.SetFriction(0.7)
 	Pl.Physics.Shape.SetElasticity(0.2)
 	Pl.Tag = "player"
+
+	Hp := engine.NewGameObject("hpBar")
+	Hp.GameObject().AddComponent(engine.NewSprite2(ChudAtlas.Texture, engine.IndexUV(ChudAtlas, Spr_chudHp)))
+	Hp.GameObject().Sprite.SetAlign(engine.AlignLeft)
+	Hp.GameObject().Transform().SetWorldPosition(engine.Vector{235, 580, 0})
+	Hp.GameObject().Transform().SetWorldScalef(17, 20)
+	Ch.Hp = (Hp.AddComponent(GUI.NewBar(17))).(*GUI.Bar)
+
+	Cp := engine.NewGameObject("cpBar")
+	Cp.GameObject().AddComponent(engine.NewSprite2(ChudAtlas.Texture, engine.IndexUV(ChudAtlas, Spr_chudCp)))
+	Cp.GameObject().Sprite.SetAlign(engine.AlignLeft)
+	Cp.GameObject().Transform().SetWorldPosition(engine.Vector{235, 550, 0})
+	Cp.GameObject().Transform().SetWorldScalef(17, 20)
+	Ch.Cp = (Cp.AddComponent(GUI.NewBar(17))).(*GUI.Bar)
+
+	Exp := engine.NewGameObject("expBar")
+	Exp.GameObject().AddComponent(engine.NewSprite2(ChudAtlas.Texture, engine.IndexUV(ChudAtlas, Spr_chudExp)))
+	Exp.GameObject().Sprite.SetAlign(engine.AlignLeft)
+	Exp.GameObject().Transform().SetWorldPosition(engine.Vector{235, 530, 0})
+	Exp.GameObject().Transform().SetWorldScalef(17, 20)
+	Ch.Exp = (Exp.AddComponent(GUI.NewBar(17))).(*GUI.Bar)
+
+	money := engine.NewGameObject("money")
+	money.Transform().SetWorldPositionf(100, 500)
+	money.Transform().SetScalef(20, 20)
+	Ch.Money = money.AddComponent(components.NewUIText(Fonts.ArialFont2, "0")).(*components.UIText)
+	Ch.Money.SetAlign(engine.AlignLeft)
+
+	level := engine.NewGameObject("level")
+	level.Transform().SetWorldPositionf(50, 500)
+	level.Transform().SetScalef(20, 20)
+	Ch.Level = level.AddComponent(components.NewUIText(Fonts.ArialFont2, "1")).(*components.UIText)
+	Ch.Level.SetAlign(engine.AlignLeft)
 }
 func NewPlayer() *Player {
 	return &Player{engine.NewComponent(), 0, 0, 1, 0, 100, 100, 100, 100, 100, 50, stand_height, 60, 7000, false, false, false, 1, true, false, true, nil, nil, nil, engine.StartCoroutine(func() {})}
