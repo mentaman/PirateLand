@@ -45,7 +45,6 @@ type PirateScene struct {
 }
 
 func init() {
-	engine.Title = "PirateLand"
 }
 func (s *PirateScene) SceneBase() *engine.SceneData {
 	return s.SceneData
@@ -93,12 +92,12 @@ func (s *PirateScene) Load() {
 
 	Enemy.CreateEnemy()
 	sd := GUI.NewBar(10)
-	for i := 0; i < 1; i++ {
+	for i := 0; i < 2; i++ {
 		ec := Enemy.Regular.Clone()
 		hpB := Enemy.HpBar.Clone()
 		hpBd := hpB.ComponentTypeOfi(sd).(*GUI.Bar)
 
-		ec.Transform().SetWorldPositionf(200, 110)
+		ec.Transform().SetWorldPositionf(200+rand.Float32(), 110)
 		ec.AddComponent(Enemy.NewEnemy(hpBd))
 		ec.Transform().SetParent2(Layer2)
 
@@ -123,12 +122,11 @@ func (s *PirateScene) Load() {
 	label.Transform().SetPositionf(20, float32(engine.Height)-40)
 	label.Transform().SetScalef(20, 20)
 
-	txt2 := label.AddComponent(GUI.NewTestBox(func(tx *GUI.TestTextBox) {
-	})).(*GUI.TestTextBox)
-	txt2.SetAlign(engine.AlignLeft)
-
-	Objects.ChestO.Transform().SetWorldPositionf(300, 150)
-	Objects.ChestO.Transform().SetParent2(Layer3)
+	for i := 0; i < 2; i++ {
+		s := Objects.ChestO.Clone()
+		s.Transform().SetWorldPositionf(300+20*float32(i)+float32(rand.Int()%300), 150)
+		s.Transform().SetParent2(Layer3)
+	}
 
 	Player.Ch.Hp.Transform().SetParent2(up)
 	Player.Ch.Cp.Transform().SetParent2(up)
@@ -137,6 +135,13 @@ func (s *PirateScene) Load() {
 	Player.Ch.Exp.SetValue(0, 100)
 	Player.Ch.Money.Transform().SetParent2(cam)
 	Player.Ch.Level.Transform().SetParent2(cam)
+	Player.PlComp.MenuScene = func() {
+		engine.LoadScene(MenuSceneG)
+	}
+	txt2 := label.AddComponent(GUI.NewTestBox(func(tx *GUI.TestTextBox) {
+		Player.Ch.Cp.Transform().SetPositionf(156, float32(tx.V))
+	})).(*GUI.TestTextBox)
+	txt2.SetAlign(engine.AlignLeft)
 	for i := 0; i < 10; i++ {
 		f := Objects.Floor.Clone()
 		f.Transform().SetWorldPositionf(float32(i)*100, 50)
@@ -176,6 +181,7 @@ func LoadTextures() {
 	CheckError(Objects.Atlas.LoadImageID("./data/items/Coin10.png", Objects.Spr_coin10))
 	CheckError(Objects.Atlas.LoadImageID("./data/items/Daimond.png", Objects.Spr_diamond))
 	CheckError(Objects.Atlas.LoadImageID("./data/items/spot.png", Objects.Spr_spot))
+	CheckError(Objects.Atlas.LoadImageID("./data/items/bigSpot.png", Objects.Spr_bigspot))
 
 	e, id := Player.Atlas.LoadGroupSheet("./data/player/player_walk.png", 187, 338, 4)
 	CheckError(e)

@@ -1,9 +1,7 @@
 package Objects
 
 import (
-	"github.com/mentaman/PirateLand/Game/Player"
 	"github.com/vova616/garageEngine/engine"
-	"math/rand"
 )
 
 var (
@@ -57,16 +55,7 @@ func createLader() {
 	Lader.Physics.Shape.SetFriction(2)
 	Lader.Tag = "lader"
 }
-func createSpot() {
-	Spot = engine.NewGameObject("spot")
-	Spot.AddComponent(engine.NewSprite2(Atlas.Texture, engine.IndexUV(Atlas, Spr_spot)))
-	Spot.AddComponent(engine.NewPhysics(false, 1, 1))
-	Spot.Transform().SetScalef(30, 30)
-	Spot.AddComponent(NewItem(func(so *engine.GameObject) {
-		Player.PlComp.AddHp(float32(rand.Int()%10 + 5))
-		so.Destroy()
-	}))
-}
+
 func createChest() {
 	uvs, ind := engine.AnimatedGroupUVs(ObjectsAtlas, "chest")
 	ChestO = engine.NewGameObject("chest")
@@ -77,13 +66,13 @@ func createChest() {
 	ChestO.Physics.Shape.IsSensor = true
 	ChestO.Sprite.AnimationSpeed = 0
 	ChestO.Physics.Body.IgnoreGravity = true
-	ChestO.AddComponent(NewChest(Type_money))
+	ChestO.AddComponent(NewChest(-1))
 }
 func CreateObjects() {
 	createFloor()
 	createSplinter()
 	createBox()
 	createLader()
-	createSpot()
+	initItems()
 	createChest()
 }

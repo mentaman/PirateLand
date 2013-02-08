@@ -4,6 +4,7 @@ import (
 	"github.com/mentaman/PirateLand/Game/GUI"
 	"github.com/vova616/garageEngine/engine"
 
+	"github.com/mentaman/PirateLand/Game/Objects"
 	"github.com/mentaman/PirateLand/Game/Player"
 	//"log"
 	"math"
@@ -164,38 +165,40 @@ func (s *Enemy) Update() {
 
 }
 func (s *Enemy) OnCollisionPostSolve(arbiter engine.Arbiter) {
-	if arbiter.GameObjectB().Tag != "lader" && arbiter.GameObjectA().Tag != "lader" {
-		count := 0
-		for _, con := range arbiter.Contacts {
-			if arbiter.Normal(con).Y < -0.9 {
-				count++
+	if arbiter.GameObjectB() != nil {
+		if arbiter.GameObjectB().Tag != "lader" && arbiter.GameObjectA().Tag != "lader" {
+			count := 0
+			for _, con := range arbiter.Contacts {
+				if arbiter.Normal(con).Y < -0.9 {
+					count++
 
+				}
 			}
-		}
-		if count >= 1 {
-			if s.GameObject().Sprite.CurrentAnimation() == "enemy_jump" {
-				s.GameObject().Sprite.SetAnimation("enemy_stand")
-			}
-			s.LastFloor = arbiter.GameObjectB()
+			if count >= 1 {
+				if s.GameObject().Sprite.CurrentAnimation() == "enemy_jump" {
+					s.GameObject().Sprite.SetAnimation("enemy_stand")
+				}
+				s.LastFloor = arbiter.GameObjectB()
 
-			s.OnGround = true
-		}
-		count = 0
-		for _, con := range arbiter.Contacts {
-			if math.Abs(float64(arbiter.Normal(con).X)) > 0.9 {
-				count++
+				s.OnGround = true
+			}
+			count = 0
+			for _, con := range arbiter.Contacts {
+				if math.Abs(float64(arbiter.Normal(con).X)) > 0.9 {
+					count++
 
+				}
 			}
-		}
-		if count >= 1 {
-			s.jump = true
-		}
-		if arbiter.GameObjectB().Tag == "player" {
-			if Player.PlComp.Hitable && s.Attack {
-				Player.PlComp.Hit()
+			if count >= 1 {
+				s.jump = true
 			}
-			if s.hitable && Player.PlComp.Attack {
-				s.Hit()
+			if arbiter.GameObjectB().Tag == "player" {
+				if Player.PlComp.Hitable && s.Attack {
+					Player.PlComp.Hit()
+				}
+				if s.hitable && Player.PlComp.Attack {
+					s.Hit()
+				}
 			}
 		}
 	}
@@ -208,7 +211,13 @@ func (s *Enemy) FixedUpdate() {
 }
 func (s *Enemy) OnDestroy() {
 	s.HpB.GameObject().Destroy()
-	Player.PlComp.AddExp(120)
+	Player.PlComp.AddExp(float32(rand.Int()%20) + 20)
+	if rand.Int()%100 > 70 {
+		it := Objects.RandomItem().Clone()
+		it.Transform().SetPosition(s.Transform().Position())
+		it.Transform().SetParent(s.Transform().Parent())
+		it.ComponentTypeOfi((*Objects.Item).TypeOf(nil)).(*Objects.Item).Pop()
+	}
 }
 func (s *Enemy) Hit() {
 	if s.Hitted.State == engine.Ended {

@@ -12,21 +12,19 @@ import (
 //	"github.com/vova616/chipmunk"
 )
 
-type typeGift byte
-
 const (
-	Type_money  = typeGift(1)
-	Type_prices = typeGift(2)
+	Type_money  = 1
+	Type_prices = 2
 )
 
 type Chest struct {
 	engine.BaseComponent
-	priceType typeGift
+	priceType int
 	playerIn  bool
 	done      bool
 }
 
-func NewChest(ty typeGift) *Chest {
+func NewChest(ty int) *Chest {
 	return &Chest{engine.NewComponent(), ty, false, false}
 }
 
@@ -41,12 +39,30 @@ func (c *Chest) Update() {
 			c.GameObject().Sprite.AnimationEndCallback = func(sprite *engine.Sprite) {
 				c.GameObject().Destroy()
 			}
+		case Type_prices:
+			r := rand.Int()%6 + 2
+			for i := 0; i < r; i++ {
+				it := RandomItem().Clone()
+
+				it.Transform().SetPosition(c.Transform().Position())
+				it.Transform().SetParent(c.Transform().Parent())
+				it.ComponentTypeOfi((*Item).TypeOf(nil)).(*Item).Pop()
+			}
+			c.GameObject().Sprite.AnimationSpeed = 5
+			c.GameObject().Sprite.AnimationEndCallback = func(sprite *engine.Sprite) {
+				c.GameObject().Destroy()
+			}
 		default:
 			c.done = false
 		}
 
 	}
 
+}
+func (c *Chest) Start() {
+	if c.priceType == -1 {
+		c.priceType = rand.Int()%2 + 1
+	}
 }
 func (c *Chest) OnCollisionEnter(arbiter engine.Arbiter) bool {
 
@@ -56,7 +72,9 @@ func (c *Chest) OnCollisionEnter(arbiter engine.Arbiter) bool {
 	return true
 }
 func (c *Chest) OnCollisionExit(arbiter engine.Arbiter) {
-	if arbiter.GameObjectB().Tag == "player" {
-		c.playerIn = false
+	if arbiter.GameObjectB() != nil {
+		if arbiter.GameObjectB().Tag == "player" {
+			c.playerIn = false
+		}
 	}
 }

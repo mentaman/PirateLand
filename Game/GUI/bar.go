@@ -5,7 +5,6 @@ import (
 	"github.com/vova616/garageEngine/engine/components"
 
 	"github.com/mentaman/PirateLand/Game/Fonts"
-	"log"
 	"strconv"
 
 //	"github.com/vova616/chipmunk/vect"
@@ -34,7 +33,6 @@ func (s *Bar) Start() {
 		label.Transform().SetWorldPositionf(p.X+si.X/2, p.Y+si.Y/2)
 		label.Transform().SetScalef(20, 20)
 		txt2 := label.AddComponent(components.NewUIText(Fonts.ArialFont2, "100/100")).(*components.UIText)
-		log.Println(p.X+si.X/2, p.Y+si.Y/2)
 		txt2.SetAlign(engine.AlignLeft)
 		s.text = txt2
 		s.label = label

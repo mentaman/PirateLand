@@ -16,14 +16,16 @@ To Do
 	Chud(scrolls)<br/>
 	Load cp<br/>
 <b>Skills</b><br/>
-<b>Enemy</b>(another type: general)<br/>
+<b>Enemy</b>(another type: general, random)<br/>
 <b>Menu</b>(more buttons: Exit, How to play, Load)<br/>
 <b>Map editor</b><br />
 <b>Objects:</b><br/>
-	Items(more: coin, coin10, daimond, big spot)<br/>
-	Chest(more types: level, price, skill)<br/>
+	Chest(more types: level,  skill)<br/>
 	Scroll<br/>
-<b>Levels</b>
+<b>Levels</b><br/>
+<b>With Itween:</b><br/>
+	Bars<br/>
+	Items alpha disapear<br/>
 <br/>
 <br/>
 Thank you :)

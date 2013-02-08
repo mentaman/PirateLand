@@ -48,6 +48,8 @@ type Player struct {
 	pSplint   *engine.GameObject
 	LastFloor *engine.GameObject
 	Hitted    *engine.Coroutine
+
+	MenuScene func()
 }
 
 const stand_height = 100
@@ -61,7 +63,7 @@ func CreatePlayer() {
 	Pl.Sprite.AnimationSpeed = 10
 	Pl.Transform().SetWorldPositionf(100, 180)
 	Pl.Transform().SetWorldScalef(50, 100)
-	Pl.AddComponent(NewPlayer())
+	PlComp = Pl.AddComponent(NewPlayer()).(*Player)
 	Pl.AddComponent(components.NewSmoothFollow(nil, 1, 30))
 	Pl.AddComponent(engine.NewPhysics(false, 1, 1))
 	Pl.Physics.Shape.SetFriction(0.7)
@@ -71,21 +73,21 @@ func CreatePlayer() {
 	Hp := engine.NewGameObject("hpBar")
 	Hp.GameObject().AddComponent(engine.NewSprite2(ChudAtlas.Texture, engine.IndexUV(ChudAtlas, Spr_chudHp)))
 	Hp.GameObject().Sprite.SetAlign(engine.AlignLeft)
-	Hp.GameObject().Transform().SetWorldPosition(engine.Vector{235, 580, 0})
+	Hp.GameObject().Transform().SetWorldPosition(engine.Vector{156, 580, 0})
 	Hp.GameObject().Transform().SetWorldScalef(17, 20)
 	Ch.Hp = (Hp.AddComponent(GUI.NewBar(17))).(*GUI.Bar)
 
 	Cp := engine.NewGameObject("cpBar")
 	Cp.GameObject().AddComponent(engine.NewSprite2(ChudAtlas.Texture, engine.IndexUV(ChudAtlas, Spr_chudCp)))
 	Cp.GameObject().Sprite.SetAlign(engine.AlignLeft)
-	Cp.GameObject().Transform().SetWorldPosition(engine.Vector{235, 550, 0})
+	Cp.GameObject().Transform().SetWorldPosition(engine.Vector{156, 555, 0})
 	Cp.GameObject().Transform().SetWorldScalef(17, 20)
 	Ch.Cp = (Cp.AddComponent(GUI.NewBar(17))).(*GUI.Bar)
 
 	Exp := engine.NewGameObject("expBar")
 	Exp.GameObject().AddComponent(engine.NewSprite2(ChudAtlas.Texture, engine.IndexUV(ChudAtlas, Spr_chudExp)))
 	Exp.GameObject().Sprite.SetAlign(engine.AlignLeft)
-	Exp.GameObject().Transform().SetWorldPosition(engine.Vector{235, 530, 0})
+	Exp.GameObject().Transform().SetWorldPosition(engine.Vector{156, 530, 0})
 	Exp.GameObject().Transform().SetWorldScalef(17, 20)
 	Ch.Exp = (Exp.AddComponent(GUI.NewBar(17))).(*GUI.Bar)
 
@@ -102,7 +104,7 @@ func CreatePlayer() {
 	Ch.Level.SetAlign(engine.AlignLeft)
 }
 func NewPlayer() *Player {
-	return &Player{engine.NewComponent(), 0, 0, 1, 0, 100, 100, 100, 100, 100, 50, stand_height, 60, 7000, false, false, false, 1, true, false, true, nil, nil, nil, engine.StartCoroutine(func() {})}
+	return &Player{engine.NewComponent(), 0, 0, 1, 0, 100, 100, 100, 100, 100, 50, stand_height, 60, 7000, false, false, false, 1, true, false, true, nil, nil, nil, engine.StartCoroutine(func() {}), nil}
 }
 func (pl *Player) AddMoney(value int) {
 	pl.money += value
@@ -118,7 +120,6 @@ func (pl *Player) AddExp(value float32) {
 	Ch.Exp.SetValue(pl.Exp, pl.MaxHp)
 }
 func (pl *Player) Start() {
-	PlComp = pl
 	pl.GameObject().Physics.Body.SetMoment(engine.Inf)
 }
 func (pl *Player) AddHp(val float32) {
@@ -221,6 +222,9 @@ func (pl *Player) Update() {
 	// if input.KeyPress(input.KeyEsc) {
 	// 	engine.LoadScene(MenuSceneG)
 	// }
+	if input.KeyDown(input.KeyEsc) {
+		pl.MenuScene()
+	}
 	ph := pl.GameObject().Physics.Body
 	pl.GameObject().Sprite.SetAlign(engine.AlignTopCenter)
 	if float32(math.Abs(float64(ph.Velocity().X))) > 3 {
