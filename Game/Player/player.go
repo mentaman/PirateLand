@@ -19,6 +19,7 @@ var (
 	PlComp *Player
 	Pl     *engine.GameObject
 	Atlas  *engine.ManagedAtlas
+	Scroll *engine.GameObject
 )
 
 type Player struct {
@@ -53,8 +54,10 @@ type Player struct {
 	MenuScene func()
 }
 
-const stand_height = 100
-const bend_height = 70
+const (
+	stand_height = 100
+	bend_height  = 70
+)
 
 func CreatePlayer() {
 	uvs, ind := engine.AnimatedGroupUVs(Atlas, "player_walk", "player_stand", "player_attack", "player_jump", "player_bend", "player_hit", "player_climb")
@@ -84,6 +87,10 @@ func CreatePlayer() {
 	Cp.GameObject().Transform().SetWorldPosition(engine.Vector{156, 555, 0})
 	Cp.GameObject().Transform().SetWorldScalef(17, 20)
 	Ch.Cp = (Cp.AddComponent(GUI.NewBar(17))).(*GUI.Bar)
+
+	Scroll = engine.NewGameObject("scroll")
+	Scroll.AddComponent(engine.NewSprite2(Atlas.Texture, engine.IndexUV(Atlas, Spr_scroll)))
+	Scroll.Transform().SetWorldScalef(20, 20)
 
 	Exp := engine.NewGameObject("expBar")
 	Exp.GameObject().AddComponent(engine.NewSprite2(ChudAtlas.Texture, engine.IndexUV(ChudAtlas, Spr_chudExp)))

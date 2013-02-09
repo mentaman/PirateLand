@@ -30,7 +30,7 @@ to the main.go file <br />
 To Do
 ==========
 <b>player:</b> <br/>
-	Chud(scrolls)<br/>
+	Chud - organize and depth
 	Load cp<br/>
 <b>Skills</b><br/>
 <b>Enemy</b>(another type: general, random)<br/>
@@ -42,7 +42,7 @@ To Do
 	birds fly on the screen<br />
 	Items that doesn't do anything(boat, house, kaktus, rock, tree)<br />
 <b>Levels</b><br/>
-<b>How to play</b>
+<b>How to play</b><br />
 <b>Sounds</b><br/>
 <b>Shop</b>
 <b>With Itween:</b><br/>

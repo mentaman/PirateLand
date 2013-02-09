@@ -182,6 +182,7 @@ func LoadTextures() {
 	CheckError(Objects.Atlas.LoadImageID("./data/items/Daimond.png", Objects.Spr_diamond))
 	CheckError(Objects.Atlas.LoadImageID("./data/items/spot.png", Objects.Spr_spot))
 	CheckError(Objects.Atlas.LoadImageID("./data/items/bigSpot.png", Objects.Spr_bigspot))
+	CheckError(Player.Atlas.LoadImageID("./data/Level/scroll.png", Player.Spr_scroll))
 
 	e, id := Player.Atlas.LoadGroupSheet("./data/player/player_walk.png", 187, 338, 4)
 	CheckError(e)

@@ -20,15 +20,17 @@ const (
 	Spr_chudHp  = 2
 	Spr_chudCp  = 3
 	Spr_chudExp = 4
+	Spr_scroll  = 5
 )
 
 type Chud struct {
 	engine.BaseComponent
-	Hp    *GUI.Bar
-	Cp    *GUI.Bar
-	Exp   *GUI.Bar
-	Money *components.UIText
-	Level *components.UIText
+	Scrolls float32
+	Hp      *GUI.Bar
+	Cp      *GUI.Bar
+	Exp     *GUI.Bar
+	Money   *components.UIText
+	Level   *components.UIText
 }
 
 func CreateChud() {
@@ -38,7 +40,12 @@ func CreateChud() {
 	chud.Transform().SetWorldPositionf(200, 550)
 	chud.Transform().SetWorldScalef(100, 100)
 }
-
+func (s *Chud) AddScroll() {
+	s.Scrolls++
+	scr := Scroll.Clone()
+	scr.Transform().SetWorldPosition(engine.Vector{s.Scrolls*20 + 200, 510, 0})
+	scr.Transform().SetParent(s.Transform().Parent())
+}
 func NewChud() *Chud {
-	return &Chud{engine.NewComponent(), nil, nil, nil, nil, nil}
+	return &Chud{engine.NewComponent(), 0, nil, nil, nil, nil, nil}
 }
