@@ -61,6 +61,7 @@ func (s *Item) OnCollisionEnter(arbiter engine.Arbiter) bool {
 			if s.takeable {
 				s.coll(s.GameObject())
 				s.GameObject().Destroy()
+				s.takeable = false
 			}
 		}
 	}
@@ -88,27 +89,20 @@ func initItems() {
 	Items.Spot.AddComponent(engine.NewPhysics(false, 1, 1))
 	Items.Spot.Transform().SetScalef(30, 30)
 	Items.Spot.AddComponent(NewItem(func(so *engine.GameObject) {
-		var r int64 = int64(rand.Int()%10 + 5)
+		r := rand.Int()%10 + 5
 		Player.PlComp.AddHp(float32(r))
-		te := engine.NewGameObject("textup")
-		te.Transform().SetParent(so.Transform().Parent())
-		te.Transform().SetPosition(so.Transform().Position())
-		te.Transform().SetScalef(100, 100)
-		te.AddComponent(GUI.NewUpText(strconv.FormatInt(r, 10)))
+
+		GUI.NewUpTextObj(strconv.Itoa(r), so.Transform(), 20)
 	}))
 
 	Items.BigSpot.AddComponent(engine.NewSprite2(Atlas.Texture, engine.IndexUV(Atlas, Spr_bigspot)))
 	Items.BigSpot.AddComponent(engine.NewPhysics(false, 1, 1))
 	Items.BigSpot.Transform().SetScalef(30, 30)
 	Items.BigSpot.AddComponent(NewItem(func(so *engine.GameObject) {
-		var r int64 = int64(rand.Int()%15 + 15)
+		r := rand.Int()%15 + 15
 		Player.PlComp.AddHp(float32(r))
 
-		te := engine.NewGameObject("textup")
-		te.Transform().SetParent(so.Transform().Parent())
-		te.Transform().SetPosition(so.Transform().Position())
-		te.Transform().SetScalef(100, 100)
-		te.AddComponent(GUI.NewUpText(strconv.FormatInt(r, 10)))
+		GUI.NewUpTextObj(strconv.Itoa(r), so.Transform(), 20)
 	}))
 
 	Items.Coin.AddComponent(engine.NewSprite2(Atlas.Texture, engine.IndexUV(Atlas, Spr_coin)))
@@ -116,11 +110,8 @@ func initItems() {
 	Items.Coin.Transform().SetScalef(30, 30)
 	Items.Coin.AddComponent(NewItem(func(so *engine.GameObject) {
 		Player.PlComp.AddMoney(1)
-		te := engine.NewGameObject("textup")
-		te.Transform().SetParent(so.Transform().Parent())
-		te.Transform().SetPosition(so.Transform().Position())
-		te.Transform().SetScalef(100, 100)
-		te.AddComponent(GUI.NewUpText("10"))
+
+		GUI.NewUpTextObj("1", so.Transform(), 20)
 	}))
 
 	Items.Coin10.AddComponent(engine.NewSprite2(Atlas.Texture, engine.IndexUV(Atlas, Spr_coin10)))
@@ -128,23 +119,16 @@ func initItems() {
 	Items.Coin10.Transform().SetScalef(30, 30)
 	Items.Coin10.AddComponent(NewItem(func(so *engine.GameObject) {
 		Player.PlComp.AddMoney(10)
-		te := engine.NewGameObject("textup")
-		te.Transform().SetParent(so.Transform().Parent())
-		te.Transform().SetPosition(so.Transform().Position())
-		te.Transform().SetScalef(100, 100)
-		te.AddComponent(GUI.NewUpText("10"))
+		GUI.NewUpTextObj("10", so.Transform(), 20)
 	}))
 
 	Items.Diamond.AddComponent(engine.NewSprite2(Atlas.Texture, engine.IndexUV(Atlas, Spr_diamond)))
 	Items.Diamond.AddComponent(engine.NewPhysics(false, 1, 1))
 	Items.Diamond.Transform().SetScalef(30, 30)
 	Items.Diamond.AddComponent(NewItem(func(so *engine.GameObject) {
-		var r int64 = int64(rand.Intn(50) + 20)
+		r := (rand.Intn(50) + 20)
 		Player.PlComp.AddMoney(int(r))
-		te := engine.NewGameObject("textup")
-		te.Transform().SetParent(so.Transform().Parent())
-		te.Transform().SetPosition(so.Transform().Position())
-		te.Transform().SetScalef(100, 100)
-		te.AddComponent(GUI.NewUpText(strconv.FormatInt(r, 10)))
+
+		GUI.NewUpTextObj(strconv.Itoa(r), so.Transform(), 20)
 	}))
 }

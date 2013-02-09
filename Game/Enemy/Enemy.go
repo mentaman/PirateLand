@@ -9,6 +9,7 @@ import (
 	//"log"
 	"math"
 	"math/rand"
+	"strconv"
 
 //	"github.com/vova616/chipmunk/vect"
 
@@ -194,10 +195,10 @@ func (s *Enemy) OnCollisionPostSolve(arbiter engine.Arbiter) {
 			}
 			if arbiter.GameObjectB().Tag == "player" {
 				if Player.PlComp.Hitable && s.Attack {
-					Player.PlComp.Hit()
+					Player.PlComp.Hit(rand.Int()%5 + 5)
 				}
 				if s.hitable && Player.PlComp.Attack {
-					s.Hit()
+					s.Hit(Player.PlComp.Strengh)
 				}
 			}
 		}
@@ -219,9 +220,10 @@ func (s *Enemy) OnDestroy() {
 		it.ComponentTypeOfi((*Objects.Item).TypeOf(nil)).(*Objects.Item).Pop()
 	}
 }
-func (s *Enemy) Hit() {
+func (s *Enemy) Hit(dmg int) {
 	if s.Hitted.State == engine.Ended {
 		s.Hitted = engine.StartCoroutine(func() {
+			GUI.NewUpTextObj(strconv.Itoa(dmg), s.Transform(), 20)
 			s.hit = true
 			s.Attack = false
 			s.LastFloor = nil
@@ -230,7 +232,7 @@ func (s *Enemy) Hit() {
 			if s.GameObject() != nil {
 				s.GameObject().Physics.Body.AddForce(0, s.jumppower)
 			}
-			s.SubLife(50)
+			s.SubLife(float32(dmg))
 			engine.CoSleep(3)
 			s.hit = false
 			s.able = true

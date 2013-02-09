@@ -26,6 +26,7 @@ type Player struct {
 	frames    int
 	money     int
 	level     int
+	Strengh   int
 	Exp       float32
 	MaxExp    float32
 	Cp        float32
@@ -104,7 +105,7 @@ func CreatePlayer() {
 	Ch.Level.SetAlign(engine.AlignLeft)
 }
 func NewPlayer() *Player {
-	return &Player{engine.NewComponent(), 0, 0, 1, 0, 100, 100, 100, 100, 100, 50, stand_height, 60, 7000, false, false, false, 1, true, false, true, nil, nil, nil, engine.StartCoroutine(func() {}), nil}
+	return &Player{engine.NewComponent(), 0, 0, 1, 50, 0, 100, 100, 100, 100, 100, 50, stand_height, 60, 7000, false, false, false, 1, true, false, true, nil, nil, nil, engine.StartCoroutine(func() {}), nil}
 }
 func (pl *Player) AddMoney(value int) {
 	pl.money += value
@@ -140,23 +141,25 @@ func (pl *Player) OnCollisionEnter(arbiter engine.Arbiter) bool {
 		pl.pSplint = arbiter.GameObjectB()
 		engine.StartCoroutine(func() {
 			for pl.pSplint != nil {
-				pl.Hit()
+				pl.Hit(15)
 				engine.CoYieldCoroutine(pl.Hitted)
 			}
 		})
 	}
 	return true
 }
-func (pl *Player) Hit() {
+func (pl *Player) Hit(dmg int) {
 	if pl.Hitted.State == engine.Ended {
 		pl.Hitted = engine.StartCoroutine(func() {
 			pl.hit = true
+
+			GUI.NewUpTextObj(strconv.Itoa(dmg), pl.Transform(), 20)
 			pl.LastFloor = nil
 			pl.Hitable = false
 			pl.Attack = false
 			pl.able = false
 			pl.GameObject().Physics.Body.AddForce(0, pl.jumpPower)
-			pl.SubLife(5)
+			pl.SubLife(float32(dmg))
 			engine.CoSleep(3)
 			pl.hit = false
 			pl.able = true
@@ -245,7 +248,7 @@ func (pl *Player) Update() {
 			pl.right = -1
 			pl.GameObject().Transform().SetScalef(-pl.width, pl.height)
 		}
-		if input.KeyPress(input.KeyLctrl) {
+		if input.KeyPress(input.KeyLctrl) && !pl.Attack {
 			pl.Attack = true
 
 			pl.GameObject().Sprite.SetAnimation("player_attack")

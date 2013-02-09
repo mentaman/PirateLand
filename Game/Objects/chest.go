@@ -4,8 +4,10 @@ import (
 	"github.com/vova616/garageEngine/engine"
 	"github.com/vova616/garageEngine/engine/input"
 
+	"github.com/mentaman/PirateLand/Game/GUI"
 	"github.com/mentaman/PirateLand/Game/Player"
 	"math/rand"
+	"strconv"
 
 //	"github.com/vova616/chipmunk/vect"
 
@@ -33,13 +35,18 @@ func (c *Chest) Update() {
 		c.done = true
 		switch c.priceType {
 		case Type_money:
-			Player.PlComp.AddMoney(rand.Int()%1000 + 1)
+			r := rand.Int()%1000 + 1
+			Player.PlComp.AddMoney(r)
+
+			GUI.NewUpTextObj(strconv.Itoa(r), c.Transform(), 20)
+			GUI.NewUpTextObj("money", c.Transform(), 100)
 			c.GameObject().Sprite.AnimationSpeed = 5
 
 			c.GameObject().Sprite.AnimationEndCallback = func(sprite *engine.Sprite) {
 				c.GameObject().Destroy()
 			}
 		case Type_prices:
+			GUI.NewUpTextObj("prices", c.Transform(), 100)
 			r := rand.Int()%6 + 2
 			for i := 0; i < r; i++ {
 				it := RandomItem().Clone()

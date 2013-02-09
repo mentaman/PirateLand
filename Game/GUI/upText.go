@@ -23,12 +23,18 @@ func (u *upText) Start() {
 	label.Transform().SetParent(u.Transform().Parent())
 	p := u.Transform().WorldPosition()
 	si := u.Transform().WorldScale()
-	label.Transform().SetWorldPositionf(p.X+si.X/2, p.Y+si.Y/2)
-	label.Transform().SetScalef(20, 20)
+	label.Transform().SetWorldPositionf(p.X, p.Y)
+	label.Transform().SetScalef(si.X, si.Y)
 	txt2 := label.AddComponent(components.NewUIText(Fonts.ArialFont2, u.content)).(*components.UIText)
-	txt2.SetAlign(engine.AlignLeft)
 	u.text = txt2
 	u.label = label
 	tween.Create(&tween.Tween{Target: label.GameObject(), From: []float32{p.Y}, To: []float32{p.Y + 100},
-		Algo: tween.Linear, Type: tween.WorldPosition, Time: time.Second * 4, Loop: tween.None, Format: "y", EndCallback: func() { u.GameObject().Destroy(); u.label.GameObject().Destroy() }})
+		Algo: tween.Linear, Type: tween.WorldPosition, Time: time.Second * 4, Loop: tween.None, Format: "y", EndCallback: func() { u.label.GameObject().Destroy(); u.GameObject().Destroy() }})
+}
+func NewUpTextObj(c string, t *engine.Transform, size float32) {
+	te := engine.NewGameObject("textup")
+	te.Transform().SetParent(t.Parent())
+	te.Transform().SetPosition(t.Position())
+	te.Transform().SetScalef(size, size)
+	te.AddComponent(NewUpText(c))
 }
