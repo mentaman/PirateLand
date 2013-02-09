@@ -22,10 +22,16 @@ To Do
 <b>Objects:</b><br/>
 	Chest(more types: level,  skill)<br/>
 	Scroll<br/>
+	birds fly on the screen<br />
+	Items that doesn't do anything(boat, house, kaktus, rock, tree)<br />
 <b>Levels</b><br/>
+<b>How to play</b>
+<b>Sounds</b><br/>
+<b>Shop</b>
 <b>With Itween:</b><br/>
 	Bars<br/>
 	Items alpha disapear<br/>
+You can use the directory "data/To Do" to the to do missions...<br />
 <br/>
 <br/>
 Thank you :)
