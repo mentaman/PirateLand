@@ -51,7 +51,9 @@ func (s *Item) Start() {
 		engine.CoSleep(2)
 		s.takeable = true
 		engine.CoSleep(10)
-		s.GameObject().Destroy()
+		if s.GameObject() != nil {
+			s.GameObject().Destroy()
+		}
 	})
 
 }

@@ -95,11 +95,11 @@ func (s *Enemy) Update() {
 			if s.target.Distance(s.Transform().WorldPosition()) < 60 {
 
 				s.isClose = false
-
+				tr := s.Transform()
 				engine.StartCoroutine(func() {
 					s.speed = 0
 					engine.CoSleep(float32(rand.Int()%2) + 3)
-					if plpc.Distance(s.Transform().WorldPosition()) >= 200 {
+					if plpc.Distance(tr.WorldPosition()) >= 200 {
 						s.speed = 60
 						s.isClose = true
 						r := float32(rand.Int()%200) - 100
@@ -108,7 +108,7 @@ func (s *Enemy) Update() {
 						} else {
 							r -= 60
 						}
-						s.target = s.Transform().WorldPosition()
+						s.target = tr.WorldPosition()
 						s.target = s.target.Add(engine.NewVector2(r, 0))
 					}
 				})
