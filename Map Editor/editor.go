@@ -9,12 +9,12 @@ import (
 )
 
 var (
-	atlas *engine.ManagedAtlas
-
-	Scene *MapEditor
-
-	cam    *engine.GameObject
-	Layer1 *engine.GameObject
+	atlas       *engine.ManagedAtlas
+	objControll *ObjController
+	Scene       *MapEditor
+	obj         *engine.GameObject
+	cam         *engine.GameObject
+	Layer1      *engine.GameObject
 
 	background *engine.GameObject
 )
@@ -39,6 +39,7 @@ func (s *MapEditor) SceneBase() *engine.SceneData {
 func (s *MapEditor) Load() {
 	Scene = s
 	LoadTextures()
+	engine.SetTitle("Map Editor")
 	Fonts.ArialFont2, _ = engine.NewFont("../data/Fonts/arial.ttf", 24)
 	Fonts.ArialFont2.Texture.SetReadOnly()
 
@@ -56,13 +57,18 @@ func (s *MapEditor) Load() {
 	mouse.Transform().SetParent2(cam)
 
 	uvs, ind := engine.AnimatedGroupUVs(atlas, "player_walk", "chest", "enemy_walk")
-	chest := engine.NewGameObject("chest")
-	chest.AddComponent(engine.NewSprite3(atlas.Texture, uvs))
-	chest.Sprite.BindAnimations(ind)
-	chest.Sprite.AnimationSpeed = 0
-	chest.Transform().SetPositionf(0, 0)
-	chest.Transform().SetScalef(20, 20)
-	chest.Transform().SetParent2(Layer1)
+	obj = engine.NewGameObject("Object")
+	obj.AddComponent(engine.NewSprite3(atlas.Texture, uvs))
+	obj.Sprite.BindAnimations(ind)
+	obj.Sprite.AnimationSpeed = 0
+	obj.AddComponent(NewObject())
+	obj.AddComponent(engine.NewPhysics(true, 1, 1))
+	obj.Physics.Shape.IsSensor = true
+
+	objC := engine.NewGameObject("objController")
+	objControll = objC.AddComponent(NewObjController()).(*ObjController)
+	objC.Transform().SetParent2(cam)
+
 	Background.Create()
 	Background.Object.Transform().SetParent2(background)
 

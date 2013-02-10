@@ -31,6 +31,7 @@ func (s *MenuScene) SceneBase() *engine.SceneData {
 func (s *MenuScene) Load() {
 	MenuSceneG = s
 	LoadTextures()
+	engine.SetTitle("PirateLand - menu")
 	s.Camera = engine.NewCamera()
 	cam := engine.NewGameObject("Camera")
 	cam.AddComponent(s.Camera)

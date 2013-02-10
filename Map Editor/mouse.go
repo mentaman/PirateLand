@@ -8,11 +8,9 @@ type MouseController struct {
 	engine.BaseComponent
 }
 
-func (m MouseController) Update() {
+func (m *MouseController) Update() {
 	p := m.Transform().Position()
-	cam := engine.GetScene().SceneBase().Camera
 	// camPos = cam.Transform().Position()
-
 	if p.X < 50 {
 
 		np := cam.Transform().Position()

@@ -52,6 +52,7 @@ func (s *PirateScene) SceneBase() *engine.SceneData {
 func (s *PirateScene) Load() {
 	Ps = s
 	LoadTextures()
+	engine.SetTitle("PirateLand")
 	Fonts.ArialFont2, _ = engine.NewFont("./data/Fonts/arial.ttf", 24)
 	Fonts.ArialFont2.Texture.SetReadOnly()
 
