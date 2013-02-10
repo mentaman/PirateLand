@@ -48,8 +48,21 @@ func (s *MapEditor) Load() {
 	s.Camera = engine.NewCamera()
 	cam = engine.NewGameObject("Camera")
 	cam.AddComponent(s.Camera)
-
 	cam.Transform().SetScalef(1, 1)
+
+	mouse := engine.NewGameObject("Mouse")
+	mouse.AddComponent(engine.NewMouse())
+	mouse.AddComponent(NewMouseController())
+	mouse.Transform().SetParent2(cam)
+
+	uvs, ind := engine.AnimatedGroupUVs(atlas, "player_walk", "chest", "enemy_walk")
+	chest := engine.NewGameObject("chest")
+	chest.AddComponent(engine.NewSprite3(atlas.Texture, uvs))
+	chest.Sprite.BindAnimations(ind)
+	chest.Sprite.AnimationSpeed = 0
+	chest.Transform().SetPositionf(0, 0)
+	chest.Transform().SetScalef(20, 20)
+	chest.Transform().SetParent2(Layer1)
 	Background.Create()
 	Background.Object.Transform().SetParent2(background)
 
