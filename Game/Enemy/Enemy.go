@@ -143,7 +143,7 @@ func (s *Enemy) Update() {
 			s.GameObject().Transform().SetScalef(-s.width, s.height)
 		}
 		d = Player.PlComp.Transform().WorldPosition()
-		if d.Distance(s.Transform().WorldPosition()) < 50 {
+		if d.Distance(s.Transform().WorldPosition()) < 50 && !s.Attack {
 			s.Attack = true
 
 			s.GameObject().Sprite.SetAnimation("enemy_attack")
@@ -198,7 +198,7 @@ func (s *Enemy) OnCollisionPostSolve(arbiter engine.Arbiter) {
 					Player.PlComp.Hit(rand.Int()%5 + 5)
 				}
 				if s.hitable && Player.PlComp.Attack {
-					s.Hit(Player.PlComp.Strengh)
+					s.Hit(int(float32(Player.PlComp.Strengh*(rand.Int()%12)) / 10))
 				}
 			}
 		}
