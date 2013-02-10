@@ -98,13 +98,13 @@ func LoadTextures() {
 	// CheckError(Objects.Atlas.LoadImageID("./data/items/bigSpot.png", Objects.Spr_bigspot))
 	// CheckError(Player.Atlas.LoadImageID("./data/Level/scroll.png", Player.Spr_scroll))
 
-	e, id := atlas.LoadGroupSheet("../data/items/chest.png", 41, 54, 4)
+	e, id := atlas.LoadGroupSheet("../data/items/chest.png", 41, 54, 1)
 	CheckError(e)
 
-	e, id = atlas.LoadGroupSheet("../data/player/player_walk.png", 187, 338, 4)
+	e, id = atlas.LoadGroupSheet("../data/player/player_walk.png", 187, 338, 1)
 	CheckError(e)
 
-	e, id = atlas.LoadGroupSheet("../data/Enemy/enemy_walk.png", 187, 338, 4)
+	e, id = atlas.LoadGroupSheet("../data/Enemy/enemy_walk.png", 187, 338, 1)
 	CheckError(e)
 
 	e, id = atlas.LoadGroupSheet("../data/tileset/ground.png", 32, 32, 110)
