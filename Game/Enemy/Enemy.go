@@ -30,6 +30,7 @@ type Enemy struct {
 	hit       bool
 	hitable   bool
 	isClose   bool
+	strengh   float32
 	speed     float32
 	width     float32
 	height    float32
@@ -62,7 +63,7 @@ func CreateEnemy() {
 	HpBar.AddComponent(GUI.NewBar(17))
 }
 func NewEnemy(Hp *GUI.Bar) *Enemy {
-	return &Enemy{engine.NewComponent(), 0, 100, 100, Hp, false, false, true, false, false, true, false, 60, 0, 0, 3000, nil, engine.Vector{0, 0, 0}, engine.StartCoroutine(func() {})}
+	return &Enemy{engine.NewComponent(), 0, 100, 100, Hp, false, false, true, false, false, true, false, 5, 60, 0, 0, 3000, nil, engine.Vector{0, 0, 0}, engine.StartCoroutine(func() {})}
 
 }
 func (s *Enemy) Start() {
@@ -195,10 +196,10 @@ func (s *Enemy) OnCollisionPostSolve(arbiter engine.Arbiter) {
 			}
 			if arbiter.GameObjectB().Tag == "player" {
 				if Player.PlComp.Hitable && s.Attack {
-					Player.PlComp.Hit(rand.Int()%5 + 5)
+					Player.PlComp.Hit(rand.Int()%s.strengh + s.strengh)
 				}
 				if s.hitable && Player.PlComp.Attack {
-					s.Hit(int(float32(Player.PlComp.Strengh*(rand.Int()%12)) / 10))
+					s.Hit(int(float32(Player.PlComp.Strengh*(rand.Int()%4+7)) / 10))
 				}
 			}
 		}

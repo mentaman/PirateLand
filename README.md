@@ -3,7 +3,7 @@ PirateLand
 
 A game written in go, using the engine "GarageEngine"(by vova616).<br/>
 <br/>
-Here a link to the GarbageEngine project, <br/>
+Here a link to the GarageEngine project, <br/>
 the game based on this engine:<br/>
 https://github.com/mentaman/garageEngine<br/>
 <br/>
