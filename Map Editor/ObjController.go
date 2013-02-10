@@ -10,6 +10,7 @@ type ObjController struct {
 	width  float32
 	height float32
 	guiObj *engine.GameObject
+	last   engine.Vector
 }
 
 func (m *ObjController) Start() {
@@ -28,9 +29,14 @@ func (m *ObjController) Update() {
 	if input.MousePress(input.MouseLeft) {
 		cl := obj.Clone()
 		cm := cam.Transform().Position()
+
+		m.last = cm
 		cl.Transform().SetPositionf(float32(px)+cm.X, float32(engine.Height-py)+(cm.Y))
 		cl.Transform().SetScalef(m.width, m.height)
 		cl.Transform().SetParent2(Layer1)
+	}
+	if input.KeyPress('L') {
+		cam.Transform().SetPosition(m.last)
 	}
 	if input.KeyDown('W') {
 		if input.KeyDown(input.KeyLshift) {
@@ -49,8 +55,9 @@ func (m *ObjController) Update() {
 		m.guiObj.Transform().SetScalef(m.width, m.height)
 	}
 	m.guiObj.Transform().SetPositionf(float32(px), float32(engine.Height-py))
+
 }
 
 func NewObjController() *ObjController {
-	return &ObjController{engine.NewComponent(), 30, 30, nil}
+	return &ObjController{engine.NewComponent(), 30, 30, nil, engine.Vector{0, 0, 0}}
 }

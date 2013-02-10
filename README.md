@@ -35,7 +35,10 @@ To Do
 <b>Skills</b><br/>
 <b>Enemy</b>(another type: general, random)<br/>
 <b>Menu</b>(more buttons: Exit, How to play, Load)<br/>
-<b>Map editor</b><br />
+<b>Map editor:</b><br />
+files with xml<br />
+choosing<br />
+
 <b>Objects:</b><br/>
 	Chest(more types: level,  skill)<br/>
 	Scroll<br/>
@@ -44,7 +47,7 @@ To Do
 <b>Levels</b><br/>
 <b>How to play</b><br />
 <b>Sounds</b><br/>
-<b>Shop</b>
+<b>Shop</b><br />
 <b>With Itween:</b><br/>
 	Bars<br/>
 	Items alpha disapear<br/>
