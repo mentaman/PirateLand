@@ -54,6 +54,9 @@ func (m *ObjController) Update() {
 		}
 		m.guiObj.Transform().SetScalef(m.width, m.height)
 	}
+	if input.KeyPress('S') {
+		SaveXML()
+	}
 	m.guiObj.Transform().SetPositionf(float32(px), float32(engine.Height-py))
 
 }
