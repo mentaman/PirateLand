@@ -30,7 +30,7 @@ type Enemy struct {
 	hit       bool
 	hitable   bool
 	isClose   bool
-	strengh   float32
+	strengh   int
 	speed     float32
 	width     float32
 	height    float32

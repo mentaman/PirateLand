@@ -145,6 +145,7 @@ func (s *PirateScene) Load() {
 	txt2.SetAlign(engine.AlignLeft)
 	for i := 0; i < 10; i++ {
 		f := Objects.Floor.Clone()
+		f.Sprite.SetAnimation("ground")
 		f.Transform().SetWorldPositionf(float32(i)*100, 50)
 		f.Sprite.SetAnimationIndex(4)
 		f.Transform().SetParent2(Layer3)

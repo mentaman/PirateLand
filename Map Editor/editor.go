@@ -15,8 +15,8 @@ var (
 	obj         *engine.GameObject
 	cam         *engine.GameObject
 	Layer1      *engine.GameObject
-
-	background *engine.GameObject
+	sprites     []engine.ID = []engine.ID{"player_walk", "chest", "enemy_walk", "ground"}
+	background  *engine.GameObject
 )
 
 func CheckError(err error) bool {
@@ -56,7 +56,7 @@ func (s *MapEditor) Load() {
 	mouse.AddComponent(NewMouseController())
 	mouse.Transform().SetParent2(cam)
 
-	uvs, ind := engine.AnimatedGroupUVs(atlas, "player_walk", "chest", "enemy_walk")
+	uvs, ind := engine.AnimatedGroupUVs(atlas, sprites...)
 	obj = engine.NewGameObject("Object")
 	obj.AddComponent(engine.NewSprite3(atlas.Texture, uvs))
 	obj.Sprite.BindAnimations(ind)
@@ -104,7 +104,7 @@ func LoadTextures() {
 	e, id = atlas.LoadGroupSheet("../data/player/player_walk.png", 187, 338, 1)
 	CheckError(e)
 
-	e, id = atlas.LoadGroupSheet("../data/Enemy/enemy_walk.png", 187, 338, 1)
+	e, id = atlas.LoadGroupSheet("../data/Enemy/enemy_walk.png", 187, 338, 2)
 	CheckError(e)
 
 	e, id = atlas.LoadGroupSheet("../data/tileset/ground.png", 32, 32, 110)

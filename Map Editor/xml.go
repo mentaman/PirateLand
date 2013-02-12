@@ -3,13 +3,13 @@ package main
 import (
 	"encoding/xml"
 	"fmt"
+	"io/ioutil"
 	"os"
 )
 
 type Place struct {
 	X float32 `xml:"Place>X"`
 	Y float32 `xml:"Place>Y"`
-	Z float32 `xml:"Place>Z"`
 }
 type Scale struct {
 	Width  float32 `xml:"width"`
@@ -32,15 +32,15 @@ func SaveXML() {
 	for _, ob := range objList {
 		objM := XObject{}
 		if ob.GameObject() != nil {
-
-			// objM.Name = ob.GameObject().Sprite.CurrentAnimation().(string)
+			objM.Name = ob.GameObject().Sprite.CurrentAnimation().(string)
 			objM.Index = int(ob.GameObject().Sprite.CurrentAnimationIndex())
 			vP := ob.Transform().WorldPosition()
 			vS := ob.Transform().WorldScale()
-			objM.Iplace = Place{vP.X, vP.Y, vP.Z}
+			objM.Iplace = Place{vP.X, vP.Y}
 			objM.Iscale = Scale{vS.X, vS.Y}
 			v.Objs = append(v.Objs, objM)
 		}
+
 	}
 
 	output, err := xml.MarshalIndent(v, "  ", "    ")
@@ -50,4 +50,25 @@ func SaveXML() {
 	file, _ := os.Create("./map.txt")
 	defer file.Close()
 	file.Write(output)
+}
+func LoadXML() {
+	v := &XObjects{}
+	cont, _ := ioutil.ReadFile("map.txt")
+	data := string(cont)
+	err := xml.Unmarshal([]byte(data), &v)
+	if err != nil {
+		fmt.Printf("error: %v", err)
+		return
+	}
+	ClearList()
+	for _, robj := range v.Objs {
+		cl := obj.Clone()
+
+		cl.Transform().SetWorldPositionf(robj.Iplace.X, robj.Iplace.Y)
+		cl.Transform().SetWorldScalef(robj.Iscale.Width, robj.Iscale.Height)
+		cl.Transform().SetParent2(Layer1)
+
+		cl.Sprite.SetAnimation(robj.Name)
+		cl.Sprite.SetAnimationIndex(robj.Index)
+	}
 }

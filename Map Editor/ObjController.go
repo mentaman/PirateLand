@@ -7,22 +7,25 @@ import (
 
 type ObjController struct {
 	engine.BaseComponent
-	width  float32
-	height float32
-	guiObj *engine.GameObject
-	last   engine.Vector
+	width    float32
+	height   float32
+	guiObj   *engine.GameObject
+	last     engine.Vector
+	spriteId int
 }
 
 func (m *ObjController) Start() {
-	uvs, ind := engine.AnimatedGroupUVs(atlas, "player_walk", "chest", "enemy_walk")
+	uvs, ind := engine.AnimatedGroupUVs(atlas, sprites...)
 	m.guiObj = engine.NewGameObject("guiObj")
 	m.guiObj.AddComponent(engine.NewSprite3(atlas.Texture, uvs))
 	m.guiObj.Sprite.BindAnimations(ind)
 	m.guiObj.Sprite.AnimationSpeed = 0
 	m.guiObj.Transform().SetScalef(m.width, m.height)
 	m.guiObj.Transform().SetParent2(cam)
+	m.guiObj.Sprite.SetAnimation(sprites[m.spriteId])
 
 }
+
 func (m *ObjController) Update() {
 
 	px, py := input.MousePosition()
@@ -34,6 +37,25 @@ func (m *ObjController) Update() {
 		cl.Transform().SetPositionf(float32(px)+cm.X, float32(engine.Height-py)+(cm.Y))
 		cl.Transform().SetScalef(m.width, m.height)
 		cl.Transform().SetParent2(Layer1)
+
+		cl.Sprite.SetAnimation(m.guiObj.Sprite.CurrentAnimation().(string))
+		cl.Sprite.SetAnimationIndex(int(m.guiObj.Sprite.CurrentAnimationIndex()))
+	}
+	if input.KeyPress('I') {
+		if input.KeyDown(input.KeyLshift) {
+			m.spriteId--
+			if m.spriteId < 0 {
+				m.spriteId = len(sprites) - 1
+			}
+		} else {
+			m.spriteId++
+			if m.spriteId > len(sprites)-1 {
+				m.spriteId = 0
+			}
+		}
+
+		m.guiObj.Sprite.SetAnimation(sprites[m.spriteId])
+
 	}
 	if input.KeyPress('L') {
 		cam.Transform().SetPosition(m.last)
@@ -57,10 +79,27 @@ func (m *ObjController) Update() {
 	if input.KeyPress('S') {
 		SaveXML()
 	}
+	if input.KeyPress('R') {
+		LoadXML()
+	}
+	if input.KeyPress(input.Key_Right) {
+		dd := m.guiObj
+		dd.GameObject().Sprite.SetAnimationIndex((int(dd.GameObject().Sprite.CurrentAnimationIndex()) + 1) % dd.GameObject().Sprite.AnimationLength())
+	} else if input.KeyPress(input.Key_Left) {
+		dd := m.guiObj
+		b := (int(dd.GameObject().Sprite.CurrentAnimationIndex()) - 1)
+
+		if b < 0 {
+			b = dd.GameObject().Sprite.AnimationLength() - 1
+		} else {
+			b = b % (dd.GameObject().Sprite.AnimationLength())
+		}
+		dd.GameObject().Sprite.SetAnimationIndex(b)
+	}
 	m.guiObj.Transform().SetPositionf(float32(px), float32(engine.Height-py))
 
 }
 
 func NewObjController() *ObjController {
-	return &ObjController{engine.NewComponent(), 30, 30, nil, engine.Vector{0, 0, 0}}
+	return &ObjController{engine.NewComponent(), 30, 30, nil, engine.Vector{0, 0, 0}, 0}
 }

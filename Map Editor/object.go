@@ -11,6 +11,13 @@ var (
 	objList []*Object = []*Object{}
 )
 
+func ClearList() {
+	for _, v := range objList {
+		v.GameObject().Destroy()
+	}
+	objList = []*Object{}
+}
+
 type Object struct {
 	engine.BaseComponent
 	mouseIn bool
