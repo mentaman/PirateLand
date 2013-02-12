@@ -1,3 +1,0 @@
-Enginge started!
-GLFW Initialized!
-Opengl Initialized!

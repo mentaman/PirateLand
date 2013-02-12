@@ -21,6 +21,7 @@ func (m *ObjController) Start() {
 	m.guiObj.AddComponent(engine.NewSprite3(atlas.Texture, uvs))
 	m.guiObj.Sprite.BindAnimations(ind)
 	m.guiObj.Sprite.AnimationSpeed = 0
+	m.guiObj.Sprite.SetAlign(engine.AlignCenter)
 	m.guiObj.Transform().SetScalef(m.width, m.height)
 	m.guiObj.Transform().SetParent2(cam)
 	m.guiObj.Sprite.SetAnimation(sprites[m.spriteId])
@@ -36,7 +37,7 @@ func (m *ObjController) Update() {
 
 	px, py := input.MousePosition()
 
-	m.guiObj.Transform().SetPositionf(SnapToGrid(float32(px), m.grid), SnapToGrid(float32(engine.Height-py), m.grid))
+	m.guiObj.Transform().SetWorldPositionf(SnapToGrid(float32(px)+m.grid/2, m.grid)+m.grid/2, SnapToGrid(float32(engine.Height-py)+m.grid/2, m.grid)+m.grid/2)
 	guiP := m.guiObj.Transform().Position()
 	if input.MousePress(input.MouseLeft) {
 		cl := obj.Clone()
