@@ -12,6 +12,7 @@ type ObjController struct {
 	guiObj   *engine.GameObject
 	Last     engine.Vector
 	spriteId int
+	grid     float32
 }
 
 func (m *ObjController) Start() {
@@ -25,16 +26,24 @@ func (m *ObjController) Start() {
 	m.guiObj.Sprite.SetAnimation(sprites[m.spriteId])
 
 }
-
+func SnapToGrid(x, size float32) float32 {
+	if size != 0 {
+		return (size) * float32(int((x / size)))
+	}
+	return x
+}
 func (m *ObjController) Update() {
 
 	px, py := input.MousePosition()
+
+	m.guiObj.Transform().SetPositionf(SnapToGrid(float32(px), m.grid), SnapToGrid(float32(engine.Height-py), m.grid))
+	guiP := m.guiObj.Transform().Position()
 	if input.MousePress(input.MouseLeft) {
 		cl := obj.Clone()
 		cm := cam.Transform().Position()
 
 		m.Last = cm
-		cl.Transform().SetPositionf(float32(px)+cm.X, float32(engine.Height-py)+(cm.Y))
+		cl.Transform().SetPositionf(guiP.X+cm.X, guiP.Y+(cm.Y))
 		cl.Transform().SetScalef(m.width, m.height)
 		cl.Transform().SetParent2(Layer1)
 
@@ -96,10 +105,19 @@ func (m *ObjController) Update() {
 		}
 		dd.GameObject().Sprite.SetAnimationIndex(b)
 	}
-	m.guiObj.Transform().SetPositionf(float32(px), float32(engine.Height-py))
+	if input.KeyDown('G') {
+		if input.KeyDown(input.KeyLshift) {
+			m.grid--
+			if m.grid < 0 {
+				m.grid = 0
+			}
+		} else {
+			m.grid++
+		}
+	}
 
 }
 
 func NewObjController() *ObjController {
-	return &ObjController{engine.NewComponent(), 30, 30, nil, engine.Vector{0, 0, 0}, 0}
+	return &ObjController{engine.NewComponent(), 30, 30, nil, engine.Vector{0, 0, 0}, 0, 30}
 }
