@@ -10,7 +10,7 @@ type ObjController struct {
 	width    float32
 	height   float32
 	guiObj   *engine.GameObject
-	last     engine.Vector
+	Last     engine.Vector
 	spriteId int
 }
 
@@ -33,7 +33,7 @@ func (m *ObjController) Update() {
 		cl := obj.Clone()
 		cm := cam.Transform().Position()
 
-		m.last = cm
+		m.Last = cm
 		cl.Transform().SetPositionf(float32(px)+cm.X, float32(engine.Height-py)+(cm.Y))
 		cl.Transform().SetScalef(m.width, m.height)
 		cl.Transform().SetParent2(Layer1)
@@ -58,7 +58,7 @@ func (m *ObjController) Update() {
 
 	}
 	if input.KeyPress('L') {
-		cam.Transform().SetPosition(m.last)
+		cam.Transform().SetPosition(m.Last)
 	}
 	if input.KeyDown('W') {
 		if input.KeyDown(input.KeyLshift) {

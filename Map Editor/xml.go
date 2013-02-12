@@ -22,13 +22,19 @@ type XObject struct {
 	Iscale Scale  `xml:"scale"`
 }
 type XObjects struct {
-	XMLName xml.Name  `xml:"Objects"`
-	Objs    []XObject `xml:"object"`
+	XMLName   xml.Name  `xml:"Objects"`
+	Objs      []XObject `xml:"object"`
+	CamPlace  Place
+	LastPlace Place
 }
 
 func SaveXML() {
 	v := &XObjects{}
 	v.Objs = []XObject{}
+	c := cam.Transform().Position()
+	v.CamPlace = Place{c.X, c.Y}
+	cl := objControll.Last
+	v.LastPlace = Place{cl.X, cl.Y}
 	for _, ob := range objList {
 		objM := XObject{}
 		if ob.GameObject() != nil {
@@ -61,6 +67,8 @@ func LoadXML() {
 		return
 	}
 	ClearList()
+	cam.Transform().SetPositionf(v.CamPlace.X, v.CamPlace.Y)
+	objControll.Transform().SetPositionf(v.LastPlace.X, v.LastPlace.Y)
 	for _, robj := range v.Objs {
 		cl := obj.Clone()
 
