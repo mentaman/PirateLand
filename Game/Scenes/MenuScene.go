@@ -65,9 +65,9 @@ func (s *MenuScene) Load() {
 		engine.LoadScene(Ps)
 	}, func(on bool) {
 		if on {
-			newGame.Sprite.Color = engine.Vector{1, 0.3, 0.2}
+			newGame.Sprite.Color = engine.Color{1, 0.3, 0.2, 1}
 		} else {
-			newGame.Sprite.Color = engine.Vector{1, 1, 1}
+			newGame.Sprite.Color = engine.Color{1, 1, 1, 1}
 		}
 	}))
 

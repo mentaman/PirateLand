@@ -4,8 +4,10 @@ import (
 	"github.com/mentaman/PirateLand/Game/GUI"
 	"github.com/mentaman/PirateLand/Game/Player"
 	"github.com/vova616/garageEngine/engine"
+	"github.com/vova616/garageEngine/engine/components/tween"
 	"math/rand"
 	"strconv"
+	"time"
 
 //	"github.com/vova616/chipmunk/vect"
 
@@ -50,10 +52,14 @@ func (s *Item) Start() {
 	engine.StartCoroutine(func() {
 		engine.CoSleep(2)
 		s.takeable = true
-		engine.CoSleep(10)
-		if s.GameObject() != nil {
-			s.GameObject().Destroy()
-		}
+		engine.CoSleep(6)
+		tween.Create(&tween.Tween{Target: s.GameObject(), From: []float32{1}, To: []float32{0.2},
+			Algo: tween.Linear, Type: tween.Color, Time: time.Second * 4, Loop: tween.None, Format: "a", EndCallback: func() {
+				if s.GameObject() != nil {
+					s.GameObject().Destroy()
+				}
+			}})
+
 	})
 
 }

@@ -32,25 +32,34 @@ To Do
 <b>player:</b> <br/>
 	Chud - organize and depth
 	Load cp<br/>
+<br/>
 <b>Skills</b><br/>
+<br/>
 <b>Enemy</b>(another type: general, random)<br/>
+<br/>
 <b>Menu</b>(more buttons: Exit, How to play, Load)<br/>
+<br/>
 <b>Map editor:</b><br />
-files with xml<br />
-choosing<br />
-
+	grid improove<br/>
+<br/>
 <b>Objects:</b><br/>
 	Chest(more types: level,  skill)<br/>
 	Scroll<br/>
 	birds fly on the screen<br />
 	Items that doesn't do anything(boat, house, kaktus, rock, tree)<br />
+<br/>
 <b>Levels</b><br/>
+<br/>
 <b>How to play</b><br />
+<br/>
 <b>Sounds</b><br/>
+<br/>
 <b>Shop</b><br />
+<br/>
 <b>With Itween:</b><br/>
 	Bars<br/>
 	Items alpha disapear<br/>
+<br/>
 <br/>
 You can use the directory "data/To Do" to the to do missions...<br />
 <br/>
