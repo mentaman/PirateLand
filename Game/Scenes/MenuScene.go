@@ -63,6 +63,7 @@ func (s *MenuScene) Load() {
 	newGame.AddComponent(engine.NewSprite2(menuAtlas.Texture, engine.IndexUV(menuAtlas, spr_menunew)))
 	newGame.AddComponent(components.NewUIButton(func() {
 		engine.LoadScene(Ps)
+		con = false
 	}, func(on bool) {
 		if on {
 			newGame.Sprite.Color = engine.Color{1, 0.3, 0.2, 1}

@@ -144,13 +144,17 @@ func (pl *Player) OnCollisionEnter(arbiter engine.Arbiter) bool {
 		pl.GameObject().Physics.Body.IgnoreGravity = true
 		pl.OnGround = false
 	}
-	if pl.Hitable && arbiter.GameObjectB().Tag == "splinter" {
+	if arbiter.GameObjectB().Tag == "splinter" {
 		pl.pSplint = arbiter.GameObjectB()
 		engine.StartCoroutine(func() {
 			for pl.pSplint != nil {
-				pl.Hit(15)
+				if pl.Hitable {
+					pl.Hit(15)
+				}
 				engine.CoYieldCoroutine(pl.Hitted)
+
 			}
+
 		})
 	}
 	return true
@@ -297,10 +301,11 @@ func (pl *Player) Update() {
 	if pl.hit {
 		pl.GameObject().Sprite.SetAnimation("player_hit")
 	}
-	if (pl.GameObject().Sprite.CurrentAnimation() == "player_stand" || pl.GameObject().Sprite.CurrentAnimation() == "player_walk") && !pl.OnGround && pl.frames > 15 {
+	if ((pl.GameObject().Sprite.CurrentAnimation() == "player_stand") || (pl.GameObject().Sprite.CurrentAnimation() == "player_walk")) && !pl.OnGround && pl.frames > 15 {
 		pl.GameObject().Sprite.SetAnimation("player_jump")
 	}
 	if pl.GameObject().Sprite.CurrentAnimation() != "player_climb" && pl.pLader != nil {
 		pl.GameObject().Sprite.SetAnimation("player_climb")
 	}
+
 }

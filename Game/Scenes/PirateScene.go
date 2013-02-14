@@ -29,7 +29,10 @@ var (
 	Layer3 *engine.GameObject
 	Layer4 *engine.GameObject
 
+	Container  *engine.GameObject
+	ContainerO engine.GameObject
 	background *engine.GameObject
+	con        bool = false
 )
 
 func CheckError(err error) bool {
@@ -50,9 +53,28 @@ func (s *PirateScene) SceneBase() *engine.SceneData {
 	return s.SceneData
 }
 func (s *PirateScene) Load() {
+	// if !con {
+	// 	s.FakeLoad()
+	// } else {
+	// 	if Container != nil {
+	// 		s.AddGameObject(Container)
+	// 	}
+	// }
 	Ps = s
+
 	LoadTextures()
+
 	engine.SetTitle("PirateLand")
+	if Container != nil {
+		Container = engine.NewGameObject("Container")
+		*Container = ContainerO
+		s.AddGameObject(Container)
+	} else {
+		s.FakeLoad()
+	}
+}
+func (s *PirateScene) FakeLoad() {
+
 	Fonts.ArialFont2, _ = engine.NewFont("./data/Fonts/arial.ttf", 24)
 	Fonts.ArialFont2.Texture.SetReadOnly()
 
@@ -60,6 +82,7 @@ func (s *PirateScene) Load() {
 	engine.Space.Iterations = 10
 
 	Layer1 = engine.NewGameObject("Layer1")
+	Container = engine.NewGameObject("Container")
 	Layer2 = engine.NewGameObject("Layer2")
 	Layer3 = engine.NewGameObject("Layer3")
 	Layer4 = engine.NewGameObject("Layer4")
@@ -137,6 +160,8 @@ func (s *PirateScene) Load() {
 	Player.Ch.Money.Transform().SetParent2(cam)
 	Player.Ch.Level.Transform().SetParent2(cam)
 	Player.PlComp.MenuScene = func() {
+
+		ContainerO = *Container
 		engine.LoadScene(MenuSceneG)
 	}
 	txt2 := label.AddComponent(GUI.NewTestBox(func(tx *GUI.TestTextBox) {
@@ -150,13 +175,15 @@ func (s *PirateScene) Load() {
 		f.Sprite.SetAnimationIndex(4)
 		f.Transform().SetParent2(Layer3)
 	}
-	s.AddGameObject(up)
-	s.AddGameObject(cam)
-	s.AddGameObject(Layer1)
-	s.AddGameObject(Layer2)
-	s.AddGameObject(Layer3)
-	s.AddGameObject(Layer4)
-	s.AddGameObject(background)
+	up.Transform().SetParent2(Container)
+	cam.Transform().SetParent2(Container)
+	Layer1.Transform().SetParent2(Container)
+	Layer2.Transform().SetParent2(Container)
+	Layer3.Transform().SetParent2(Container)
+	Layer4.Transform().SetParent2(Container)
+	background.Transform().SetParent2(Container)
+
+	s.AddGameObject(Container)
 
 }
 func LoadTextures() {
