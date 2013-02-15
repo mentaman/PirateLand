@@ -59,11 +59,11 @@ func (s *MapEditor) Load() {
 	uvs, ind := engine.AnimatedGroupUVs(atlas, sprites...)
 	obj = engine.NewGameObject("Object")
 	obj.AddComponent(engine.NewSprite3(atlas.Texture, uvs))
+
+	obj.AddComponent(engine.NewPhysics(false, 1, 1))
 	obj.Sprite.BindAnimations(ind)
 	obj.Sprite.AnimationSpeed = 0
 	obj.AddComponent(NewObject())
-	obj.AddComponent(engine.NewPhysics(true, 1, 1))
-	obj.Physics.Shape.IsSensor = true
 
 	objC := engine.NewGameObject("objController")
 	objControll = objC.AddComponent(NewObjController()).(*ObjController)

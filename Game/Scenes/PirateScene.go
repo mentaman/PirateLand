@@ -10,8 +10,24 @@ import (
 	"github.com/mentaman/PirateLand/Game/GUI"
 	"github.com/mentaman/PirateLand/Game/Objects"
 	"github.com/vova616/garageEngine/engine"
+
+	"github.com/vova616/garageEngine/engine/components"
 	"math/rand"
 	"time"
+)
+
+var (
+	menuAtlas *engine.ManagedAtlas
+	mbg       *engine.GameObject
+	master    *engine.GameObject
+)
+
+const (
+	spr_menuback  = 1
+	spr_menuexit  = 2
+	spr_menunew   = 3
+	spr_menuhowTo = 4
+	spr_menuload  = 5
 )
 
 var (
@@ -22,7 +38,6 @@ var (
 
 	Ps *PirateScene
 
-	up     *engine.GameObject
 	cam    *engine.GameObject
 	Layer1 *engine.GameObject
 	Layer2 *engine.GameObject
@@ -30,7 +45,6 @@ var (
 	Layer4 *engine.GameObject
 
 	Container  *engine.GameObject
-	ContainerO engine.GameObject
 	background *engine.GameObject
 	con        bool = false
 )
@@ -45,6 +59,9 @@ func CheckError(err error) bool {
 
 type PirateScene struct {
 	*engine.SceneData
+
+	layerButtons    *engine.GameObject
+	layerBackground *engine.GameObject
 }
 
 func init() {
@@ -65,16 +82,64 @@ func (s *PirateScene) Load() {
 	LoadTextures()
 
 	engine.SetTitle("PirateLand")
-	if Container != nil {
-		Container = engine.NewGameObject("Container")
-		*Container = ContainerO
-		s.AddGameObject(Container)
-	} else {
-		s.FakeLoad()
-	}
+	s.MenuLoad()
 }
-func (s *PirateScene) FakeLoad() {
+func (s *PirateScene) MenuLoad() {
+	LoadTextures()
+	engine.SetTitle("PirateLand - menu")
+	s.Camera = engine.NewCamera()
+	cam := engine.NewGameObject("Camera")
+	cam.AddComponent(s.Camera)
+	master = engine.NewGameObject("master")
+	cam.Transform().SetScalef(1, 1)
 
+	mouse := engine.NewGameObject("Mouse")
+	mouse.AddComponent(engine.NewMouse())
+	mouse.Transform().SetParent2(cam)
+
+	layerButtons := engine.NewGameObject("LayerButton")
+	layerBg := engine.NewGameObject("LayerBackground")
+
+	s.layerBackground = layerBg
+	s.layerButtons = layerButtons
+
+	mbg = engine.NewGameObject("mbg")
+	mbg.AddComponent(engine.NewSprite2(menuAtlas.Texture, engine.IndexUV(menuAtlas, spr_menuback)))
+	mbg.Transform().SetWorldScalef(float32(engine.Width), float32(engine.Height))
+	mbg.Transform().SetWorldPositionf(float32(engine.Width)/2, float32(engine.Height)/2)
+	mbg.Transform().SetParent2(s.layerBackground)
+
+	newGame := engine.NewGameObject("bng")
+	newGame.AddComponent(engine.NewPhysics(false, 1, 1))
+	newGame.Physics.Shape.IsSensor = true
+	newGame.Transform().SetWorldScalef(100, 100)
+	newGame.Transform().SetWorldPositionf(100, 100)
+	newGame.Transform().SetParent2(s.layerButtons)
+	newGame.AddComponent(engine.NewSprite2(menuAtlas.Texture, engine.IndexUV(menuAtlas, spr_menunew)))
+	newGame.AddComponent(components.NewUIButton(func() {
+		s.RemoveGameObject(master)
+		s.GameLoad()
+		con = false
+	}, func(on bool) {
+		if on {
+			newGame.Sprite.Color = engine.Color{1, 0.3, 0.2, 1}
+		} else {
+			newGame.Sprite.Color = engine.Color{1, 1, 1, 1}
+		}
+	}))
+
+	s.AddGameObject(cam)
+	cam.Transform().SetParent2(master)
+
+	s.layerButtons.Transform().SetParent2(master)
+	s.layerBackground.Transform().SetParent2(master)
+	s.AddGameObject(master)
+}
+func (s *PirateScene) GameLoad() {
+	if Container != nil {
+		s.AddGameObject(Container)
+		return
+	}
 	Fonts.ArialFont2, _ = engine.NewFont("./data/Fonts/arial.ttf", 24)
 	Fonts.ArialFont2.Texture.SetReadOnly()
 
@@ -82,6 +147,7 @@ func (s *PirateScene) FakeLoad() {
 	engine.Space.Iterations = 10
 
 	Layer1 = engine.NewGameObject("Layer1")
+
 	Container = engine.NewGameObject("Container")
 	Layer2 = engine.NewGameObject("Layer2")
 	Layer3 = engine.NewGameObject("Layer3")
@@ -95,9 +161,6 @@ func (s *PirateScene) FakeLoad() {
 	cam.AddComponent(s.Camera)
 
 	cam.Transform().SetScalef(1, 1)
-
-	up = engine.NewGameObject("up")
-	up.Transform().SetParent2(cam)
 
 	Objects.CreateObjects()
 	Background.Create()
@@ -126,7 +189,7 @@ func (s *PirateScene) FakeLoad() {
 		ec.Transform().SetParent2(Layer2)
 
 		ec.Sprite.AnimationSpeed = 10
-		hpB.Transform().SetParent2(up)
+		hpB.Transform().SetParent2(cam)
 	}
 
 	for i := 0; i < 1; i++ {
@@ -152,17 +215,16 @@ func (s *PirateScene) FakeLoad() {
 		s.Transform().SetParent2(Layer3)
 	}
 
-	Player.Ch.Hp.Transform().SetParent2(up)
-	Player.Ch.Cp.Transform().SetParent2(up)
-	Player.Ch.Exp.Transform().SetParent2(up)
+	Player.Ch.Hp.Transform().SetParent2(cam)
+	Player.Ch.Cp.Transform().SetParent2(cam)
+	Player.Ch.Exp.Transform().SetParent2(cam)
 	Player.Ch.Exp.Start()
 	Player.Ch.Exp.SetValue(0, 100)
 	Player.Ch.Money.Transform().SetParent2(cam)
 	Player.Ch.Level.Transform().SetParent2(cam)
 	Player.PlComp.MenuScene = func() {
-
-		ContainerO = *Container
-		engine.LoadScene(MenuSceneG)
+		s.RemoveGameObject(Container)
+		s.MenuLoad()
 	}
 	txt2 := label.AddComponent(GUI.NewTestBox(func(tx *GUI.TestTextBox) {
 		Player.Ch.Cp.Transform().SetPositionf(156, float32(tx.V))
@@ -175,7 +237,6 @@ func (s *PirateScene) FakeLoad() {
 		f.Sprite.SetAnimationIndex(4)
 		f.Transform().SetParent2(Layer3)
 	}
-	up.Transform().SetParent2(Container)
 	cam.Transform().SetParent2(Container)
 	Layer1.Transform().SetParent2(Container)
 	Layer2.Transform().SetParent2(Container)

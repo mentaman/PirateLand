@@ -151,6 +151,7 @@ func (s *Enemy) Update() {
 			s.GameObject().Sprite.AnimationEndCallback = func(sprite *engine.Sprite) {
 				s.Attack = false
 				s.GameObject().Sprite.SetAnimation("enemy_stand")
+				s.GameObject().Sprite.AnimationEndCallback = nil
 			}
 
 		}

@@ -58,14 +58,14 @@ func Start() {
 		engine.Terminate()
 	}()
 	engine.StartEngine()
-	_ = Game.MenuSceneG
+	_ = Game.Ps
 
 	/*
 		Running local server.
 	*/
 	//go Server.StartServer()
 
-	engine.LoadScene(Game.MenuSceneG)
+	engine.LoadScene(Game.Ps)
 	for engine.MainLoop() {
 
 	}

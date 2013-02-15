@@ -19,12 +19,14 @@ func (m *ObjController) Start() {
 	uvs, ind := engine.AnimatedGroupUVs(atlas, sprites...)
 	m.guiObj = engine.NewGameObject("guiObj")
 	m.guiObj.AddComponent(engine.NewSprite3(atlas.Texture, uvs))
+	m.guiObj.AddComponent(engine.NewPhysics(false, 1, 1))
 	m.guiObj.Sprite.BindAnimations(ind)
 	m.guiObj.Sprite.AnimationSpeed = 0
 	m.guiObj.Sprite.SetAlign(engine.AlignCenter)
 	m.guiObj.Transform().SetScalef(m.width, m.height)
 	m.guiObj.Transform().SetParent2(cam)
 	m.guiObj.Sprite.SetAnimation(sprites[m.spriteId])
+	m.guiObj.Tag = "guiObj"
 
 }
 func SnapToGrid(x, size float32) float32 {
@@ -37,14 +39,14 @@ func (m *ObjController) Update() {
 
 	px, py := input.MousePosition()
 
-	m.guiObj.Transform().SetWorldPositionf(SnapToGrid(float32(px)+m.grid/2, m.grid)+m.grid/2, SnapToGrid(float32(engine.Height-py)+m.grid/2, m.grid)+m.grid/2)
-	guiP := m.guiObj.Transform().Position()
+	m.guiObj.Transform().SetPositionf(SnapToGrid(float32(px)+m.grid/2, m.grid)+m.grid/2, SnapToGrid(float32(engine.Height-py)+m.grid/2, m.grid)+m.grid/2)
+	guiP := m.guiObj.Transform().WorldPosition()
 	if input.MousePress(input.MouseLeft) {
 		cl := obj.Clone()
 		cm := cam.Transform().Position()
 
 		m.Last = cm
-		cl.Transform().SetPositionf(guiP.X+cm.X, guiP.Y+(cm.Y))
+		cl.Transform().SetPositionf(guiP.X, guiP.Y)
 		cl.Transform().SetScalef(m.width, m.height)
 		cl.Transform().SetParent2(Layer1)
 
