@@ -23,11 +23,12 @@ var (
 )
 
 const (
-	spr_menuback  = 1
-	spr_menuexit  = 2
-	spr_menunew   = 3
-	spr_menuhowTo = 4
-	spr_menuload  = 5
+	spr_menuback     = 1
+	spr_menuexit     = 2
+	spr_menunew      = 3
+	spr_menuhowTo    = 4
+	spr_menuload     = 5
+	spr_menucontinue = 6
 )
 
 var (
@@ -38,7 +39,6 @@ var (
 
 	Ps *PirateScene
 
-	cam    *engine.GameObject
 	Layer1 *engine.GameObject
 	Layer2 *engine.GameObject
 	Layer3 *engine.GameObject
@@ -61,7 +61,8 @@ func CheckError(err error) bool {
 
 type PirateScene struct {
 	*engine.SceneData
-
+	PirateCam       *engine.Camera
+	MenuCam         *engine.Camera
 	layerButtons    *engine.GameObject
 	layerBackground *engine.GameObject
 }
@@ -91,6 +92,7 @@ func (s *PirateScene) MenuLoad() {
 
 	engine.Space.Gravity.Y = 0
 	engine.SetTitle("PirateLand - menu")
+
 	s.Camera = engine.NewCamera()
 	cam := engine.NewGameObject("Camera")
 	cam.AddComponent(s.Camera)
@@ -115,7 +117,7 @@ func (s *PirateScene) MenuLoad() {
 
 	newGame := engine.NewGameObject("bng")
 	newGame.Transform().SetWorldScalef(100, 100)
-	newGame.Transform().SetWorldPositionf(100, 100)
+	newGame.Transform().SetWorldPositionf(400, 300)
 	newGame.Transform().SetParent2(s.layerButtons)
 
 	newGame.AddComponent(engine.NewPhysics(false, 1, 1))
@@ -123,12 +125,7 @@ func (s *PirateScene) MenuLoad() {
 	newGame.AddComponent(engine.NewSprite2(menuAtlas.Texture, engine.IndexUV(menuAtlas, spr_menunew)))
 	newGame.AddComponent(components.NewUIButton(func() {
 		s.RemoveGameObject(master)
-		if !gameLoaded {
-			s.GameLoad()
-
-		} else {
-			s.GameContinue()
-		}
+		s.GameLoad()
 		con = false
 	}, func(on bool) {
 		if on {
@@ -138,7 +135,66 @@ func (s *PirateScene) MenuLoad() {
 		}
 	}))
 
-	s.AddGameObject(cam)
+	continueGame := engine.NewGameObject("bng")
+	continueGame.Transform().SetWorldScalef(100, 100)
+	continueGame.Transform().SetWorldPositionf(600, 400)
+	continueGame.Transform().SetParent2(s.layerButtons)
+
+	continueGame.AddComponent(engine.NewPhysics(false, 1, 1))
+	continueGame.Physics.Shape.IsSensor = true
+	continueGame.AddComponent(engine.NewSprite2(menuAtlas.Texture, engine.IndexUV(menuAtlas, spr_menucontinue)))
+	if !gameLoaded {
+		continueGame.Sprite.Color = engine.Color{0.1, 0.1, 0.1, 1}
+	}
+	continueGame.AddComponent(components.NewUIButton(func() {
+
+		if gameLoaded {
+			s.RemoveGameObject(master)
+			s.GameContinue()
+			con = false
+		}
+
+	}, func(on bool) {
+		if gameLoaded {
+			if on {
+				continueGame.Sprite.Color = engine.Color{1, 0.3, 0.2, 1}
+			} else {
+				continueGame.Sprite.Color = engine.Color{1, 1, 1, 1}
+			}
+		} else {
+			if on {
+				continueGame.Sprite.Color = engine.Color{0.2, 0.3, 0.2, 1}
+			} else {
+				continueGame.Sprite.Color = engine.Color{0.1, 0.1, 0.1, 1}
+			}
+		}
+	}))
+
+	loadGame := engine.NewGameObject("bng")
+	loadGame.Transform().SetWorldScalef(100, 100)
+	loadGame.Transform().SetWorldPositionf(800, 300)
+	loadGame.Transform().SetParent2(s.layerButtons)
+
+	loadGame.AddComponent(engine.NewPhysics(false, 1, 1))
+	loadGame.Physics.Shape.IsSensor = true
+	loadGame.AddComponent(engine.NewSprite2(menuAtlas.Texture, engine.IndexUV(menuAtlas, spr_menuload)))
+	loadGame.AddComponent(components.NewUIButton(func() {
+
+		if gameLoaded {
+			// s.RemoveGameObject(master)
+			// s.GameContinue()
+			// con = false
+		}
+
+	}, func(on bool) {
+		if on {
+			loadGame.Sprite.Color = engine.Color{1, 0.3, 0.2, 1}
+		} else {
+			loadGame.Sprite.Color = engine.Color{1, 1, 1, 1}
+		}
+
+	}))
+
 	cam.Transform().SetParent2(master)
 
 	s.layerButtons.Transform().SetParent2(master)
@@ -151,6 +207,8 @@ func (s *PirateScene) GameContinue() {
 	engine.SetTitle("PirateLand")
 	engine.Space.Gravity.Y = -100
 	engine.Space.Iterations = 10
+
+	s.Camera = s.PirateCam
 }
 func (s *PirateScene) GameLoad() {
 	gameLoaded = true
@@ -171,9 +229,9 @@ func (s *PirateScene) GameLoad() {
 	background = engine.NewGameObject("Background")
 
 	rand.Seed(time.Now().UnixNano())
-
-	s.Camera = engine.NewCamera()
-	cam = engine.NewGameObject("Camera")
+	s.PirateCam = engine.NewCamera()
+	s.Camera = s.PirateCam
+	cam := engine.NewGameObject("Camera")
 	cam.AddComponent(s.Camera)
 
 	cam.Transform().SetScalef(1, 1)
@@ -326,6 +384,7 @@ func LoadTextures() {
 	CheckError(menuAtlas.LoadImageID("./data/menu/newgame.png", spr_menunew))
 	CheckError(menuAtlas.LoadImageID("./data/menu/load.png", spr_menuload))
 	CheckError(menuAtlas.LoadImageID("./data/menu/howTo.png", spr_menuhowTo))
+	CheckError(menuAtlas.LoadImageID("./data/menu/continue.png", spr_menucontinue))
 	atlas.BuildAtlas()
 	atlas.BuildMipmaps()
 	atlas.SetFiltering(engine.MipMapLinearNearest, engine.Nearest)
