@@ -266,7 +266,7 @@ func (pl *Player) Update() {
 			pl.GameObject().Sprite.AnimationEndCallback = func(sprite *engine.Sprite) {
 				pl.Attack = false
 				pl.GameObject().Sprite.SetAnimation("player_stand")
-				s.GameObject().Sprite.AnimationEndCallback = nil
+				pl.GameObject().Sprite.AnimationEndCallback = nil
 			}
 
 		}

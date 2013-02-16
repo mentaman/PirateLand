@@ -47,6 +47,8 @@ var (
 	Container  *engine.GameObject
 	background *engine.GameObject
 	con        bool = false
+
+	gameLoaded = false
 )
 
 func CheckError(err error) bool {
@@ -86,6 +88,8 @@ func (s *PirateScene) Load() {
 }
 func (s *PirateScene) MenuLoad() {
 	LoadTextures()
+
+	engine.Space.Gravity.Y = 0
 	engine.SetTitle("PirateLand - menu")
 	s.Camera = engine.NewCamera()
 	cam := engine.NewGameObject("Camera")
@@ -110,15 +114,21 @@ func (s *PirateScene) MenuLoad() {
 	mbg.Transform().SetParent2(s.layerBackground)
 
 	newGame := engine.NewGameObject("bng")
-	newGame.AddComponent(engine.NewPhysics(false, 1, 1))
-	newGame.Physics.Shape.IsSensor = true
 	newGame.Transform().SetWorldScalef(100, 100)
 	newGame.Transform().SetWorldPositionf(100, 100)
 	newGame.Transform().SetParent2(s.layerButtons)
+
+	newGame.AddComponent(engine.NewPhysics(false, 1, 1))
+	newGame.Physics.Shape.IsSensor = true
 	newGame.AddComponent(engine.NewSprite2(menuAtlas.Texture, engine.IndexUV(menuAtlas, spr_menunew)))
 	newGame.AddComponent(components.NewUIButton(func() {
 		s.RemoveGameObject(master)
-		s.GameLoad()
+		if !gameLoaded {
+			s.GameLoad()
+
+		} else {
+			s.GameContinue()
+		}
 		con = false
 	}, func(on bool) {
 		if on {
@@ -135,14 +145,20 @@ func (s *PirateScene) MenuLoad() {
 	s.layerBackground.Transform().SetParent2(master)
 	s.AddGameObject(master)
 }
+func (s *PirateScene) GameContinue() {
+	s.AddGameObject(Container)
+
+	engine.SetTitle("PirateLand")
+	engine.Space.Gravity.Y = -100
+	engine.Space.Iterations = 10
+}
 func (s *PirateScene) GameLoad() {
-	if Container != nil {
-		s.AddGameObject(Container)
-		return
-	}
+	gameLoaded = true
+
 	Fonts.ArialFont2, _ = engine.NewFont("./data/Fonts/arial.ttf", 24)
 	Fonts.ArialFont2.Texture.SetReadOnly()
 
+	engine.SetTitle("PirateLand")
 	engine.Space.Gravity.Y = -100
 	engine.Space.Iterations = 10
 
