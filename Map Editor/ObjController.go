@@ -94,6 +94,9 @@ func (m *ObjController) Update() {
 	if input.KeyPress('R') {
 		LoadXML()
 	}
+	if input.KeyPress('C') {
+		ClearList()
+	}
 	if input.KeyPress(input.Key_Right) {
 		dd := m.guiObj
 		dd.GameObject().Sprite.SetAnimationIndex((int(dd.GameObject().Sprite.CurrentAnimationIndex()) + 1) % dd.GameObject().Sprite.AnimationLength())

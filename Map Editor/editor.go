@@ -15,7 +15,7 @@ var (
 	obj         *engine.GameObject
 	cam         *engine.GameObject
 	Layer1      *engine.GameObject
-	sprites     []engine.ID = []engine.ID{"player_walk", "chest", "enemy_walk", "ground"}
+	sprites     []engine.ID = []engine.ID{"player_walk", "chest", "enemy_walk", "ground", "splinter", "lader", "box"}
 	background  *engine.GameObject
 )
 
@@ -111,6 +111,14 @@ func LoadTextures() {
 	e, id = atlas.LoadGroupSheet("../data/tileset/ground.png", 32, 32, 110)
 	CheckError(e)
 
+	e, id = atlas.LoadGroupSheet("../data/objects/splinter.png", 32, 32, 1)
+	CheckError(e)
+
+	e, id = atlas.LoadGroupSheet("../data/objects/lader.png", 106, 142, 1)
+	CheckError(e)
+
+	e, id = atlas.LoadGroupSheet("../data/objects/box.png", 130, 134, 1)
+	CheckError(e)
 	_ = id
 
 	Background.Atlas.BuildAtlas()

@@ -74,6 +74,14 @@ func LoadMap(name string) {
 			s := Objects.ChestO.Clone()
 			s.Transform().SetWorldPositionf(robj.Iplace.X, robj.Iplace.Y)
 			s.Transform().SetParent2(Layer3)
+		case "lader":
+			lc := Objects.Lader.Clone()
+			lc.Transform().SetParent2(Layer3)
+			lc.Transform().SetWorldPositionf(robj.Iplace.X, robj.Iplace.Y)
+		case "box":
+			bc := Objects.Box.Clone()
+			bc.Transform().SetParent2(Layer3)
+			bc.Transform().SetWorldPositionf(robj.Iplace.X, robj.Iplace.Y)
 		}
 
 		// cl.Transform().SetWorldPositionf(robj.Iplace.X, robj.Iplace.Y)

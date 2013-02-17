@@ -1,101 +1,73 @@
 
   <Objects>
       <object>
-          <name>ground</name>
-          <index>3</index>
+          <name>lader</name>
+          <index>0</index>
           <place>
               <Place>
-                  <X>515</X>
-                  <Y>305</Y>
+                  <X>955</X>
+                  <Y>625</Y>
               </Place>
           </place>
           <scale>
-              <width>30</width>
-              <height>30</height>
+              <width>60</width>
+              <height>60</height>
           </scale>
       </object>
       <object>
-          <name>ground</name>
-          <index>4</index>
+          <name>lader</name>
+          <index>0</index>
           <place>
               <Place>
-                  <X>545</X>
-                  <Y>305</Y>
+                  <X>955</X>
+                  <Y>385</Y>
               </Place>
           </place>
           <scale>
-              <width>30</width>
-              <height>30</height>
+              <width>60</width>
+              <height>60</height>
           </scale>
       </object>
       <object>
-          <name>ground</name>
-          <index>13</index>
+          <name>lader</name>
+          <index>0</index>
           <place>
               <Place>
-                  <X>515</X>
-                  <Y>275</Y>
+                  <X>955</X>
+                  <Y>445</Y>
               </Place>
           </place>
           <scale>
-              <width>30</width>
-              <height>30</height>
+              <width>60</width>
+              <height>60</height>
           </scale>
       </object>
       <object>
-          <name>ground</name>
-          <index>14</index>
+          <name>lader</name>
+          <index>0</index>
           <place>
               <Place>
-                  <X>545</X>
-                  <Y>275</Y>
+                  <X>955</X>
+                  <Y>505</Y>
               </Place>
           </place>
           <scale>
-              <width>30</width>
-              <height>30</height>
+              <width>60</width>
+              <height>60</height>
           </scale>
       </object>
       <object>
-          <name>ground</name>
-          <index>27</index>
+          <name>lader</name>
+          <index>0</index>
           <place>
               <Place>
-                  <X>605</X>
-                  <Y>305</Y>
+                  <X>955</X>
+                  <Y>565</Y>
               </Place>
           </place>
           <scale>
-              <width>30</width>
-              <height>30</height>
-          </scale>
-      </object>
-      <object>
-          <name>ground</name>
-          <index>4</index>
-          <place>
-              <Place>
-                  <X>635</X>
-                  <Y>305</Y>
-              </Place>
-          </place>
-          <scale>
-              <width>30</width>
-              <height>30</height>
-          </scale>
-      </object>
-      <object>
-          <name>ground</name>
-          <index>7</index>
-          <place>
-              <Place>
-                  <X>575</X>
-                  <Y>305</Y>
-              </Place>
-          </place>
-          <scale>
-              <width>30</width>
-              <height>30</height>
+              <width>60</width>
+              <height>60</height>
           </scale>
       </object>
       <object>
@@ -103,13 +75,55 @@
           <index>8</index>
           <place>
               <Place>
-                  <X>725</X>
-                  <Y>305</Y>
+                  <X>1135</X>
+                  <Y>615</Y>
               </Place>
           </place>
           <scale>
-              <width>30</width>
-              <height>30</height>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>6</index>
+          <place>
+              <Place>
+                  <X>1015</X>
+                  <Y>615</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>13</index>
+          <place>
+              <Place>
+                  <X>1015</X>
+                  <Y>555</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>14</index>
+          <place>
+              <Place>
+                  <X>1075</X>
+                  <Y>555</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
           </scale>
       </object>
       <object>
@@ -117,13 +131,13 @@
           <index>15</index>
           <place>
               <Place>
-                  <X>725</X>
-                  <Y>275</Y>
+                  <X>1135</X>
+                  <Y>555</Y>
               </Place>
           </place>
           <scale>
-              <width>30</width>
-              <height>30</height>
+              <width>60</width>
+              <height>60</height>
           </scale>
       </object>
       <object>
@@ -131,13 +145,895 @@
           <index>17</index>
           <place>
               <Place>
-                  <X>665</X>
+                  <X>1075</X>
+                  <Y>615</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>22</index>
+          <place>
+              <Place>
+                  <X>1135</X>
+                  <Y>495</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>21</index>
+          <place>
+              <Place>
+                  <X>1075</X>
+                  <Y>495</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>20</index>
+          <place>
+              <Place>
+                  <X>1015</X>
+                  <Y>495</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>box</name>
+          <index>0</index>
+          <place>
+              <Place>
+                  <X>805</X>
+                  <Y>405</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>splinter</name>
+          <index>0</index>
+          <place>
+              <Place>
+                  <X>895</X>
+                  <Y>395</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>splinter</name>
+          <index>0</index>
+          <place>
+              <Place>
+                  <X>835</X>
+                  <Y>395</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>77</index>
+          <place>
+              <Place>
+                  <X>1165</X>
+                  <Y>185</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>77</index>
+          <place>
+              <Place>
+                  <X>1105</X>
+                  <Y>185</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>77</index>
+          <place>
+              <Place>
+                  <X>1045</X>
+                  <Y>185</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>77</index>
+          <place>
+              <Place>
+                  <X>985</X>
+                  <Y>185</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>77</index>
+          <place>
+              <Place>
+                  <X>925</X>
+                  <Y>185</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>77</index>
+          <place>
+              <Place>
+                  <X>865</X>
+                  <Y>185</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>77</index>
+          <place>
+              <Place>
+                  <X>805</X>
+                  <Y>185</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>78</index>
+          <place>
+              <Place>
+                  <X>745</X>
+                  <Y>185</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>78</index>
+          <place>
+              <Place>
+                  <X>685</X>
+                  <Y>185</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>78</index>
+          <place>
+              <Place>
+                  <X>625</X>
+                  <Y>185</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>77</index>
+          <place>
+              <Place>
+                  <X>565</X>
+                  <Y>185</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>74</index>
+          <place>
+              <Place>
+                  <X>1165</X>
+                  <Y>245</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>74</index>
+          <place>
+              <Place>
+                  <X>1105</X>
+                  <Y>245</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>74</index>
+          <place>
+              <Place>
+                  <X>1045</X>
+                  <Y>245</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>74</index>
+          <place>
+              <Place>
+                  <X>985</X>
+                  <Y>245</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>78</index>
+          <place>
+              <Place>
+                  <X>925</X>
+                  <Y>245</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>78</index>
+          <place>
+              <Place>
+                  <X>865</X>
+                  <Y>245</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>77</index>
+          <place>
+              <Place>
+                  <X>805</X>
+                  <Y>245</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>77</index>
+          <place>
+              <Place>
+                  <X>745</X>
+                  <Y>245</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>77</index>
+          <place>
+              <Place>
+                  <X>685</X>
+                  <Y>245</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>78</index>
+          <place>
+              <Place>
+                  <X>625</X>
+                  <Y>245</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>77</index>
+          <place>
+              <Place>
+                  <X>565</X>
+                  <Y>245</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>75</index>
+          <place>
+              <Place>
+                  <X>1225</X>
+                  <Y>185</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>75</index>
+          <place>
+              <Place>
+                  <X>1225</X>
+                  <Y>245</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>92</index>
+          <place>
+              <Place>
+                  <X>1225</X>
+                  <Y>125</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>91</index>
+          <place>
+              <Place>
+                  <X>1165</X>
+                  <Y>125</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>91</index>
+          <place>
+              <Place>
+                  <X>1105</X>
+                  <Y>125</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>91</index>
+          <place>
+              <Place>
+                  <X>1045</X>
+                  <Y>125</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>91</index>
+          <place>
+              <Place>
+                  <X>985</X>
+                  <Y>125</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>91</index>
+          <place>
+              <Place>
+                  <X>925</X>
+                  <Y>125</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>91</index>
+          <place>
+              <Place>
+                  <X>865</X>
+                  <Y>125</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>91</index>
+          <place>
+              <Place>
+                  <X>805</X>
+                  <Y>125</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>91</index>
+          <place>
+              <Place>
+                  <X>745</X>
+                  <Y>125</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>91</index>
+          <place>
+              <Place>
+                  <X>685</X>
+                  <Y>125</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>91</index>
+          <place>
+              <Place>
+                  <X>625</X>
+                  <Y>125</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>91</index>
+          <place>
+              <Place>
+                  <X>565</X>
+                  <Y>125</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>90</index>
+          <place>
+              <Place>
+                  <X>505</X>
+                  <Y>125</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>70</index>
+          <place>
+              <Place>
+                  <X>505</X>
+                  <Y>185</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>70</index>
+          <place>
+              <Place>
+                  <X>505</X>
+                  <Y>245</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>52</index>
+          <place>
+              <Place>
+                  <X>1225</X>
                   <Y>305</Y>
               </Place>
           </place>
           <scale>
-              <width>30</width>
-              <height>30</height>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>51</index>
+          <place>
+              <Place>
+                  <X>1165</X>
+                  <Y>305</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>51</index>
+          <place>
+              <Place>
+                  <X>1105</X>
+                  <Y>305</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>51</index>
+          <place>
+              <Place>
+                  <X>1045</X>
+                  <Y>305</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>51</index>
+          <place>
+              <Place>
+                  <X>985</X>
+                  <Y>305</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>51</index>
+          <place>
+              <Place>
+                  <X>925</X>
+                  <Y>305</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>51</index>
+          <place>
+              <Place>
+                  <X>865</X>
+                  <Y>305</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>51</index>
+          <place>
+              <Place>
+                  <X>805</X>
+                  <Y>305</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>51</index>
+          <place>
+              <Place>
+                  <X>745</X>
+                  <Y>305</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>51</index>
+          <place>
+              <Place>
+                  <X>685</X>
+                  <Y>305</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>35</index>
+          <place>
+              <Place>
+                  <X>1225</X>
+                  <Y>365</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>34</index>
+          <place>
+              <Place>
+                  <X>1165</X>
+                  <Y>365</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>31</index>
+          <place>
+              <Place>
+                  <X>1105</X>
+                  <Y>365</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>27</index>
+          <place>
+              <Place>
+                  <X>745</X>
+                  <Y>365</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>17</index>
+          <place>
+              <Place>
+                  <X>1045</X>
+                  <Y>365</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>14</index>
+          <place>
+              <Place>
+                  <X>625</X>
+                  <Y>305</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>14</index>
+          <place>
+              <Place>
+                  <X>565</X>
+                  <Y>305</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
+          </scale>
+      </object>
+      <object>
+          <name>ground</name>
+          <index>13</index>
+          <place>
+              <Place>
+                  <X>505</X>
+                  <Y>305</Y>
+              </Place>
+          </place>
+          <scale>
+              <width>60</width>
+              <height>60</height>
           </scale>
       </object>
       <object>
@@ -145,643 +1041,139 @@
           <index>7</index>
           <place>
               <Place>
-                  <X>695</X>
-                  <Y>305</Y>
+                  <X>985</X>
+                  <Y>365</Y>
               </Place>
           </place>
           <scale>
-              <width>30</width>
-              <height>30</height>
+              <width>60</width>
+              <height>60</height>
           </scale>
       </object>
       <object>
           <name>ground</name>
-          <index>51</index>
+          <index>4</index>
           <place>
               <Place>
-                  <X>575</X>
-                  <Y>275</Y>
+                  <X>925</X>
+                  <Y>365</Y>
               </Place>
           </place>
           <scale>
-              <width>30</width>
-              <height>30</height>
+              <width>60</width>
+              <height>60</height>
           </scale>
       </object>
       <object>
           <name>ground</name>
-          <index>51</index>
+          <index>7</index>
           <place>
               <Place>
-                  <X>605</X>
-                  <Y>275</Y>
+                  <X>865</X>
+                  <Y>365</Y>
               </Place>
           </place>
           <scale>
-              <width>30</width>
-              <height>30</height>
+              <width>60</width>
+              <height>60</height>
           </scale>
       </object>
       <object>
           <name>ground</name>
-          <index>54</index>
+          <index>4</index>
           <place>
               <Place>
-                  <X>635</X>
-                  <Y>275</Y>
+                  <X>805</X>
+                  <Y>365</Y>
               </Place>
           </place>
           <scale>
-              <width>30</width>
-              <height>30</height>
+              <width>60</width>
+              <height>60</height>
           </scale>
       </object>
       <object>
           <name>ground</name>
-          <index>54</index>
+          <index>4</index>
           <place>
               <Place>
-                  <X>665</X>
-                  <Y>275</Y>
+                  <X>685</X>
+                  <Y>365</Y>
               </Place>
           </place>
           <scale>
-              <width>30</width>
-              <height>30</height>
+              <width>60</width>
+              <height>60</height>
           </scale>
       </object>
       <object>
           <name>ground</name>
-          <index>54</index>
+          <index>4</index>
           <place>
               <Place>
-                  <X>695</X>
-                  <Y>275</Y>
+                  <X>625</X>
+                  <Y>365</Y>
               </Place>
           </place>
           <scale>
-              <width>30</width>
-              <height>30</height>
+              <width>60</width>
+              <height>60</height>
           </scale>
       </object>
       <object>
           <name>ground</name>
-          <index>57</index>
+          <index>4</index>
           <place>
               <Place>
-                  <X>635</X>
-                  <Y>245</Y>
+                  <X>565</X>
+                  <Y>365</Y>
               </Place>
           </place>
           <scale>
-              <width>30</width>
-              <height>30</height>
+              <width>60</width>
+              <height>60</height>
           </scale>
       </object>
       <object>
           <name>ground</name>
-          <index>58</index>
+          <index>3</index>
           <place>
               <Place>
-                  <X>665</X>
-                  <Y>245</Y>
+                  <X>505</X>
+                  <Y>365</Y>
               </Place>
           </place>
           <scale>
-              <width>30</width>
-              <height>30</height>
+              <width>60</width>
+              <height>60</height>
           </scale>
       </object>
       <object>
-          <name>ground</name>
-          <index>71</index>
+          <name>enemy_walk</name>
+          <index>0</index>
           <place>
               <Place>
-                  <X>695</X>
-                  <Y>245</Y>
+                  <X>1195</X>
+                  <Y>425</Y>
               </Place>
           </place>
           <scale>
-              <width>30</width>
-              <height>30</height>
+              <width>60</width>
+              <height>60</height>
           </scale>
       </object>
       <object>
-          <name>ground</name>
-          <index>72</index>
+          <name>enemy_walk</name>
+          <index>0</index>
           <place>
               <Place>
-                  <X>725</X>
-                  <Y>245</Y>
+                  <X>1055</X>
+                  <Y>425</Y>
               </Place>
           </place>
           <scale>
-              <width>30</width>
-              <height>30</height>
-          </scale>
-      </object>
-      <object>
-          <name>ground</name>
-          <index>73</index>
-          <place>
-              <Place>
-                  <X>515</X>
-                  <Y>245</Y>
-              </Place>
-          </place>
-          <scale>
-              <width>30</width>
-              <height>30</height>
-          </scale>
-      </object>
-      <object>
-          <name>ground</name>
-          <index>73</index>
-          <place>
-              <Place>
-                  <X>515</X>
-                  <Y>215</Y>
-              </Place>
-          </place>
-          <scale>
-              <width>30</width>
-              <height>30</height>
-          </scale>
-      </object>
-      <object>
-          <name>ground</name>
-          <index>74</index>
-          <place>
-              <Place>
-                  <X>635</X>
-                  <Y>215</Y>
-              </Place>
-          </place>
-          <scale>
-              <width>30</width>
-              <height>30</height>
-          </scale>
-      </object>
-      <object>
-          <name>ground</name>
-          <index>74</index>
-          <place>
-              <Place>
-                  <X>665</X>
-                  <Y>215</Y>
-              </Place>
-          </place>
-          <scale>
-              <width>30</width>
-              <height>30</height>
-          </scale>
-      </object>
-      <object>
-          <name>ground</name>
-          <index>74</index>
-          <place>
-              <Place>
-                  <X>695</X>
-                  <Y>215</Y>
-              </Place>
-          </place>
-          <scale>
-              <width>30</width>
-              <height>30</height>
-          </scale>
-      </object>
-      <object>
-          <name>ground</name>
-          <index>75</index>
-          <place>
-              <Place>
-                  <X>725</X>
-                  <Y>215</Y>
-              </Place>
-          </place>
-          <scale>
-              <width>30</width>
-              <height>30</height>
-          </scale>
-      </object>
-      <object>
-          <name>ground</name>
-          <index>75</index>
-          <place>
-              <Place>
-                  <X>725</X>
-                  <Y>185</Y>
-              </Place>
-          </place>
-          <scale>
-              <width>30</width>
-              <height>30</height>
-          </scale>
-      </object>
-      <object>
-          <name>ground</name>
-          <index>75</index>
-          <place>
-              <Place>
-                  <X>725</X>
-                  <Y>155</Y>
-              </Place>
-          </place>
-          <scale>
-              <width>30</width>
-              <height>30</height>
-          </scale>
-      </object>
-      <object>
-          <name>ground</name>
-          <index>73</index>
-          <place>
-              <Place>
-                  <X>515</X>
-                  <Y>185</Y>
-              </Place>
-          </place>
-          <scale>
-              <width>30</width>
-              <height>30</height>
-          </scale>
-      </object>
-      <object>
-          <name>ground</name>
-          <index>73</index>
-          <place>
-              <Place>
-                  <X>515</X>
-                  <Y>155</Y>
-              </Place>
-          </place>
-          <scale>
-              <width>30</width>
-              <height>30</height>
-          </scale>
-      </object>
-      <object>
-          <name>ground</name>
-          <index>74</index>
-          <place>
-              <Place>
-                  <X>545</X>
-                  <Y>155</Y>
-              </Place>
-          </place>
-          <scale>
-              <width>30</width>
-              <height>30</height>
-          </scale>
-      </object>
-      <object>
-          <name>ground</name>
-          <index>74</index>
-          <place>
-              <Place>
-                  <X>575</X>
-                  <Y>155</Y>
-              </Place>
-          </place>
-          <scale>
-              <width>30</width>
-              <height>30</height>
-          </scale>
-      </object>
-      <object>
-          <name>ground</name>
-          <index>74</index>
-          <place>
-              <Place>
-                  <X>605</X>
-                  <Y>155</Y>
-              </Place>
-          </place>
-          <scale>
-              <width>30</width>
-              <height>30</height>
-          </scale>
-      </object>
-      <object>
-          <name>ground</name>
-          <index>78</index>
-          <place>
-              <Place>
-                  <X>665</X>
-                  <Y>155</Y>
-              </Place>
-          </place>
-          <scale>
-              <width>30</width>
-              <height>30</height>
-          </scale>
-      </object>
-      <object>
-          <name>ground</name>
-          <index>78</index>
-          <place>
-              <Place>
-                  <X>635</X>
-                  <Y>155</Y>
-              </Place>
-          </place>
-          <scale>
-              <width>30</width>
-              <height>30</height>
-          </scale>
-      </object>
-      <object>
-          <name>ground</name>
-          <index>78</index>
-          <place>
-              <Place>
-                  <X>635</X>
-                  <Y>185</Y>
-              </Place>
-          </place>
-          <scale>
-              <width>30</width>
-              <height>30</height>
-          </scale>
-      </object>
-      <object>
-          <name>ground</name>
-          <index>78</index>
-          <place>
-              <Place>
-                  <X>665</X>
-                  <Y>185</Y>
-              </Place>
-          </place>
-          <scale>
-              <width>30</width>
-              <height>30</height>
-          </scale>
-      </object>
-      <object>
-          <name>ground</name>
-          <index>78</index>
-          <place>
-              <Place>
-                  <X>695</X>
-                  <Y>185</Y>
-              </Place>
-          </place>
-          <scale>
-              <width>30</width>
-              <height>30</height>
-          </scale>
-      </object>
-      <object>
-          <name>ground</name>
-          <index>78</index>
-          <place>
-              <Place>
-                  <X>695</X>
-                  <Y>155</Y>
-              </Place>
-          </place>
-          <scale>
-              <width>30</width>
-              <height>30</height>
-          </scale>
-      </object>
-      <object>
-          <name>ground</name>
-          <index>78</index>
-          <place>
-              <Place>
-                  <X>575</X>
-                  <Y>245</Y>
-              </Place>
-          </place>
-          <scale>
-              <width>30</width>
-              <height>30</height>
-          </scale>
-      </object>
-      <object>
-          <name>ground</name>
-          <index>78</index>
-          <place>
-              <Place>
-                  <X>545</X>
-                  <Y>245</Y>
-              </Place>
-          </place>
-          <scale>
-              <width>30</width>
-              <height>30</height>
-          </scale>
-      </object>
-      <object>
-          <name>ground</name>
-          <index>78</index>
-          <place>
-              <Place>
-                  <X>545</X>
-                  <Y>215</Y>
-              </Place>
-          </place>
-          <scale>
-              <width>30</width>
-              <height>30</height>
-          </scale>
-      </object>
-      <object>
-          <name>ground</name>
-          <index>78</index>
-          <place>
-              <Place>
-                  <X>575</X>
-                  <Y>185</Y>
-              </Place>
-          </place>
-          <scale>
-              <width>30</width>
-              <height>30</height>
-          </scale>
-      </object>
-      <object>
-          <name>ground</name>
-          <index>78</index>
-          <place>
-              <Place>
-                  <X>545</X>
-                  <Y>185</Y>
-              </Place>
-          </place>
-          <scale>
-              <width>30</width>
-              <height>30</height>
-          </scale>
-      </object>
-      <object>
-          <name>ground</name>
-          <index>78</index>
-          <place>
-              <Place>
-                  <X>575</X>
-                  <Y>215</Y>
-              </Place>
-          </place>
-          <scale>
-              <width>30</width>
-              <height>30</height>
-          </scale>
-      </object>
-      <object>
-          <name>ground</name>
-          <index>78</index>
-          <place>
-              <Place>
-                  <X>605</X>
-                  <Y>215</Y>
-              </Place>
-          </place>
-          <scale>
-              <width>30</width>
-              <height>30</height>
-          </scale>
-      </object>
-      <object>
-          <name>ground</name>
-          <index>78</index>
-          <place>
-              <Place>
-                  <X>605</X>
-                  <Y>245</Y>
-              </Place>
-          </place>
-          <scale>
-              <width>30</width>
-              <height>30</height>
-          </scale>
-      </object>
-      <object>
-          <name>ground</name>
-          <index>78</index>
-          <place>
-              <Place>
-                  <X>605</X>
-                  <Y>185</Y>
-              </Place>
-          </place>
-          <scale>
-              <width>30</width>
-              <height>30</height>
-          </scale>
-      </object>
-      <object>
-          <name>ground</name>
-          <index>95</index>
-          <place>
-              <Place>
-                  <X>725</X>
-                  <Y>125</Y>
-              </Place>
-          </place>
-          <scale>
-              <width>30</width>
-              <height>30</height>
-          </scale>
-      </object>
-      <object>
-          <name>ground</name>
-          <index>94</index>
-          <place>
-              <Place>
-                  <X>695</X>
-                  <Y>125</Y>
-              </Place>
-          </place>
-          <scale>
-              <width>30</width>
-              <height>30</height>
-          </scale>
-      </object>
-      <object>
-          <name>ground</name>
-          <index>94</index>
-          <place>
-              <Place>
-                  <X>665</X>
-                  <Y>125</Y>
-              </Place>
-          </place>
-          <scale>
-              <width>30</width>
-              <height>30</height>
-          </scale>
-      </object>
-      <object>
-          <name>ground</name>
-          <index>94</index>
-          <place>
-              <Place>
-                  <X>635</X>
-                  <Y>125</Y>
-              </Place>
-          </place>
-          <scale>
-              <width>30</width>
-              <height>30</height>
-          </scale>
-      </object>
-      <object>
-          <name>ground</name>
-          <index>94</index>
-          <place>
-              <Place>
-                  <X>605</X>
-                  <Y>125</Y>
-              </Place>
-          </place>
-          <scale>
-              <width>30</width>
-              <height>30</height>
-          </scale>
-      </object>
-      <object>
-          <name>ground</name>
-          <index>94</index>
-          <place>
-              <Place>
-                  <X>575</X>
-                  <Y>125</Y>
-              </Place>
-          </place>
-          <scale>
-              <width>30</width>
-              <height>30</height>
-          </scale>
-      </object>
-      <object>
-          <name>ground</name>
-          <index>94</index>
-          <place>
-              <Place>
-                  <X>545</X>
-                  <Y>125</Y>
-              </Place>
-          </place>
-          <scale>
-              <width>30</width>
-              <height>30</height>
-          </scale>
-      </object>
-      <object>
-          <name>ground</name>
-          <index>93</index>
-          <place>
-              <Place>
-                  <X>515</X>
-                  <Y>125</Y>
-              </Place>
-          </place>
-          <scale>
-              <width>30</width>
-              <height>30</height>
+              <width>60</width>
+              <height>60</height>
           </scale>
       </object>
       <object>
@@ -789,27 +1181,13 @@
           <index>0</index>
           <place>
               <Place>
-                  <X>545</X>
-                  <Y>345</Y>
+                  <X>575</X>
+                  <Y>425</Y>
               </Place>
           </place>
           <scale>
-              <width>30</width>
-              <height>30</height>
-          </scale>
-      </object>
-      <object>
-          <name>enemy_walk</name>
-          <index>0</index>
-          <place>
-              <Place>
-                  <X>635</X>
-                  <Y>345</Y>
-              </Place>
-          </place>
-          <scale>
-              <width>30</width>
-              <height>30</height>
+              <width>60</width>
+              <height>60</height>
           </scale>
       </object>
       <object>
@@ -817,53 +1195,25 @@
           <index>0</index>
           <place>
               <Place>
-                  <X>665</X>
-                  <Y>345</Y>
+                  <X>1075</X>
+                  <Y>645</Y>
               </Place>
           </place>
           <scale>
-              <width>30</width>
-              <height>30</height>
-          </scale>
-      </object>
-      <object>
-          <name>enemy_walk</name>
-          <index>0</index>
-          <place>
-              <Place>
-                  <X>695</X>
-                  <Y>365</Y>
-              </Place>
-          </place>
-          <scale>
-              <width>30</width>
-              <height>30</height>
-          </scale>
-      </object>
-      <object>
-          <name>enemy_walk</name>
-          <index>0</index>
-          <place>
-              <Place>
-                  <X>665</X>
-                  <Y>365</Y>
-              </Place>
-          </place>
-          <scale>
-              <width>30</width>
-              <height>30</height>
+              <width>60</width>
+              <height>60</height>
           </scale>
       </object>
       <CamPlace>
           <Place>
-              <X>-10</X>
-              <Y>20</Y>
+              <X>250</X>
+              <Y>180</Y>
           </Place>
       </CamPlace>
       <LastPlace>
           <Place>
-              <X>-10</X>
-              <Y>20</Y>
+              <X>250</X>
+              <Y>180</Y>
           </Place>
       </LastPlace>
   </Objects>
