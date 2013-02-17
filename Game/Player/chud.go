@@ -39,6 +39,7 @@ func CreateChud() {
 	chud.AddComponent(engine.NewSprite2(ChudAtlas.Texture, engine.IndexUV(ChudAtlas, Spr_chud)))
 	chud.Transform().SetWorldPositionf(200, 550)
 	chud.Transform().SetWorldScalef(100, 100)
+	chud.Transform().SetDepth(1)
 }
 func (s *Chud) AddScroll() {
 	s.Scrolls++

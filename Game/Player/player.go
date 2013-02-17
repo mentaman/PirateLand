@@ -75,6 +75,7 @@ func CreatePlayer() {
 	Pl.Tag = "player"
 
 	Hp := engine.NewGameObject("hpBar")
+	Hp.Transform().SetDepth(2)
 	Hp.GameObject().AddComponent(engine.NewSprite2(ChudAtlas.Texture, engine.IndexUV(ChudAtlas, Spr_chudHp)))
 	Hp.GameObject().Sprite.SetAlign(engine.AlignLeft)
 	Hp.GameObject().Transform().SetWorldPosition(engine.Vector{156, 580, 0})
@@ -82,6 +83,7 @@ func CreatePlayer() {
 	Ch.Hp = (Hp.AddComponent(GUI.NewBar(17))).(*GUI.Bar)
 
 	Cp := engine.NewGameObject("cpBar")
+	Cp.Transform().SetDepth(2)
 	Cp.GameObject().AddComponent(engine.NewSprite2(ChudAtlas.Texture, engine.IndexUV(ChudAtlas, Spr_chudCp)))
 	Cp.GameObject().Sprite.SetAlign(engine.AlignLeft)
 	Cp.GameObject().Transform().SetWorldPosition(engine.Vector{156, 555, 0})
@@ -91,10 +93,12 @@ func CreatePlayer() {
 	Scroll = engine.NewGameObject("scroll")
 	Scroll.AddComponent(engine.NewSprite2(Atlas.Texture, engine.IndexUV(Atlas, Spr_scroll)))
 	Scroll.Transform().SetWorldScalef(20, 20)
+	Scroll.Transform().SetDepth(2)
 
 	Exp := engine.NewGameObject("expBar")
 	Exp.GameObject().AddComponent(engine.NewSprite2(ChudAtlas.Texture, engine.IndexUV(ChudAtlas, Spr_chudExp)))
 	Exp.GameObject().Sprite.SetAlign(engine.AlignLeft)
+	Exp.Transform().SetDepth(2)
 	Exp.GameObject().Transform().SetWorldPosition(engine.Vector{156, 530, 0})
 	Exp.GameObject().Transform().SetWorldScalef(17, 20)
 	Ch.Exp = (Exp.AddComponent(GUI.NewBar(17))).(*GUI.Bar)
@@ -102,12 +106,14 @@ func CreatePlayer() {
 	money := engine.NewGameObject("money")
 	money.Transform().SetWorldPositionf(100, 500)
 	money.Transform().SetScalef(20, 20)
+	money.Transform().SetDepth(2)
 	Ch.Money = money.AddComponent(components.NewUIText(Fonts.ArialFont2, "0")).(*components.UIText)
 	Ch.Money.SetAlign(engine.AlignLeft)
 
 	level := engine.NewGameObject("level")
 	level.Transform().SetWorldPositionf(50, 500)
 	level.Transform().SetScalef(20, 20)
+	level.Transform().SetDepth(2)
 	Ch.Level = level.AddComponent(components.NewUIText(Fonts.ArialFont2, "1")).(*components.UIText)
 	Ch.Level.SetAlign(engine.AlignLeft)
 }

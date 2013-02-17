@@ -114,7 +114,7 @@ func (s *PirateScene) MenuLoad() {
 	mbg.Transform().SetWorldScalef(float32(engine.Width), float32(engine.Height))
 	mbg.Transform().SetWorldPositionf(float32(engine.Width)/2, float32(engine.Height)/2)
 	mbg.Transform().SetParent2(s.layerBackground)
-
+	mbg.Transform().SetDepth(-1)
 	newGame := engine.NewGameObject("bng")
 	newGame.Transform().SetWorldScalef(100, 100)
 	newGame.Transform().SetWorldPositionf(400, 300)
