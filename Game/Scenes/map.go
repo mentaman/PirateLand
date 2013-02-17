@@ -1,8 +1,8 @@
 package Game
 
 import (
-	"encoding/xml"
-	"fmt"
+	"bytes"
+	"encoding/gob"
 	"github.com/mentaman/PirateLand/Game/Enemy"
 	"github.com/mentaman/PirateLand/Game/GUI"
 	"github.com/mentaman/PirateLand/Game/Objects"
@@ -11,34 +11,36 @@ import (
 )
 
 type Place struct {
-	X float32 `xml:"Place>X"`
-	Y float32 `xml:"Place>Y"`
+	X float32
+	Y float32
 }
 type Scale struct {
-	Width  float32 `xml:"width"`
-	Height float32 `xml:"height"`
+	Width  float32
+	Height float32
 }
 type XObject struct {
-	Name   string `xml:"name"`
-	Index  int    `xml:"index"`
-	Iplace Place  `xml:"place"`
-	Iscale Scale  `xml:"scale"`
+	Name   string
+	Index  int
+	Iplace Place
+	Iscale Scale
 }
 type XObjects struct {
-	XMLName   xml.Name  `xml:"Objects"`
-	Objs      []XObject `xml:"object"`
+	Objs      []XObject
 	CamPlace  Place
 	LastPlace Place
 }
 
 func LoadMap(name string) {
-	v := &XObjects{}
-	cont, _ := ioutil.ReadFile(name)
-	data := string(cont)
-	err := xml.Unmarshal([]byte(data), &v)
+	cont, err := ioutil.ReadFile(name)
 	if err != nil {
-		fmt.Printf("error: %v", err)
-		return
+		panic(err)
+	}
+	v := &XObjects{}
+	p := bytes.NewBuffer(cont)
+	dec := gob.NewDecoder(p)
+	err = dec.Decode(&v)
+	if err != nil {
+		panic(err)
 	}
 
 	sd := GUI.NewBar(10)

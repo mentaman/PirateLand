@@ -1,34 +1,37 @@
 package main
 
 import (
-	"encoding/xml"
+	// "encoding/xml"
+	"encoding/gob"
 	"fmt"
 	"io/ioutil"
+
+	"bytes"
 	"os"
 )
 
 type Place struct {
-	X float32 `xml:"Place>X"`
-	Y float32 `xml:"Place>Y"`
+	X float32
+	Y float32
 }
 type Scale struct {
-	Width  float32 `xml:"width"`
-	Height float32 `xml:"height"`
+	Width  float32
+	Height float32
 }
 type XObject struct {
-	Name   string `xml:"name"`
-	Index  int    `xml:"index"`
-	Iplace Place  `xml:"place"`
-	Iscale Scale  `xml:"scale"`
+	Name   string
+	Index  int
+	Iplace Place
+	Iscale Scale
 }
 type XObjects struct {
-	XMLName   xml.Name  `xml:"Objects"`
-	Objs      []XObject `xml:"object"`
+	Objs      []XObject
 	CamPlace  Place
 	LastPlace Place
 }
 
-func SaveXML() {
+func SaveGOB() {
+
 	v := &XObjects{}
 	v.Objs = []XObject{}
 	c := cam.Transform().Position()
@@ -48,23 +51,25 @@ func SaveXML() {
 		}
 
 	}
-
-	output, err := xml.MarshalIndent(v, "  ", "    ")
+	m := new(bytes.Buffer)
+	enc := gob.NewEncoder(m)
+	err := enc.Encode(v)
 	if err != nil {
 		fmt.Printf("error: %v\n", err)
 	}
 	file, _ := os.Create("./map.txt")
 	defer file.Close()
-	file.Write(output)
+	file.Write(m.Bytes())
 }
-func LoadXML() {
-	v := &XObjects{}
+func LoadGOB() {
+
 	cont, _ := ioutil.ReadFile("map.txt")
-	data := string(cont)
-	err := xml.Unmarshal([]byte(data), &v)
+	v := &XObjects{}
+	p := bytes.NewBuffer(cont)
+	dec := gob.NewDecoder(p)
+	err := dec.Decode(&v)
 	if err != nil {
-		fmt.Printf("error: %v", err)
-		return
+		panic(err)
 	}
 	ClearList()
 	cam.Transform().SetPositionf(v.CamPlace.X, v.CamPlace.Y)

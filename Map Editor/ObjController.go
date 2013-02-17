@@ -89,10 +89,10 @@ func (m *ObjController) Update() {
 		m.guiObj.Transform().SetScalef(m.width, m.height)
 	}
 	if input.KeyPress('S') {
-		SaveXML()
+		SaveGOB()
 	}
 	if input.KeyPress('R') {
-		LoadXML()
+		LoadGOB()
 	}
 	if input.KeyPress('C') {
 		ClearList()
