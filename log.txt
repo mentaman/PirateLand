@@ -1,3 +1,4 @@
 Enginge started!
 GLFW Initialized!
 Opengl Initialized!
+runtime error: invalid memory address or nil pointer dereference runtime.c:128, thread_windows.c:276, player.go:145, Engine.go:672, Physics.go:136, space.go:608, space.go:530, BBTree.go:527, BBTree.go:481, BBTree.go:484, BBTree.go:483, BBTree.go:484, BBTree.go:484, BBTree.go:484, BBTree.go:447, space.go:182, Engine.go:374, Engine.go:271, main.go:69, proc.c:271

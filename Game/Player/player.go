@@ -141,27 +141,28 @@ func (pl *Player) AddHp(val float32) {
 	Ch.Hp.SetValue(pl.Hp, pl.MaxHp)
 }
 func (pl *Player) OnCollisionEnter(arbiter engine.Arbiter) bool {
-
-	if arbiter.GameObjectB().Tag == "lader" {
-		pl.pLader = arbiter.GameObjectB()
-		if pl.GameObject().Sprite.CurrentAnimation() != "player_climb" {
-			pl.GameObject().Sprite.SetAnimation("player_climb")
-		}
-		pl.GameObject().Physics.Body.IgnoreGravity = true
-		pl.OnGround = false
-	}
-	if arbiter.GameObjectB().Tag == "splinter" {
-		pl.pSplint = arbiter.GameObjectB()
-		engine.StartCoroutine(func() {
-			for pl.pSplint != nil {
-				if pl.Hitable {
-					pl.Hit(15)
-				}
-				engine.CoYieldCoroutine(pl.Hitted)
-
+	if arbiter.GameObjectB() != nil {
+		if arbiter.GameObjectB().Tag == "lader" {
+			pl.pLader = arbiter.GameObjectB()
+			if pl.GameObject().Sprite.CurrentAnimation() != "player_climb" {
+				pl.GameObject().Sprite.SetAnimation("player_climb")
 			}
+			pl.GameObject().Physics.Body.IgnoreGravity = true
+			pl.OnGround = false
+		}
+		if arbiter.GameObjectB().Tag == "splinter" {
+			pl.pSplint = arbiter.GameObjectB()
+			engine.StartCoroutine(func() {
+				for pl.pSplint != nil {
+					if pl.Hitable {
+						pl.Hit(15)
+					}
+					engine.CoYieldCoroutine(pl.Hitted)
 
-		})
+				}
+
+			})
+		}
 	}
 	return true
 }

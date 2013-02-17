@@ -27,6 +27,7 @@ func Create() {
 	Object.Transform().SetScalef(2000, 1800)
 	Object.Transform().SetPositionf(0, 0)
 	Object.AddComponent(NewBack())
+	Object.Transform().SetDepth(-1)
 }
 func (b *back) Update() {
 	camera := engine.GetScene().SceneBase().Camera
