@@ -1,0 +1,9 @@
+chud - fix scale of bars
+enemy - fix place of bar
+depth:
+	chud - up
+	floor - down
+	bg - down
+ladder - fix scale on read map
+
+maybe more constant objects
