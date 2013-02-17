@@ -28,15 +28,13 @@ func (ob *Object) Start() {
 	ob.My_id = id
 	objList = append(objList, ob)
 }
-func (ob *Object) OnCollisionEnter(a engine.Arbiter) bool {
-	if a.GameObjectB().Tag == "guiObj" {
-		ob.mouseIn = true
-	}
+func (ob *Object) OnMouseEnter(a engine.Arbiter) bool {
+	ob.mouseIn = true
 	return false
 }
 
-func (ob *Object) OnCollisionExit(a engine.Arbiter) {
-	if a.GameObjectB().Tag == "guiObj" {
+func (ob *Object) OnMouseExit(a engine.Arbiter) {
+	if ob != nil {
 		ob.mouseIn = false
 	}
 }

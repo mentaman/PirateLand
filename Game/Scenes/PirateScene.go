@@ -32,12 +32,12 @@ const (
 )
 
 var (
-	atlas *engine.ManagedAtlas
-	bg    *engine.GameObject
-	en    *engine.GameObject
-	spot  *engine.GameObject
-
-	Ps *PirateScene
+	atlas    *engine.ManagedAtlas
+	bg       *engine.GameObject
+	en       *engine.GameObject
+	spot     *engine.GameObject
+	CamLayer *engine.GameObject
+	Ps       *PirateScene
 
 	Layer1 *engine.GameObject
 	Layer2 *engine.GameObject
@@ -210,7 +210,11 @@ func (s *PirateScene) GameContinue() {
 
 	s.Camera = s.PirateCam
 }
+
 func (s *PirateScene) GameLoad() {
+	if Container != nil {
+		Container.Destroy()
+	}
 	gameLoaded = true
 
 	Fonts.ArialFont2, _ = engine.NewFont("./data/Fonts/arial.ttf", 24)
@@ -231,71 +235,71 @@ func (s *PirateScene) GameLoad() {
 	rand.Seed(time.Now().UnixNano())
 	s.PirateCam = engine.NewCamera()
 	s.Camera = s.PirateCam
-	cam := engine.NewGameObject("Camera")
-	cam.AddComponent(s.Camera)
+	CamLayer = engine.NewGameObject("Camera")
+	CamLayer.AddComponent(s.Camera)
 
-	cam.Transform().SetScalef(1, 1)
+	CamLayer.Transform().SetScalef(1, 1)
 
 	Objects.CreateObjects()
 	Background.Create()
 	Background.Object.Transform().SetParent2(background)
 
-	for i := 0; i < 1; i++ {
-		slc := Objects.Splinter.Clone()
-		slc.Transform().SetParent2(Layer3)
-		slc.Transform().SetWorldPositionf(230, 130)
-	}
+	// for i := 0; i < 1; i++ {
+	// 	slc := Objects.Splinter.Clone()
+	// 	slc.Transform().SetParent2(Layer3)
+	// 	slc.Transform().SetWorldPositionf(230, 130)
+	// }
 
 	Player.CreateChud()
-	Player.Ch.Transform().SetParent2(cam)
+	Player.Ch.Transform().SetParent2(CamLayer)
 	Player.CreatePlayer()
 	Player.Pl.Transform().SetParent2(Layer2)
 
 	Enemy.CreateEnemy()
-	sd := GUI.NewBar(10)
-	for i := 0; i < 2; i++ {
-		ec := Enemy.Regular.Clone()
-		hpB := Enemy.HpBar.Clone()
-		hpBd := hpB.ComponentTypeOfi(sd).(*GUI.Bar)
+	// sd := GUI.NewBar(10)
+	// for i := 0; i < 2; i++ {
+	// 	ec := Enemy.Regular.Clone()
+	// 	hpB := Enemy.HpBar.Clone()
+	// 	hpBd := hpB.ComponentTypeOfi(sd).(*GUI.Bar)
 
-		ec.Transform().SetWorldPositionf(200+rand.Float32(), 110)
-		ec.AddComponent(Enemy.NewEnemy(hpBd))
-		ec.Transform().SetParent2(Layer2)
+	// 	ec.Transform().SetWorldPositionf(200+rand.Float32(), 110)
+	// 	ec.AddComponent(Enemy.NewEnemy(hpBd))
+	// 	ec.Transform().SetParent2(Layer2)
 
-		ec.Sprite.AnimationSpeed = 10
-		hpB.Transform().SetParent2(cam)
-	}
+	// 	ec.Sprite.AnimationSpeed = 10
+	// 	hpB.Transform().SetParent2(CamLayer)
+	// }
 
-	for i := 0; i < 1; i++ {
-		bc := Objects.Box.Clone()
-		bc.Transform().SetParent2(Layer3)
-		bc.Transform().SetWorldPositionf(30, 150)
-	}
+	// for i := 0; i < 1; i++ {
+	// 	bc := Objects.Box.Clone()
+	// 	bc.Transform().SetParent2(Layer3)
+	// 	bc.Transform().SetWorldPositionf(30, 150)
+	// }
 
-	for i := 0; i < 1; i++ {
-		lc := Objects.Lader.Clone()
-		lc.Transform().SetParent2(Layer3)
-		lc.Transform().SetWorldPositionf(150, 150)
-	}
+	// for i := 0; i < 1; i++ {
+	// 	lc := Objects.Lader.Clone()
+	// 	lc.Transform().SetParent2(Layer3)
+	// 	lc.Transform().SetWorldPositionf(150, 150)
+	// }
 
 	label := engine.NewGameObject("Label")
-	label.Transform().SetParent2(cam)
+	label.Transform().SetParent2(CamLayer)
 	label.Transform().SetPositionf(20, float32(engine.Height)-40)
 	label.Transform().SetScalef(20, 20)
 
-	for i := 0; i < 2; i++ {
-		s := Objects.ChestO.Clone()
-		s.Transform().SetWorldPositionf(300+20*float32(i)+float32(rand.Int()%300), 150)
-		s.Transform().SetParent2(Layer3)
-	}
+	// for i := 0; i < 2; i++ {
+	// 	s := Objects.ChestO.Clone()
+	// 	s.Transform().SetWorldPositionf(300+20*float32(i)+float32(rand.Int()%300), 150)
+	// 	s.Transform().SetParent2(Layer3)
+	// }
 
-	Player.Ch.Hp.Transform().SetParent2(cam)
-	Player.Ch.Cp.Transform().SetParent2(cam)
-	Player.Ch.Exp.Transform().SetParent2(cam)
+	Player.Ch.Hp.Transform().SetParent2(CamLayer)
+	Player.Ch.Cp.Transform().SetParent2(CamLayer)
+	Player.Ch.Exp.Transform().SetParent2(CamLayer)
 	Player.Ch.Exp.Start()
 	Player.Ch.Exp.SetValue(0, 100)
-	Player.Ch.Money.Transform().SetParent2(cam)
-	Player.Ch.Level.Transform().SetParent2(cam)
+	Player.Ch.Money.Transform().SetParent2(CamLayer)
+	Player.Ch.Level.Transform().SetParent2(CamLayer)
 	Player.PlComp.MenuScene = func() {
 		s.RemoveGameObject(Container)
 		s.MenuLoad()
@@ -304,14 +308,15 @@ func (s *PirateScene) GameLoad() {
 		Player.Ch.Cp.Transform().SetPositionf(156, float32(tx.V))
 	})).(*GUI.TestTextBox)
 	txt2.SetAlign(engine.AlignLeft)
-	for i := 0; i < 10; i++ {
-		f := Objects.Floor.Clone()
-		f.Sprite.SetAnimation("ground")
-		f.Transform().SetWorldPositionf(float32(i)*100, 50)
-		f.Sprite.SetAnimationIndex(4)
-		f.Transform().SetParent2(Layer3)
-	}
-	cam.Transform().SetParent2(Container)
+	// for i := 0; i < 10; i++ {
+	// 	f := Objects.Floor.Clone()
+	// 	f.Sprite.SetAnimation("ground")
+	// 	f.Transform().SetWorldPositionf(float32(i)*100, 50)
+	// 	f.Sprite.SetAnimationIndex(4)
+	// 	f.Transform().SetParent2(Layer3)
+	// }
+	LoadMap("./maps/map.txt")
+	CamLayer.Transform().SetParent2(Container)
 	Layer1.Transform().SetParent2(Container)
 	Layer2.Transform().SetParent2(Container)
 	Layer3.Transform().SetParent2(Container)

@@ -122,5 +122,5 @@ func (m *ObjController) Update() {
 }
 
 func NewObjController() *ObjController {
-	return &ObjController{engine.NewComponent(), 30, 30, nil, engine.Vector{0, 0, 0}, 0, 30}
+	return &ObjController{engine.NewComponent(), 60, 60, nil, engine.Vector{0, 0, 0}, 0, 30}
 }

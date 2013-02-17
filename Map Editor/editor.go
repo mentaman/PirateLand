@@ -61,6 +61,7 @@ func (s *MapEditor) Load() {
 	obj.AddComponent(engine.NewSprite3(atlas.Texture, uvs))
 
 	obj.AddComponent(engine.NewPhysics(false, 1, 1))
+	obj.Physics.Shape.IsSensor = true
 	obj.Sprite.BindAnimations(ind)
 	obj.Sprite.AnimationSpeed = 0
 	obj.AddComponent(NewObject())
