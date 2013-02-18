@@ -117,7 +117,7 @@ func (s *PirateScene) MenuLoad() {
 	mbg.Transform().SetDepth(-1)
 	newGame := engine.NewGameObject("bng")
 	newGame.Transform().SetWorldScalef(100, 100)
-	newGame.Transform().SetWorldPositionf(400, 300)
+	newGame.Transform().SetWorldPositionf(400, 200)
 	newGame.Transform().SetParent2(s.layerButtons)
 
 	newGame.AddComponent(engine.NewPhysics(false, 1, 1))
@@ -137,14 +137,14 @@ func (s *PirateScene) MenuLoad() {
 
 	continueGame := engine.NewGameObject("bng")
 	continueGame.Transform().SetWorldScalef(100, 100)
-	continueGame.Transform().SetWorldPositionf(600, 400)
+	continueGame.Transform().SetWorldPositionf(600, 300)
 	continueGame.Transform().SetParent2(s.layerButtons)
 
 	continueGame.AddComponent(engine.NewPhysics(false, 1, 1))
 	continueGame.Physics.Shape.IsSensor = true
 	continueGame.AddComponent(engine.NewSprite2(menuAtlas.Texture, engine.IndexUV(menuAtlas, spr_menucontinue)))
 	if !gameLoaded {
-		continueGame.Sprite.Color = engine.Color{0.1, 0.1, 0.1, 1}
+		continueGame.Sprite.Color = engine.Color{0.2, 0.2, 0.2, 1}
 	}
 	continueGame.AddComponent(components.NewUIButton(func() {
 
@@ -163,16 +163,16 @@ func (s *PirateScene) MenuLoad() {
 			}
 		} else {
 			if on {
-				continueGame.Sprite.Color = engine.Color{0.2, 0.3, 0.2, 1}
+				continueGame.Sprite.Color = engine.Color{0.3, 0.3, 0.3, 1}
 			} else {
-				continueGame.Sprite.Color = engine.Color{0.1, 0.1, 0.1, 1}
+				continueGame.Sprite.Color = engine.Color{0.2, 0.2, 0.2, 1}
 			}
 		}
 	}))
 
 	loadGame := engine.NewGameObject("bng")
 	loadGame.Transform().SetWorldScalef(100, 100)
-	loadGame.Transform().SetWorldPositionf(800, 300)
+	loadGame.Transform().SetWorldPositionf(800, 200)
 	loadGame.Transform().SetParent2(s.layerButtons)
 
 	loadGame.AddComponent(engine.NewPhysics(false, 1, 1))
@@ -305,7 +305,7 @@ func (s *PirateScene) GameLoad() {
 		s.MenuLoad()
 	}
 	txt2 := label.AddComponent(GUI.NewTestBox(func(tx *GUI.TestTextBox) {
-		Player.Ch.Cp.Transform().SetWorldScalef(float32(tx.V), 20)
+		Player.Ch.Level.Transform().SetPositionf(float32(tx.V), 530)
 	})).(*GUI.TestTextBox)
 	txt2.SetAlign(engine.AlignLeft)
 	// for i := 0; i < 10; i++ {

@@ -104,14 +104,14 @@ func CreatePlayer() {
 	Ch.Exp = (Exp.AddComponent(GUI.NewBar(17))).(*GUI.Bar)
 
 	money := engine.NewGameObject("money")
-	money.Transform().SetWorldPositionf(100, 500)
 	money.Transform().SetScalef(20, 20)
 	money.Transform().SetDepth(2)
 	Ch.Money = money.AddComponent(components.NewUIText(Fonts.ArialFont2, "0")).(*components.UIText)
-	Ch.Money.SetAlign(engine.AlignLeft)
+	Ch.Money.SetAlign(engine.AlignRight)
+	Ch.Money.Transform().SetPositionf(195, 513)
 
 	level := engine.NewGameObject("level")
-	level.Transform().SetWorldPositionf(50, 500)
+	level.Transform().SetPositionf(90, 530)
 	level.Transform().SetScalef(20, 20)
 	level.Transform().SetDepth(2)
 	Ch.Level = level.AddComponent(components.NewUIText(Fonts.ArialFont2, "1")).(*components.UIText)

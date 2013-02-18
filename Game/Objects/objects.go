@@ -26,6 +26,7 @@ func createFloor() {
 	Floor = engine.NewGameObject("floor")
 	Floor.AddComponent(engine.NewSprite3(Tileset.Texture, uvs))
 	Floor.Sprite.BindAnimations(ind)
+	Floor.Transform().SetDepth(-1)
 	Floor.Sprite.AnimationSpeed = 0
 	Floor.Transform().SetWorldScalef(100, 100)
 	Floor.AddComponent(engine.NewPhysics(true, 1, 1))
