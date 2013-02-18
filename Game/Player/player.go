@@ -79,7 +79,7 @@ func CreatePlayer() {
 	Hp.GameObject().AddComponent(engine.NewSprite2(ChudAtlas.Texture, engine.IndexUV(ChudAtlas, Spr_chudHp)))
 	Hp.GameObject().Sprite.SetAlign(engine.AlignLeft)
 	Hp.GameObject().Transform().SetWorldPosition(engine.Vector{156, 580, 0})
-	Hp.GameObject().Transform().SetWorldScalef(17, 20)
+	Hp.GameObject().Transform().SetWorldScalef(16.2, 20)
 	Ch.Hp = (Hp.AddComponent(GUI.NewBar(17))).(*GUI.Bar)
 
 	Cp := engine.NewGameObject("cpBar")
@@ -87,7 +87,7 @@ func CreatePlayer() {
 	Cp.GameObject().AddComponent(engine.NewSprite2(ChudAtlas.Texture, engine.IndexUV(ChudAtlas, Spr_chudCp)))
 	Cp.GameObject().Sprite.SetAlign(engine.AlignLeft)
 	Cp.GameObject().Transform().SetWorldPosition(engine.Vector{156, 555, 0})
-	Cp.GameObject().Transform().SetWorldScalef(17, 20)
+	Cp.GameObject().Transform().SetWorldScalef(15.05, 20)
 	Ch.Cp = (Cp.AddComponent(GUI.NewBar(17))).(*GUI.Bar)
 
 	Scroll = engine.NewGameObject("scroll")

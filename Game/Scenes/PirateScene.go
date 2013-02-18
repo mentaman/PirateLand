@@ -305,7 +305,7 @@ func (s *PirateScene) GameLoad() {
 		s.MenuLoad()
 	}
 	txt2 := label.AddComponent(GUI.NewTestBox(func(tx *GUI.TestTextBox) {
-		Player.Ch.Cp.Transform().SetPositionf(156, float32(tx.V))
+		Player.Ch.Cp.Transform().SetWorldScalef(float32(tx.V), 20)
 	})).(*GUI.TestTextBox)
 	txt2.SetAlign(engine.AlignLeft)
 	// for i := 0; i < 10; i++ {

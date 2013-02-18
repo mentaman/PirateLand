@@ -1,10 +1,10 @@
 chud - fix scale of bars
-enemy - fix place of bar
 depth:
 	chud - up
 	floor - down
 	bg - down
-ladder - fix scale on read map
+	fix depths on chud
 menu - lower everything
-continue button - change collor
+continue button - change color
 maybe more constant objects
+maybe the birds

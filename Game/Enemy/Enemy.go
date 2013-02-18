@@ -133,7 +133,7 @@ func (s *Enemy) Update() {
 		s.frames = 0
 	}
 	d := s.Transform().WorldPosition()
-	s.HpB.Transform().SetWorldPosition(d.Add(engine.NewVector2(0, -10)))
+	s.HpB.Transform().SetWorldPosition(d.Add(engine.NewVector2(-50, -10)))
 	if s.able {
 		if s.target.X > s.Transform().WorldPosition().X {
 			ph.AddForce(s.speed, 0)
@@ -252,4 +252,5 @@ func (s *Enemy) SubLife(hp float32) {
 		s.GameObject().Destroy()
 	}
 	s.HpB.SetValue(s.Hp, s.MaxHp)
+
 }
