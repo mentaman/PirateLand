@@ -5,11 +5,15 @@ import (
 )
 
 var (
-	Floor        *engine.GameObject
-	Splinter     *engine.GameObject
-	Lader        *engine.GameObject
-	Box          *engine.GameObject
-	ChestO       *engine.GameObject
+	Floor    *engine.GameObject
+	Splinter *engine.GameObject
+	Lader    *engine.GameObject
+	Box      *engine.GameObject
+	ChestO   *engine.GameObject
+	BirdO    *engine.GameObject
+
+	BirdControll *engine.Coroutine
+
 	Tileset      *engine.ManagedAtlas
 	ObjectsAtlas *engine.ManagedAtlas
 )
@@ -18,6 +22,7 @@ const (
 	Spr_lader    = 1
 	Spr_splinter = 2
 	Spr_box      = 3
+	Spr_bird     = 4
 )
 
 func createFloor() {
@@ -56,7 +61,16 @@ func createLader() {
 	Lader.Physics.Shape.SetFriction(2)
 	Lader.Tag = "lader"
 }
+func createBird() {
+	BirdO = engine.NewGameObject("bird")
+	BirdO.AddComponent(engine.NewSprite2(ObjectsAtlas.Texture, engine.IndexUV(ObjectsAtlas, Spr_bird)))
+	BirdO.Transform().SetScalef(20, 20)
+	if BirdControll != nil {
+		BirdControll.State = engine.Ended
+		BirdControll = nil
+	}
 
+}
 func createChest() {
 	uvs, ind := engine.AnimatedGroupUVs(ObjectsAtlas, "chest")
 	ChestO = engine.NewGameObject("chest")
@@ -76,4 +90,5 @@ func CreateObjects() {
 	createLader()
 	initItems()
 	createChest()
+	createBird()
 }

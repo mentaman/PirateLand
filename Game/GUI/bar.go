@@ -33,7 +33,7 @@ func (s *Bar) Start() {
 		label.Transform().SetWorldPositionf(p.X+si.X/2, p.Y+si.Y/2)
 		label.Transform().SetScalef(20, 20)
 		txt2 := label.AddComponent(components.NewUIText(Fonts.ArialFont2, "100/100")).(*components.UIText)
-		txt2.SetAlign(engine.AlignLeft)
+		txt2.SetAlign(engine.AlignCenter)
 		txt2.Transform().SetDepth(s.Transform().Depth() + 1)
 		s.text = txt2
 		s.label = label

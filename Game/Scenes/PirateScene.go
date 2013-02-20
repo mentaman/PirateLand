@@ -241,6 +241,17 @@ func (s *PirateScene) GameLoad() {
 	CamLayer.Transform().SetScalef(1, 1)
 
 	Objects.CreateObjects()
+
+	Objects.BirdControll = engine.StartCoroutine(func() {
+		for {
+			engine.CoSleep(float32(rand.Intn(6)))
+			b := Objects.BirdO.Clone()
+			b.AddComponent(Objects.NewBird(rand.Int()%2 == 1, float32(rand.Intn(10)+1)))
+			b.Transform().SetParent2(Layer2)
+			b.Transform().SetDepth(-1)
+		}
+	})
+
 	Background.Create()
 	Background.Object.Transform().SetParent2(background)
 
@@ -341,6 +352,7 @@ func LoadTextures() {
 	CheckError(Objects.ObjectsAtlas.LoadImageID("./data/objects/lader.png", Objects.Spr_lader))
 	CheckError(Objects.ObjectsAtlas.LoadImageID("./data/objects/splinter.png", Objects.Spr_splinter))
 	CheckError(Objects.ObjectsAtlas.LoadImageID("./data/objects/box.png", Objects.Spr_box))
+	CheckError(Objects.ObjectsAtlas.LoadImageID("./data/objects/bird.png", Objects.Spr_bird))
 	CheckError(Player.ChudAtlas.LoadImageID("./data/bar/chud.png", Player.Spr_chud))
 	CheckError(Player.ChudAtlas.LoadImageID("./data/bar/hpBar.png", Player.Spr_chudHp))
 	CheckError(Player.ChudAtlas.LoadImageID("./data/bar/cpBar.png", Player.Spr_chudCp))
@@ -352,7 +364,6 @@ func LoadTextures() {
 	CheckError(Objects.Atlas.LoadImageID("./data/items/spot.png", Objects.Spr_spot))
 	CheckError(Objects.Atlas.LoadImageID("./data/items/bigSpot.png", Objects.Spr_bigspot))
 	CheckError(Player.Atlas.LoadImageID("./data/Level/scroll.png", Player.Spr_scroll))
-
 	e, id := Player.Atlas.LoadGroupSheet("./data/player/player_walk.png", 187, 338, 4)
 	CheckError(e)
 	e, id = Player.Atlas.LoadGroupSheet("./data/player/player_stand.png", 187, 338, 1)
@@ -383,7 +394,6 @@ func LoadTextures() {
 	CheckError(e)
 
 	_ = id
-
 	CheckError(menuAtlas.LoadImageID("./data/menu/menuback.png", spr_menuback))
 	CheckError(menuAtlas.LoadImageID("./data/menu/exit.png", spr_menuexit))
 	CheckError(menuAtlas.LoadImageID("./data/menu/newgame.png", spr_menunew))
