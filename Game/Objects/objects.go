@@ -64,7 +64,7 @@ func createLader() {
 func createBird() {
 	BirdO = engine.NewGameObject("bird")
 	BirdO.AddComponent(engine.NewSprite2(ObjectsAtlas.Texture, engine.IndexUV(ObjectsAtlas, Spr_bird)))
-	BirdO.Transform().SetScalef(20, 20)
+	BirdO.Transform().SetScalef(50, 50)
 	if BirdControll != nil {
 		BirdControll.State = engine.Ended
 		BirdControll = nil

@@ -31,7 +31,7 @@ func (s *Bar) Start() {
 		p := s.Transform().WorldPosition()
 		si := s.Transform().WorldScale()
 		label.Transform().SetWorldPositionf(p.X+si.X/2, p.Y+si.Y/2)
-		label.Transform().SetScalef(20, 20)
+		label.Transform().SetWorldScalef(si.Y/1.1, si.Y/1.1)
 		txt2 := label.AddComponent(components.NewUIText(Fonts.ArialFont2, "100/100")).(*components.UIText)
 		txt2.SetAlign(engine.AlignCenter)
 		txt2.Transform().SetDepth(s.Transform().Depth() + 1)
@@ -46,9 +46,14 @@ func (s *Bar) GetValue() float32 {
 	return s.value
 }
 func (s *Bar) Update() {
+
 	p := s.Transform().WorldPosition()
-	si := s.Transform().WorldScale()
-	s.label.Transform().SetWorldPositionf(p.X+si.X/2, p.Y+si.Y/2)
+	fsc := s.Transform().WorldScale()
+	s.Transform().SetWorldScalef(s.width, fsc.Y)
+	si := s.GameObject().Sprite.RealWorldSize()
+	wi := si.X
+	s.label.Transform().SetWorldPositionf(p.X+wi/2, p.Y)
+	s.Transform().SetWorldScale(fsc)
 }
 func (s *Bar) OnDestroy() {
 	if s.label.GameObject() != nil {
@@ -57,8 +62,8 @@ func (s *Bar) OnDestroy() {
 }
 func (s *Bar) SetValue(min, max float32) {
 	s.value = min / max
-	sc := s.GameObject().Transform().Scale()
+	sc := s.GameObject().Transform().WorldScale()
 	sc.X = s.width * s.value
 	s.text.SetString(strconv.Itoa(int(min)) + "/" + strconv.Itoa(int(max)))
-	s.GameObject().Transform().SetScale(sc)
+	s.GameObject().Transform().SetWorldScale(sc)
 }

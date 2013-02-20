@@ -80,7 +80,7 @@ func LoadMap(name string) {
 			lc := Objects.Lader.Clone()
 			lc.Transform().SetParent2(Layer3)
 			lc.Transform().SetWorldPositionf(robj.Iplace.X, robj.Iplace.Y)
-			lc.Transform().SetWorldScalef(robj.Iscale.Width, robj.Iscale.Height)
+			lc.Transform().SetWorldScalef(robj.Iscale.Width, robj.Iscale.Height+15)
 		case "box":
 			bc := Objects.Box.Clone()
 			bc.Transform().SetParent2(Layer3)

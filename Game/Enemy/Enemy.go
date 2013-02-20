@@ -60,7 +60,7 @@ func CreateEnemy() {
 	HpBar.GameObject().AddComponent(engine.NewSprite2(Player.ChudAtlas.Texture, engine.IndexUV(Player.ChudAtlas, Player.Spr_chudHp)))
 	HpBar.GameObject().Sprite.SetAlign(engine.AlignLeft)
 	HpBar.GameObject().Transform().SetWorldScalef(10, 15)
-	HpBar.AddComponent(GUI.NewBar(17))
+	HpBar.AddComponent(GUI.NewBar(10))
 }
 func NewEnemy(Hp *GUI.Bar) *Enemy {
 	return &Enemy{engine.NewComponent(), 0, 100, 100, Hp, false, false, true, false, false, true, false, 5, 60, 0, 0, 3000, nil, engine.Vector{0, 0, 0}, engine.StartCoroutine(func() {})}

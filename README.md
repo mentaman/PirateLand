@@ -27,6 +27,12 @@ It will download what you need.<br/>
 3. "go build" or "go install" or "go run" <br /> 
 to the main.go file <br />
 
+ScreenShot
+==========
+If you want to see a picture of the game,
+you may look at this link:
+http://i.imgur.com/eT3wU09.png
+
 To Do
 ==========
 <b>player:</b> <br/>
