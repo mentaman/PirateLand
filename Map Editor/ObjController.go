@@ -19,7 +19,7 @@ func (m *ObjController) Start() {
 	uvs, ind := engine.AnimatedGroupUVs(atlas, sprites...)
 	m.guiObj = engine.NewGameObject("guiObj")
 	m.guiObj.AddComponent(engine.NewSprite3(atlas.Texture, uvs))
-	m.guiObj.AddComponent(engine.NewPhysics(false, 1, 1))
+	m.guiObj.AddComponent(engine.NewPhysics(false))
 	m.guiObj.Sprite.BindAnimations(ind)
 	m.guiObj.Sprite.AnimationSpeed = 0
 	m.guiObj.Sprite.SetAlign(engine.AlignCenter)
@@ -39,7 +39,7 @@ func (m *ObjController) Update() {
 
 	px, py := input.MousePosition()
 
-	m.guiObj.Transform().SetPositionf(SnapToGrid(float32(px)+m.grid/2, m.grid)+m.grid/2, SnapToGrid(float32(engine.Height-py)+m.grid/2, m.grid)+m.grid/2)
+	m.guiObj.Transform().SetPositionf(SnapToGrid(float32(px)+m.grid/2, m.grid)+m.grid/2-640, SnapToGrid(float32(engine.Height-py)+m.grid/2, m.grid)+m.grid/2-360)
 	guiP := m.guiObj.Transform().WorldPosition()
 	if input.MousePress(input.MouseLeft) {
 		cl := obj.Clone()

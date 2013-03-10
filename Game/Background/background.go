@@ -25,7 +25,7 @@ func Create() {
 	Object = engine.NewGameObject("bg")
 	Object.AddComponent(engine.NewSprite2(Atlas.Texture, engine.IndexUV(Atlas, Spr_bg)))
 	Object.Transform().SetScalef(2000, 1800)
-	Object.Transform().SetPositionf(0, 0)
+	Object.Transform().SetPositionf(-float32(engine.Width)/2, -float32(engine.Height)/2)
 	Object.AddComponent(NewBack())
 	Object.Transform().SetDepth(-2)
 }

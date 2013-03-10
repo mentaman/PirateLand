@@ -94,7 +94,7 @@ func RandomItem() *engine.GameObject {
 }
 func initItems() {
 	Items.Spot.AddComponent(engine.NewSprite2(Atlas.Texture, engine.IndexUV(Atlas, Spr_spot)))
-	Items.Spot.AddComponent(engine.NewPhysics(false, 1, 1))
+	Items.Spot.AddComponent(engine.NewPhysics(false))
 	Items.Spot.Transform().SetScalef(30, 30)
 	Items.Spot.AddComponent(NewItem(func(so *engine.GameObject) {
 		r := rand.Int()%10 + 5
@@ -104,7 +104,7 @@ func initItems() {
 	}))
 
 	Items.BigSpot.AddComponent(engine.NewSprite2(Atlas.Texture, engine.IndexUV(Atlas, Spr_bigspot)))
-	Items.BigSpot.AddComponent(engine.NewPhysics(false, 1, 1))
+	Items.BigSpot.AddComponent(engine.NewPhysics(false))
 	Items.BigSpot.Transform().SetScalef(30, 30)
 	Items.BigSpot.AddComponent(NewItem(func(so *engine.GameObject) {
 		r := rand.Int()%15 + 15
@@ -114,7 +114,7 @@ func initItems() {
 	}))
 
 	Items.Coin.AddComponent(engine.NewSprite2(Atlas.Texture, engine.IndexUV(Atlas, Spr_coin)))
-	Items.Coin.AddComponent(engine.NewPhysics(false, 1, 1))
+	Items.Coin.AddComponent(engine.NewPhysics(false))
 	Items.Coin.Transform().SetScalef(30, 30)
 	Items.Coin.AddComponent(NewItem(func(so *engine.GameObject) {
 		Player.PlComp.AddMoney(1)
@@ -123,7 +123,7 @@ func initItems() {
 	}))
 
 	Items.Coin10.AddComponent(engine.NewSprite2(Atlas.Texture, engine.IndexUV(Atlas, Spr_coin10)))
-	Items.Coin10.AddComponent(engine.NewPhysics(false, 1, 1))
+	Items.Coin10.AddComponent(engine.NewPhysics(false))
 	Items.Coin10.Transform().SetScalef(30, 30)
 	Items.Coin10.AddComponent(NewItem(func(so *engine.GameObject) {
 		Player.PlComp.AddMoney(10)
@@ -131,7 +131,7 @@ func initItems() {
 	}))
 
 	Items.Diamond.AddComponent(engine.NewSprite2(Atlas.Texture, engine.IndexUV(Atlas, Spr_diamond)))
-	Items.Diamond.AddComponent(engine.NewPhysics(false, 1, 1))
+	Items.Diamond.AddComponent(engine.NewPhysics(false))
 	Items.Diamond.Transform().SetScalef(30, 30)
 	Items.Diamond.AddComponent(NewItem(func(so *engine.GameObject) {
 		r := (rand.Intn(50) + 20)

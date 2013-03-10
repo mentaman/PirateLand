@@ -19,10 +19,10 @@ func (b *Bird) Start() {
 	cp := engine.GetScene().SceneBase().Camera.Transform().WorldPosition()
 	sc := b.Transform().Scale()
 	if b.dir {
-		b.Transform().SetPosition(cp.Add(engine.Vector{-100, float32(rand.Intn(300)) + 500, 0}))
+		b.Transform().SetPosition(cp.Add(engine.Vector{-610, float32(rand.Intn(300)) + 140, 0}))
 		sc.X *= -1
 	} else {
-		b.Transform().SetPosition(cp.Add(engine.Vector{1500, float32(rand.Intn(300)) + 500, 0}))
+		b.Transform().SetPosition(cp.Add(engine.Vector{860, float32(rand.Intn(300)) + 140, 0}))
 	}
 
 	b.Transform().SetScale(sc)

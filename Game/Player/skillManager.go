@@ -1,11 +1,11 @@
 package Player
 
 import (
-	"github.com/mentaman/PirateLand/Game/GUI"
+	// "github.com/mentaman/PirateLand/Game/GUI"
 	"github.com/vova616/garageEngine/engine"
-	"github.com/vova616/garageEngine/engine/components"
+	// "github.com/vova616/garageEngine/engine/components"
 
-//	"github.com/vova616/chipmunk/vect"
+	// "github.com/vova616/chipmunk/vect"
 
 //	"github.com/vova616/chipmunk"
 )
@@ -18,6 +18,7 @@ const (
 var (
 	SkillsAtlas  *engine.ManagedAtlas
 	CurrentSkill = 0
+	Sk           *SkillManager
 )
 
 const (
@@ -26,13 +27,10 @@ const (
 
 type SkillManager struct {
 	engine.BaseComponent
-	Skills skill
+	Skills []Skill
 }
 
-func CreateSkillManager() {
-
-}
-func (s *int) AddSkill() {
+func (s *SkillManager) AddSkill(kind int) {
 
 }
 func NewSkillManager() *SkillManager {

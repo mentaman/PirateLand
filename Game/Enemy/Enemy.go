@@ -52,7 +52,7 @@ func CreateEnemy() {
 	Regular.AddComponent(engine.NewSprite3(Atlas.Texture, uvs))
 	Regular.Sprite.BindAnimations(ind)
 	Regular.Transform().SetWorldScalef(50, 100)
-	Regular.AddComponent(engine.NewPhysics(false, 1, 1))
+	Regular.AddComponent(engine.NewPhysics(false))
 	Regular.Physics.Shape.SetFriction(0.7)
 	Regular.Physics.Shape.SetElasticity(0.2)
 

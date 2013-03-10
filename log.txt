@@ -1,680 +1,81 @@
 Enginge started!
 GLFW Initialized!
 Opengl Initialized!
-
-##################
-FPS is lower than 20. FPS: 0.5927343219549089
-Debugging Times:
-Expected FPS 1000
-Step time 0
-Destroy time 0
-Start time 0
-FixedUpdate time 0
-Update time 0
-LateUpdate time 0
-Draw time 0
-Delta time 1.0001ms 1.6870965
-SwapBuffers time 1.0001ms
-Coroutines time 0
-BehaviorTree time 0
-------------------
-Physics time: 0
-PreStepDelta time 0
-PostStepDelta time 0
-StepTime time 0
-ApplyImpulse time 0
-ReindexQueryTime time 0
-Arbiters 0
-##################
-
-
-##################
-Debugging Times:
-Expected FPS 28
-Step time 0
-Destroy time 0
-Start time 0
-FixedUpdate time 0
-Update time 0
-LateUpdate time 0
-Draw time 0
-Delta time 35.002ms 0.0010001
-SwapBuffers time 35.002ms
-Coroutines time 0
-BehaviorTree time 0
-------------------
-Physics time: 0
-PreStepDelta time 0
-PostStepDelta time 0
-StepTime time 0
-ApplyImpulse time 0
-ReindexQueryTime time 0
-Arbiters 0
-##################
-
-
-##################
-Debugging Times:
-Expected FPS 111
-Step time 0
-Destroy time 0
-Start time 0
-FixedUpdate time 0
-Update time 0
-LateUpdate time 0
-Draw time 0
-Delta time 9.0005ms 0.035002
-SwapBuffers time 9.0005ms
-Coroutines time 0
-BehaviorTree time 0
-------------------
-Physics time: 0
-PreStepDelta time 0
-PostStepDelta time 0
-StepTime time 0
-ApplyImpulse time 0
-ReindexQueryTime time 0
-Arbiters 0
-##################
-
-
-##################
-Debugging Times:
-Expected FPS 500
-Step time 0
-Destroy time 0
-Start time 0
-FixedUpdate time 0
-Update time 0
-LateUpdate time 0
-Draw time 0
-Delta time 2.0001ms 0.0090005
-SwapBuffers time 2.0001ms
-Coroutines time 0
-BehaviorTree time 0
-------------------
-Physics time: 0
-PreStepDelta time 0
-PostStepDelta time 0
-StepTime time 0
-ApplyImpulse time 0
-ReindexQueryTime time 0
-Arbiters 0
-##################
-
-
-##################
-Debugging Times:
-Expected FPS 58
-Step time 0
-Destroy time 0
-Start time 0
-FixedUpdate time 0
-Update time 0
-LateUpdate time 0
-Draw time 0
-Delta time 17.001ms 0.0020001
-SwapBuffers time 17.001ms
-Coroutines time 0
-BehaviorTree time 0
-------------------
-Physics time: 0
-PreStepDelta time 0
-PostStepDelta time 0
-StepTime time 0
-ApplyImpulse time 0
-ReindexQueryTime time 0
-Arbiters 0
-##################
-
-
-##################
-Debugging Times:
-Expected FPS 58
-Step time 0
-Destroy time 0
-Start time 0
-FixedUpdate time 0
-Update time 0
-LateUpdate time 0
-Draw time 0
-Delta time 17.001ms 0.017001
-SwapBuffers time 17.001ms
-Coroutines time 0
-BehaviorTree time 0
-------------------
-Physics time: 0
-PreStepDelta time 0
-PostStepDelta time 0
-StepTime time 0
-ApplyImpulse time 0
-ReindexQueryTime time 0
-Arbiters 0
-##################
-
-
-##################
-Debugging Times:
-Expected FPS 58
-Step time 0
-Destroy time 0
-Start time 0
-FixedUpdate time 0
-Update time 0
-LateUpdate time 0
-Draw time 0
-Delta time 17.0009ms 0.017001
-SwapBuffers time 17.0009ms
-Coroutines time 0
-BehaviorTree time 0
-------------------
-Physics time: 0
-PreStepDelta time 0
-PostStepDelta time 0
-StepTime time 0
-ApplyImpulse time 0
-ReindexQueryTime time 0
-Arbiters 0
-##################
-
-
-##################
-Debugging Times:
-Expected FPS 62
-Step time 0
-Destroy time 0
-Start time 0
-FixedUpdate time 0
-Update time 0
-LateUpdate time 0
-Draw time 0
-Delta time 16.001ms 0.0170009
-SwapBuffers time 16.001ms
-Coroutines time 0
-BehaviorTree time 0
-------------------
-Physics time: 0
-PreStepDelta time 0
-PostStepDelta time 0
-StepTime time 0
-ApplyImpulse time 0
-ReindexQueryTime time 0
-Arbiters 0
-##################
-
-
-##################
-Debugging Times:
-Expected FPS 55
-Step time 0
-Destroy time 0
-Start time 0
-FixedUpdate time 0
-Update time 0
-LateUpdate time 0
-Draw time 0
-Delta time 18.001ms 0.016001
-SwapBuffers time 18.001ms
-Coroutines time 0
-BehaviorTree time 0
-------------------
-Physics time: 0
-PreStepDelta time 0
-PostStepDelta time 0
-StepTime time 0
-ApplyImpulse time 0
-ReindexQueryTime time 0
-Arbiters 0
-##################
-
-
-##################
-Debugging Times:
-Expected FPS 71
-Step time 0
-Destroy time 0
-Start time 0
-FixedUpdate time 0
-Update time 0
-LateUpdate time 0
-Draw time 0
-Delta time 14.0008ms 0.019001
-SwapBuffers time 14.0008ms
-Coroutines time 0
-BehaviorTree time 0
-------------------
-Physics time: 0
-PreStepDelta time 0
-PostStepDelta time 0
-StepTime time 0
-ApplyImpulse time 0
-ReindexQueryTime time 0
-Arbiters 0
-##################
-
-
-##################
-Debugging Times:
-Expected FPS 62
-Step time 0
-Destroy time 0
-Start time 0
-FixedUpdate time 0
-Update time 0
-LateUpdate time 0
-Draw time 0
-Delta time 16.0009ms 0.0150009
-SwapBuffers time 16.0009ms
-Coroutines time 0
-BehaviorTree time 0
-------------------
-Physics time: 0
-PreStepDelta time 0
-PostStepDelta time 0
-StepTime time 0
-ApplyImpulse time 0
-ReindexQueryTime time 0
-Arbiters 0
-##################
-
-
-##################
-Debugging Times:
-Expected FPS 55
-Step time 1.0001ms
-Destroy time 0
-Start time 0
-FixedUpdate time 0
-Update time 0
-LateUpdate time 1.0001ms
-Draw time 0
-Delta time 18.001ms 0.0160009
-SwapBuffers time 17.0009ms
-Coroutines time 0
-BehaviorTree time 0
-------------------
-Physics time: 0
-PreStepDelta time 0
-PostStepDelta time 0
-StepTime time 0
-ApplyImpulse time 0
-ReindexQueryTime time 0
-Arbiters 0
-##################
-
-
-##################
-Debugging Times:
-Expected FPS 66
-Step time 0
-Destroy time 0
-Start time 0
-FixedUpdate time 0
-Update time 0
-LateUpdate time 0
-Draw time 0
-Delta time 15.0009ms 0.018001
-SwapBuffers time 15.0009ms
-Coroutines time 0
-BehaviorTree time 0
-------------------
-Physics time: 0
-PreStepDelta time 0
-PostStepDelta time 0
-StepTime time 0
-ApplyImpulse time 0
-ReindexQueryTime time 0
-Arbiters 0
-##################
-
-
-##################
-Debugging Times:
-Expected FPS 58
-Step time 0
-Destroy time 0
-Start time 0
-FixedUpdate time 0
-Update time 0
-LateUpdate time 0
-Draw time 0
-Delta time 17.0009ms 0.016001
-SwapBuffers time 17.0009ms
-Coroutines time 0
-BehaviorTree time 0
-------------------
-Physics time: 0
-PreStepDelta time 0
-PostStepDelta time 0
-StepTime time 0
-ApplyImpulse time 0
-ReindexQueryTime time 0
-Arbiters 0
-##################
-
-
-##################
-Debugging Times:
-Expected FPS 66
-Step time 0
-Destroy time 0
-Start time 0
-FixedUpdate time 0
-Update time 0
-LateUpdate time 0
-Draw time 0
-Delta time 15.0009ms 0.0170009
-SwapBuffers time 15.0009ms
-Coroutines time 0
-BehaviorTree time 0
-------------------
-Physics time: 0
-PreStepDelta time 0
-PostStepDelta time 0
-StepTime time 0
-ApplyImpulse time 0
-ReindexQueryTime time 0
-Arbiters 0
-##################
-
-
-##################
-Debugging Times:
-Expected FPS 52
-Step time 0
-Destroy time 0
-Start time 0
-FixedUpdate time 0
-Update time 0
-LateUpdate time 0
-Draw time 0
-Delta time 19.0011ms 0.0160009
-SwapBuffers time 19.0011ms
-Coroutines time 0
-BehaviorTree time 0
-------------------
-Physics time: 0
-PreStepDelta time 0
-PostStepDelta time 0
-StepTime time 0
-ApplyImpulse time 0
-ReindexQueryTime time 0
-Arbiters 0
-##################
-
-
-##################
-Debugging Times:
-Expected FPS 71
-Step time 0
-Destroy time 0
-Start time 0
-FixedUpdate time 0
-Update time 0
-LateUpdate time 0
-Draw time 0
-Delta time 14.0008ms 0.0190011
-SwapBuffers time 14.0008ms
-Coroutines time 0
-BehaviorTree time 0
-------------------
-Physics time: 0
-PreStepDelta time 0
-PostStepDelta time 0
-StepTime time 0
-ApplyImpulse time 0
-ReindexQueryTime time 0
-Arbiters 0
-##################
-
-
-##################
-Debugging Times:
-Expected FPS 62
-Step time 0
-Destroy time 0
-Start time 0
-FixedUpdate time 0
-Update time 0
-LateUpdate time 0
-Draw time 0
-Delta time 16.001ms 0.0140008
-SwapBuffers time 16.001ms
-Coroutines time 0
-BehaviorTree time 0
-------------------
-Physics time: 0
-PreStepDelta time 0
-PostStepDelta time 0
-StepTime time 0
-ApplyImpulse time 0
-ReindexQueryTime time 0
-Arbiters 0
-##################
-
-
-##################
-Debugging Times:
-Expected FPS 62
-Step time 0
-Destroy time 0
-Start time 0
-FixedUpdate time 0
-Update time 0
-LateUpdate time 0
-Draw time 0
-Delta time 16.0009ms 0.017001
-SwapBuffers time 16.0009ms
-Coroutines time 0
-BehaviorTree time 0
-------------------
-Physics time: 0
-PreStepDelta time 0
-PostStepDelta time 0
-StepTime time 0
-ApplyImpulse time 0
-ReindexQueryTime time 0
-Arbiters 0
-##################
-
-
-##################
-Debugging Times:
-Expected FPS 55
-Step time 0
-Destroy time 0
-Start time 0
-FixedUpdate time 0
-Update time 0
-LateUpdate time 0
-Draw time 0
-Delta time 18.001ms 0.017001
-SwapBuffers time 18.001ms
-Coroutines time 0
-BehaviorTree time 0
-------------------
-Physics time: 0
-PreStepDelta time 0
-PostStepDelta time 0
-StepTime time 0
-ApplyImpulse time 0
-ReindexQueryTime time 0
-Arbiters 0
-##################
-
-
-##################
-Debugging Times:
-Expected FPS 62
-Step time 0
-Destroy time 0
-Start time 0
-FixedUpdate time 0
-Update time 0
-LateUpdate time 0
-Draw time 0
-Delta time 16.0009ms 0.018001
-SwapBuffers time 16.0009ms
-Coroutines time 0
-BehaviorTree time 0
-------------------
-Physics time: 0
-PreStepDelta time 0
-PostStepDelta time 0
-StepTime time 0
-ApplyImpulse time 0
-ReindexQueryTime time 0
-Arbiters 0
-##################
-
-
-##################
-Debugging Times:
-Expected FPS 66
-Step time 0
-Destroy time 0
-Start time 0
-FixedUpdate time 0
-Update time 0
-LateUpdate time 0
-Draw time 0
-Delta time 15.0009ms 0.0160009
-SwapBuffers time 15.0009ms
-Coroutines time 0
-BehaviorTree time 0
-------------------
-Physics time: 0
-PreStepDelta time 0
-PostStepDelta time 0
-StepTime time 0
-ApplyImpulse time 0
-ReindexQueryTime time 0
-Arbiters 0
-##################
-
-
-##################
-Debugging Times:
-Expected FPS 58
-Step time 1ms
-Destroy time 0
-Start time 0
-FixedUpdate time 0
-Update time 1ms
-LateUpdate time 0
-Draw time 0
-Delta time 17.001ms 0.0150009
-SwapBuffers time 16.001ms
-Coroutines time 0
-BehaviorTree time 0
-------------------
-Physics time: 0
-PreStepDelta time 0
-PostStepDelta time 0
-StepTime time 0
-ApplyImpulse time 0
-ReindexQueryTime time 0
-Arbiters 0
-##################
-
-
-##################
-Debugging Times:
-Expected FPS 66
-Step time 0
-Destroy time 0
-Start time 0
-FixedUpdate time 0
-Update time 0
-LateUpdate time 0
-Draw time 0
-Delta time 15.0009ms 0.018001
-SwapBuffers time 15.0009ms
-Coroutines time 0
-BehaviorTree time 0
-------------------
-Physics time: 0
-PreStepDelta time 0
-PostStepDelta time 0
-StepTime time 0
-ApplyImpulse time 0
-ReindexQueryTime time 0
-Arbiters 0
-##################
-
-
-##################
-Debugging Times:
-Expected FPS 62
-Step time 0
-Destroy time 0
-Start time 0
-FixedUpdate time 0
-Update time 0
-LateUpdate time 0
-Draw time 0
-Delta time 16.0009ms 0.0160009
-SwapBuffers time 16.0009ms
-Coroutines time 0
-BehaviorTree time 0
-------------------
-Physics time: 0
-PreStepDelta time 0
-PostStepDelta time 0
-StepTime time 0
-ApplyImpulse time 0
-ReindexQueryTime time 0
-Arbiters 0
-##################
-
-
-##################
-Debugging Times:
-Expected FPS 58
-Step time 1.0001ms
-Destroy time 0
-Start time 0
-FixedUpdate time 0
-Update time 1.0001ms
-LateUpdate time 0
-Draw time 0
-Delta time 17.001ms 0.0160009
-SwapBuffers time 16.0009ms
-Coroutines time 0
-BehaviorTree time 0
-------------------
-Physics time: 0
-PreStepDelta time 0
-PostStepDelta time 0
-StepTime time 0
-ApplyImpulse time 0
-ReindexQueryTime time 0
-Arbiters 0
-##################
-
-
-##################
-Debugging Times:
-Expected FPS 62
-Step time 0
-Destroy time 0
-Start time 0
-FixedUpdate time 0
-Update time 0
-LateUpdate time 0
-Draw time 0
-Delta time 16.0009ms 0.0180011
-SwapBuffers time 16.0009ms
-Coroutines time 0
-BehaviorTree time 0
-------------------
-Physics time: 0
-PreStepDelta time 0
-PostStepDelta time 0
-StepTime time 0
-ApplyImpulse time 0
-ReindexQueryTime time 0
-Arbiters 0
-##################
-
-open ./maps/map.txt: The system cannot find the path specified. map.go:36, PirateScene.go:329, PirateScene.go:128, UIButton.go:23, Engine.go:667, Engine.go:397, Engine.go:402, Engine.go:386, Engine.go:297, Engine.go:206, main.go:69, proc.c:271
+640 360
+{1373.8081 623.8612 1}
+{1372.8081 623.8612 1}
+{1371.8081 623.8612 1}
+{1370.8081 623.8612 1}
+{1369.8081 623.8612 1}
+{1368.8081 623.8612 1}
+{1367.8081 623.8612 1}
+{1366.8081 623.8612 1}
+{1365.8081 623.8612 1}
+{1364.8081 623.8612 1}
+{1363.8081 623.8612 1}
+{1362.8081 623.8612 1}
+{1361.8081 623.8612 1}
+{1360.8081 623.8612 1}
+{1359.8081 623.8612 1}
+{1358.8081 623.8612 1}
+{1357.8081 623.8612 1}
+{1356.8081 623.8612 1}
+{1355.8081 623.8612 1}
+{1354.8081 623.8612 1}
+{1353.8081 623.8612 1}
+{1352.8081 623.8612 1}
+{1351.8081 623.8612 1}
+{1350.8081 623.8612 1}
+{1349.8081 623.8612 1}
+{1348.8081 623.8612 1}
+{1347.8081 623.8612 1}
+{1346.8081 623.8612 1}
+{1345.8081 623.8612 1}
+{1344.8081 623.8612 1}
+{1343.8081 623.8612 1}
+{1342.8081 623.8612 1}
+{1341.8081 623.8612 1}
+{1340.8081 623.8612 1}
+{1339.8081 623.8612 1}
+{1338.8081 623.8612 1}
+{1337.8081 623.8612 1}
+{1336.8081 623.8612 1}
+{1335.8081 623.8612 1}
+{1334.8081 623.8612 1}
+{1333.8081 623.8612 1}
+{1332.8081 623.8612 1}
+{1331.8081 623.8612 1}
+{1330.8081 623.8612 1}
+{1329.8081 623.8612 1}
+{1328.8081 623.8612 1}
+{1327.8081 623.8612 1}
+{1326.8081 623.8612 1}
+{1325.8081 623.8612 1}
+{1324.8081 623.8612 1}
+{1323.8081 623.8612 1}
+{1322.8081 623.8612 1}
+{1321.8081 623.8612 1}
+{1320.8081 623.8612 1}
+{1319.8081 623.8612 1}
+{1318.8081 623.8612 1}
+{1317.8081 623.8612 1}
+{1316.8081 623.8612 1}
+{1315.8081 623.8612 1}
+{1314.8081 623.8612 1}
+{1313.8081 623.8612 1}
+{1312.8081 623.8612 1}
+{1311.8081 623.8612 1}
+{1310.8081 623.8612 1}
+{1309.8081 623.8612 1}
+{1308.8081 623.8612 1}
+{1307.8081 623.8612 1}
+{1306.8081 623.8612 1}
+{1305.8081 623.8612 1}
+{1304.8081 623.8612 1}
+{1303.8081 623.8612 1}
+{1302.8081 623.8612 1}
+{1301.8081 623.8612 1}
+{1300.8081 623.8612 1}
+{1299.8081 623.8612 1}
+{1298.8081 623.8612 1}
+{1297.8081 623.8612 1}

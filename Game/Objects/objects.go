@@ -34,13 +34,13 @@ func createFloor() {
 	Floor.Transform().SetDepth(-1)
 	Floor.Sprite.AnimationSpeed = 0
 	Floor.Transform().SetWorldScalef(100, 100)
-	Floor.AddComponent(engine.NewPhysics(true, 1, 1))
+	Floor.AddComponent(engine.NewPhysics(true))
 }
 func createSplinter() {
 	Splinter = engine.NewGameObject("Splinter")
 	Splinter.AddComponent(engine.NewSprite2(ObjectsAtlas.Texture, engine.IndexUV(ObjectsAtlas, Spr_splinter)))
 	Splinter.Transform().SetWorldScalef(100, 30)
-	Splinter.AddComponent(engine.NewPhysics(true, 1, 1))
+	Splinter.AddComponent(engine.NewPhysics(true))
 	Splinter.Physics.Shape.IsSensor = true
 	Splinter.Tag = "splinter"
 }
@@ -48,7 +48,7 @@ func createBox() {
 	Box = engine.NewGameObject("box")
 	Box.AddComponent(engine.NewSprite2(ObjectsAtlas.Texture, engine.IndexUV(ObjectsAtlas, Spr_box)))
 	Box.Transform().SetWorldScalef(40, 40)
-	Box.AddComponent(engine.NewPhysics(false, 1, 1))
+	Box.AddComponent(engine.NewPhysics(false))
 	Box.Physics.Body.SetMass(1.5)
 	Box.Physics.Shape.SetFriction(0.3)
 }
@@ -56,7 +56,7 @@ func createLader() {
 	Lader = engine.NewGameObject("lader")
 	Lader.AddComponent(engine.NewSprite2(ObjectsAtlas.Texture, engine.IndexUV(ObjectsAtlas, Spr_lader)))
 	Lader.Transform().SetWorldScalef(60, 100)
-	Lader.AddComponent(engine.NewPhysics(true, 1, 1))
+	Lader.AddComponent(engine.NewPhysics(true))
 	Lader.Physics.Shape.IsSensor = true
 	Lader.Physics.Shape.SetFriction(2)
 	Lader.Tag = "lader"
@@ -77,7 +77,7 @@ func createChest() {
 	ChestO.AddComponent(engine.NewSprite3(ObjectsAtlas.Texture, uvs))
 	ChestO.Sprite.BindAnimations(ind)
 	ChestO.Transform().SetWorldScalef(70, 70)
-	ChestO.AddComponent(engine.NewPhysics(false, 1, 1))
+	ChestO.AddComponent(engine.NewPhysics(false))
 	ChestO.Physics.Shape.IsSensor = true
 	ChestO.Sprite.AnimationSpeed = 0
 	ChestO.Physics.Body.IgnoreGravity = true

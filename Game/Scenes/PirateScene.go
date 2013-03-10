@@ -112,15 +112,16 @@ func (s *PirateScene) MenuLoad() {
 	mbg = engine.NewGameObject("mbg")
 	mbg.AddComponent(engine.NewSprite2(menuAtlas.Texture, engine.IndexUV(menuAtlas, spr_menuback)))
 	mbg.Transform().SetWorldScalef(float32(engine.Width), float32(engine.Height))
-	mbg.Transform().SetWorldPositionf(float32(engine.Width)/2, float32(engine.Height)/2)
+	fmt.Println(engine.Width/2, engine.Height/2)
+	mbg.Transform().SetWorldPositionf(0, 0)
 	mbg.Transform().SetParent2(s.layerBackground)
 	mbg.Transform().SetDepth(-1)
 	newGame := engine.NewGameObject("bng")
 	newGame.Transform().SetWorldScalef(100, 100)
-	newGame.Transform().SetWorldPositionf(400, 200)
+	newGame.Transform().SetWorldPositionf(-240, -160)
 	newGame.Transform().SetParent2(s.layerButtons)
 
-	newGame.AddComponent(engine.NewPhysics(false, 1, 1))
+	newGame.AddComponent(engine.NewPhysics(false))
 	newGame.Physics.Shape.IsSensor = true
 	newGame.AddComponent(engine.NewSprite2(menuAtlas.Texture, engine.IndexUV(menuAtlas, spr_menunew)))
 	newGame.AddComponent(components.NewUIButton(func() {
@@ -137,10 +138,10 @@ func (s *PirateScene) MenuLoad() {
 
 	continueGame := engine.NewGameObject("bng")
 	continueGame.Transform().SetWorldScalef(100, 100)
-	continueGame.Transform().SetWorldPositionf(600, 300)
+	continueGame.Transform().SetWorldPositionf(-40, -60)
 	continueGame.Transform().SetParent2(s.layerButtons)
 
-	continueGame.AddComponent(engine.NewPhysics(false, 1, 1))
+	continueGame.AddComponent(engine.NewPhysics(false))
 	continueGame.Physics.Shape.IsSensor = true
 	continueGame.AddComponent(engine.NewSprite2(menuAtlas.Texture, engine.IndexUV(menuAtlas, spr_menucontinue)))
 	if !gameLoaded {
@@ -172,10 +173,10 @@ func (s *PirateScene) MenuLoad() {
 
 	loadGame := engine.NewGameObject("bng")
 	loadGame.Transform().SetWorldScalef(100, 100)
-	loadGame.Transform().SetWorldPositionf(800, 200)
+	loadGame.Transform().SetWorldPositionf(160, -160)
 	loadGame.Transform().SetParent2(s.layerButtons)
 
-	loadGame.AddComponent(engine.NewPhysics(false, 1, 1))
+	loadGame.AddComponent(engine.NewPhysics(false))
 	loadGame.Physics.Shape.IsSensor = true
 	loadGame.AddComponent(engine.NewSprite2(menuAtlas.Texture, engine.IndexUV(menuAtlas, spr_menuload)))
 	loadGame.AddComponent(components.NewUIButton(func() {
@@ -266,6 +267,7 @@ func (s *PirateScene) GameLoad() {
 	Player.CreatePlayer()
 	Player.Pl.Transform().SetParent2(Layer2)
 
+	Player.Sk.Transform().SetParent2(CamLayer)
 	Enemy.CreateEnemy()
 	// sd := GUI.NewBar(10)
 	// for i := 0; i < 2; i++ {
@@ -347,7 +349,7 @@ func LoadTextures() {
 	Objects.Tileset = engine.NewManagedAtlas(2048, 1024)
 	menuAtlas = engine.NewManagedAtlas(2048, 1024)
 	Player.ChudAtlas = engine.NewManagedAtlas(2048, 1024)
-
+	Player.SkillsAtlas = engine.NewManagedAtlas(2048, 1024)
 	CheckError(Background.Atlas.LoadImageID("./data/background/backGame.png", Background.Spr_bg))
 	CheckError(Objects.ObjectsAtlas.LoadImageID("./data/objects/lader.png", Objects.Spr_lader))
 	CheckError(Objects.ObjectsAtlas.LoadImageID("./data/objects/splinter.png", Objects.Spr_splinter))
@@ -363,6 +365,7 @@ func LoadTextures() {
 	CheckError(Objects.Atlas.LoadImageID("./data/items/Daimond.png", Objects.Spr_diamond))
 	CheckError(Objects.Atlas.LoadImageID("./data/items/spot.png", Objects.Spr_spot))
 	CheckError(Objects.Atlas.LoadImageID("./data/items/bigSpot.png", Objects.Spr_bigspot))
+	CheckError(Player.SkillsAtlas.LoadImageID("./data/skills/skillMenu.png", Player.Spr_skillGUI))
 	CheckError(Player.Atlas.LoadImageID("./data/Level/scroll.png", Player.Spr_scroll))
 	e, id := Player.Atlas.LoadGroupSheet("./data/player/player_walk.png", 187, 338, 4)
 	CheckError(e)
@@ -434,6 +437,11 @@ func LoadTextures() {
 	Player.Atlas.BuildMipmaps()
 	Player.Atlas.SetFiltering(engine.MipMapLinearNearest, engine.Nearest)
 	Player.Atlas.Texture.SetReadOnly()
+
+	Player.SkillsAtlas.BuildAtlas()
+	Player.SkillsAtlas.BuildMipmaps()
+	Player.SkillsAtlas.SetFiltering(engine.MipMapLinearNearest, engine.Nearest)
+	Player.SkillsAtlas.Texture.SetReadOnly()
 
 	menuAtlas.BuildAtlas()
 	menuAtlas.BuildMipmaps()
