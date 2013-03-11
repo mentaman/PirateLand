@@ -366,6 +366,8 @@ func LoadTextures() {
 	CheckError(Objects.Atlas.LoadImageID("./data/items/spot.png", Objects.Spr_spot))
 	CheckError(Objects.Atlas.LoadImageID("./data/items/bigSpot.png", Objects.Spr_bigspot))
 	CheckError(Player.SkillsAtlas.LoadImageID("./data/skills/skillMenu.png", Player.Spr_skillGUI))
+	CheckError(Player.SkillsAtlas.LoadImageID("./data/skills/button1.png", Player.Spr_skillHp))
+	CheckError(Player.SkillsAtlas.LoadImageID("./data/skills/button2.png", Player.Spr_skillStrong))
 	CheckError(Player.Atlas.LoadImageID("./data/Level/scroll.png", Player.Spr_scroll))
 	e, id := Player.Atlas.LoadGroupSheet("./data/player/player_walk.png", 187, 338, 4)
 	CheckError(e)

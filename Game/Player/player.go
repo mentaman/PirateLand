@@ -121,6 +121,7 @@ func CreatePlayer() {
 	SkD.AddComponent(engine.NewSprite2(SkillsAtlas.Texture, engine.IndexUV(SkillsAtlas, Spr_skillGUI)))
 	SkD.Transform().SetWorldPositionf(0, -300)
 	SkD.Transform().SetWorldScalef(200, 100)
+	SkD.Transform().SetDepth(1)
 	Sk = SkD.AddComponent(NewSkillManager()).(*SkillManager)
 }
 func NewPlayer() *Player {
@@ -240,6 +241,9 @@ func (pl *Player) OnCollisionExit(arbiter engine.Arbiter) {
 	}
 }
 func (pl *Player) Update() {
+	if input.KeyPress('O') {
+		Sk.AddSkill(s_hp)
+	}
 	//Test
 	if pl.OnGround == false {
 		pl.frames++
