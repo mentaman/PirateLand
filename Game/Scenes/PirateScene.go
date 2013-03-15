@@ -294,6 +294,9 @@ func (s *PirateScene) GameLoad() {
 	// 	lc.Transform().SetParent2(Layer3)
 	// 	lc.Transform().SetWorldPositionf(150, 150)
 	// }
+	mouse := engine.NewGameObject("Mouse")
+	mouse.AddComponent(engine.NewMouse())
+	mouse.Transform().SetParent2(CamLayer)
 
 	label := engine.NewGameObject("Label")
 	label.Transform().SetParent2(CamLayer)

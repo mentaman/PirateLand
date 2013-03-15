@@ -242,7 +242,7 @@ func (pl *Player) OnCollisionExit(arbiter engine.Arbiter) {
 }
 func (pl *Player) Update() {
 	if input.KeyPress('O') {
-		Sk.AddSkill(s_hp)
+		Sk.AddSkill(s_rand)
 	}
 	//Test
 	if pl.OnGround == false {
